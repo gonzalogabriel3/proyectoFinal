@@ -7,6 +7,9 @@
 
 require('./bootstrap');
 
+//Libreria que me permite realizar conexiones ajax
+import axios from 'axios'
+
 window.Vue = require('vue');
 
 /**
@@ -16,6 +19,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('usuario-component',require('./components/UsuarioComponent.vue'));
 
 const app = new Vue({
     el: '#app'

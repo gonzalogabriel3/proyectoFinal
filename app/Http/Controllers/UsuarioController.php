@@ -14,8 +14,12 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        //Obtengo todos los usuarios de la DB y los devuelvo en formato json
         $usuarios=Usuario::all();
-        return view('usuario/index',compact('usuarios'));
+
+        return response()->json([
+            'usuarios' => $usuarios,
+        ], 200);
     }
 
     /**

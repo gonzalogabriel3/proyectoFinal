@@ -15,4 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Pagina de inicio para administrar usuarios
+Route::get('/inicioUsuario',function(){
+    return view('usuario/index');
+});
+
+
 Route::resource('usuarios', 'UsuarioController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
