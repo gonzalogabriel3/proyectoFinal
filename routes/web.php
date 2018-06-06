@@ -19,10 +19,15 @@ Route::get('/', function () {
 Route::get('/inicioUsuario',function(){
     return view('usuario/index');
 });
-
-
-Route::resource('usuarios', 'UsuarioController');
+//Pagina de inicio para administrar usuarios
+Route::get('/inicioColectivos',function(){
+    return view('colectivo/index');
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('usuarios', 'UsuarioController');
+
+Route::resource('/colectivo', 'ColectivoController');

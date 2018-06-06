@@ -19,7 +19,7 @@
                             <a href="{{url('/inicioUsuario')}}">Adm.Usuarios</a>
                         </li>
                         <li>
-                            <a href="#" >Adm.Colectivos</a>
+                            <a href="{{url('/inicioColectivos')}}" >Adm.Colectivos</a>
                         </li>
                         <li>
                             <a href="#" >Adm.Tarifas</a>
