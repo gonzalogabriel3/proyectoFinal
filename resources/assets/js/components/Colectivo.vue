@@ -123,7 +123,7 @@ export default {
             update: false,
             errors: [],
             colectivos: [],
-            actualizar: [],
+            actualizar: {},
         }
     },
     mounted()
@@ -186,7 +186,9 @@ export default {
           tramo: this.actualizar.tramo
         })
         .then(response => {
-          $("#actualizar_modelo").modal("hide");
+            this.resetActualizar();
+            this.update = false;
+            this.LeerColectivos();
         })
         .catch(error => {
           this.errors = [];
