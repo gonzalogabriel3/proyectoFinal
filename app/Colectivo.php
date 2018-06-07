@@ -9,9 +9,8 @@ class Colectivo extends Model
     //
     protected $table="colectivos";
 
-    protected $dateFormat = 'Y-m-d H:i';
-
+    public $timestamps = false;
     protected $fillable=[
-        'tramo','tarifa_id','horario_id','created_at','updated_at'
+        'tramo','tarifa_id','horario_id'
     ];
 }
