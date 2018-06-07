@@ -43682,6 +43682,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43690,9 +43719,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         tramo: ''
       },
       create: false,
+      update: false,
       errors: [],
       colectivos: [],
-      actualizar: []
+      actualizar: {}
     };
   },
   mounted: function mounted() {
@@ -43740,37 +43770,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.colectivos = response.data.colectivos;
       });
     },
-
-    /*IniciarActualizacion(id) {
-      this.errors = [];
-      this.resetActualizar();
-      $("#actualizar_modelo").modal("show");
-      this.actualizar = this.colectivos[id];
+    IniciarActualizacion: function IniciarActualizacion(id) {
+      this.actualizar = this.colectivos[7];
+      this.update = true;
     },
-    ActualizarColectivo() {
-      axios
-        .patch("/colectivo/" + this.actualizar.id, {
-          tramo: this.actualizar.tramo
-        })
-        .then(response => {
-          $("#actualizar_modelo").modal("hide");
-        })
-        .catch(error => {
-          this.errors = [];
-          if (error.errors != undefined && error.errors.name != undefined) {
-            this.errors.push(error.errors.name[0]);
-          }
-          if (
-            error.errors != undefined &&
-            error.errors.description != undefined
-          ) {
-            this.errors.push(error.errors.description[0]);
-          }
-        });
-    },*/
-
-    EliminarColectivo: function EliminarColectivo(id) {
+    closeUpdate: function closeUpdate() {
+      this.update = false;
+    },
+    ActualizarColectivo: function ActualizarColectivo() {
       var _this3 = this;
+
+      axios.patch("/colectivo/" + this.actualizar.id, {
+        tramo: this.actualizar.tramo
+      }).then(function (response) {
+        _this3.resetActualizar();
+        _this3.update = false;
+        _this3.LeerColectivos();
+      }).catch(function (error) {
+        _this3.errors = [];
+        if (error.errors != undefined && error.errors.name != undefined) {
+          _this3.errors.push(error.errors.name[0]);
+        }
+        if (error.errors != undefined && error.errors.description != undefined) {
+          _this3.errors.push(error.errors.description[0]);
+        }
+      });
+    },
+    EliminarColectivo: function EliminarColectivo(id) {
+      var _this4 = this;
 
       var conf = confirm("De verdad quiere borrar este Colectivo?");
       if (conf) {
@@ -43778,7 +43805,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           method: "delete",
           url: "/colectivo/" + id
         }).then(function (response) {
-          _this3.LeerColectivos();
+          _this4.LeerColectivos();
         }).catch(function (error) {});
       }
     }
@@ -44010,6 +44037,124 @@ var render = function() {
                         on: { click: _vm.crearColectivo }
                       },
                       [_vm._v("Registrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.update
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "actualizar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "actualizar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Actualizar Colectivo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _vm.errors.length > 0
+                      ? _c("div", { staticClass: "alert alert-danger" }, [
+                          _c(
+                            "ul",
+                            _vm._l(_vm.errors, function(error) {
+                              return _c("li", { key: error.id }, [
+                                _vm._v(_vm._s(error))
+                              ])
+                            })
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre del Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.tramo,
+                            expression: "actualizar.tramo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "tramo",
+                          id: "tramo",
+                          placeholder: "Nombre del Tramo"
+                        },
+                        domProps: { value: _vm.actualizar.tramo },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "tramo",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.actualizarColectivo }
+                      },
+                      [_vm._v("Actualizar")]
                     )
                   ])
                 ])
