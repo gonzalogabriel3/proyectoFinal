@@ -44312,103 +44312,106 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      colectivo: {
-        tramo: ''
-      },
-      create: false,
-      update: false,
-      errors: [],
-      colectivos: [],
-      actualizar: {}
-    };
-  },
-  mounted: function mounted() {
-    this.LeerColectivos();
-  },
-
-  methods: {
-    iniciarRegistro: function iniciarRegistro() {
-      this.create = true;
+    data: function data() {
+        return {
+            colectivo: {
+                tramo: ''
+            },
+            create: false,
+            update: false,
+            errors: [],
+            colectivos: [],
+            actualizar: {
+                tramo: ''
+            }
+        };
     },
-    closeCreate: function closeCreate() {
-      this.create = false;
+    mounted: function mounted() {
+        this.LeerColectivos();
     },
-    crearColectivo: function crearColectivo() {
-      var _this = this;
 
-      axios.post('/colectivo', {
-        tramo: this.colectivo.tramo
-      }).then(function (response) {
+    methods: {
+        iniciarRegistro: function iniciarRegistro() {
+            this.create = true;
+        },
+        closeCreate: function closeCreate() {
+            this.create = false;
+        },
+        crearColectivo: function crearColectivo() {
+            var _this = this;
 
-        _this.reset();
-        _this.create = false;
-        _this.LeerColectivos();
-      }).catch(function (error) {
-        _this.errors = [];
-        if (error.errors != undefined && error.errors.name != undefined) {
-          _this.errors.push(error.errors.name[0]);
+            axios.post('/colectivo', {
+                tramo: this.colectivo.tramo
+            }).then(function (response) {
+
+                _this.reset();
+                _this.create = false;
+                _this.LeerColectivos();
+            }).catch(function (error) {
+                _this.errors = [];
+                if (error.errors != undefined && error.errors.name != undefined) {
+                    _this.errors.push(error.errors.name[0]);
+                }
+
+                if (error.errors != undefined && error.errors.description != undefined) {
+                    _this.errors.push(error.errors.description[0]);
+                }
+            });
+        },
+        reset: function reset() {
+            this.colectivo.tramo = '';
+        },
+        resetActualizar: function resetActualizar() {
+            this.actualizar.tramo = '';
+        },
+        LeerColectivos: function LeerColectivos() {
+            var _this2 = this;
+
+            axios.get("/colectivo").then(function (response) {
+                _this2.colectivos = response.data.colectivos;
+            });
+        },
+        IniciarActualizacion: function IniciarActualizacion(colectivo) {
+            this.actualizar.id = colectivo.id;
+            this.actualizar.tramo = colectivo.tramo;
+            this.update = true;
+        },
+        closeUpdate: function closeUpdate() {
+            this.update = false;
+        },
+        ActualizarColectivo: function ActualizarColectivo() {
+            var _this3 = this;
+
+            axios.patch("/colectivo/" + this.actualizar.id, {
+                tramo: this.actualizar.tramo
+            }).then(function (response) {
+                _this3.resetActualizar();
+                _this3.update = false;
+                _this3.LeerColectivos();
+            }).catch(function (error) {
+                _this3.errors = [];
+                if (error.errors != undefined && error.errors.name != undefined) {
+                    _this3.errors.push(error.errors.name[0]);
+                }
+                if (error.errors != undefined && error.errors.description != undefined) {
+                    _this3.errors.push(error.errors.description[0]);
+                }
+            });
+        },
+        EliminarColectivo: function EliminarColectivo(id) {
+            var _this4 = this;
+
+            var conf = confirm("De verdad quiere borrar este Colectivo?");
+            if (conf) {
+                axios({
+                    method: "delete",
+                    url: "/colectivo/" + id
+                }).then(function (response) {
+                    _this4.LeerColectivos();
+                }).catch(function (error) {});
+            }
         }
-
-        if (error.errors != undefined && error.errors.description != undefined) {
-          _this.errors.push(error.errors.description[0]);
-        }
-      });
-    },
-    reset: function reset() {
-      this.colectivo.tramo = '';
-    },
-    resetActualizar: function resetActualizar() {
-      this.actualizar.tramo = '';
-    },
-    LeerColectivos: function LeerColectivos() {
-      var _this2 = this;
-
-      axios.get("/colectivo").then(function (response) {
-        _this2.colectivos = response.data.colectivos;
-      });
-    },
-    IniciarActualizacion: function IniciarActualizacion(id) {
-      this.actualizar = this.colectivos[id];
-      this.update = true;
-    },
-    closeUpdate: function closeUpdate() {
-      this.update = false;
-    },
-    ActualizarColectivo: function ActualizarColectivo() {
-      var _this3 = this;
-
-      axios.patch("/colectivo/" + this.actualizar.id, {
-        tramo: this.actualizar.tramo
-      }).then(function (response) {
-        _this3.resetActualizar();
-        _this3.update = false;
-        _this3.LeerColectivos();
-      }).catch(function (error) {
-        _this3.errors = [];
-        if (error.errors != undefined && error.errors.name != undefined) {
-          _this3.errors.push(error.errors.name[0]);
-        }
-        if (error.errors != undefined && error.errors.description != undefined) {
-          _this3.errors.push(error.errors.description[0]);
-        }
-      });
-    },
-    EliminarColectivo: function EliminarColectivo(id) {
-      var _this4 = this;
-
-      var conf = confirm("De verdad quiere borrar este Colectivo?");
-      if (conf) {
-        axios({
-          method: "delete",
-          url: "/colectivo/" + id
-        }).then(function (response) {
-          _this4.LeerColectivos();
-        }).catch(function (error) {});
-      }
     }
-  }
 });
 
 /***/ }),
@@ -44494,7 +44497,7 @@ var render = function() {
                                   staticClass: "btn btn-success btn-xs",
                                   on: {
                                     click: function($event) {
-                                      _vm.IniciarActualizacion(colectivo.id)
+                                      _vm.IniciarActualizacion(colectivo)
                                     }
                                   }
                                 },
@@ -44751,7 +44754,7 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: { type: "button" },
-                        on: { click: _vm.actualizarColectivo }
+                        on: { click: _vm.ActualizarColectivo }
                       },
                       [_vm._v("Actualizar")]
                     )

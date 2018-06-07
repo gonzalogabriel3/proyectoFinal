@@ -42,7 +42,7 @@
                                     {{ colectivo.horario_id}}
                                 </td>
                                 <td>
-                                    <button @click="IniciarActualizacion(colectivo.id)" class="btn btn-success btn-xs">Editar</button>
+                                    <button @click="IniciarActualizacion(colectivo)" class="btn btn-success btn-xs">Editar</button>
                                     <button @click="EliminarColectivo(colectivo.id)" class="btn btn-danger btn-xs">Eliminar</button>
                                 </td>
                             </tr>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
-                        <button type="button" @click="actualizarColectivo" class="btn btn-primary">Actualizar</button>
+                        <button type="button" @click="ActualizarColectivo" class="btn btn-primary">Actualizar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -123,7 +123,9 @@ export default {
             update: false,
             errors: [],
             colectivos: [],
-            actualizar: {},
+            actualizar: {
+                tramo: '',
+            },
         }
     },
     mounted()
@@ -173,8 +175,9 @@ export default {
         this.colectivos = response.data.colectivos;
       });
     },
-    IniciarActualizacion(id) {
-        this.actualizar = this.colectivos[id];
+    IniciarActualizacion(colectivo) {
+        this.actualizar.id = colectivo.id;
+        this.actualizar.tramo = colectivo.tramo;
         this.update = true;
     },
     closeUpdate(){
