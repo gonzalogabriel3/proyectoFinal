@@ -43481,6 +43481,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43494,7 +43503,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             update: false,
             errors: [],
             usuarios: [],
-            actualizar: []
+            actualizar: {
+                nombre: '',
+                password: '',
+                email: ''
+            }
 
         };
     },
@@ -43507,8 +43520,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         iniciarRegistro: function iniciarRegistro() {
             this.create = true;
         },
-
-        /*Metodo que muestra el formulario para editar un nuevo usuario*/
         closeCreate: function closeCreate() {
             this.create = false;
         },
@@ -43551,26 +43562,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.usuario.password = '';
         },
         resetActualizar: function resetActualizar() {
+            this.actualizar.id = '';
             this.actualizar.nombre = '';
             this.actualizar.email = '';
             this.actualizar.password = '';
         },
-        IniciarActualizacion: function IniciarActualizacion(id) {
-            this.actualizar = this.usuarios[id];
+        IniciarActualizacion: function IniciarActualizacion(usuario) {
+            this.actualizar.id = usuario.id;
+            this.actualizar.nombre = usuario.nombre;
+            this.actualizar.email = usuario.email;
+            this.actualizar.password = usuario.password;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
             this.update = false;
         },
-        ActualizarUsuario: function ActualizarUsuario() {
+        actualizarUsuario: function actualizarUsuario() {
             var _this3 = this;
 
-            axios.patch("/usuario/" + this.actualizar.id, {
+            axios.patch('/usuario/' + this.actualizar.id, {
                 nombre: this.actualizar.nombre,
                 email: this.actualizar.email,
                 password: this.actualizar.password
             }).then(function (response) {
-                $("#actualizar_modelo").modal("hide");
+                _this3.resetActualizar();
+                _this3.update = false;
+                _this3.LeerUsuarios();
             }).catch(function (error) {
                 _this3.errors = [];
                 if (error.errors != undefined && error.errors.name != undefined) {
@@ -43675,7 +43692,7 @@ var render = function() {
                                   staticClass: "btn btn-success btn-xs",
                                   on: {
                                     click: function($event) {
-                                      _vm.IniciarActualizacion(usuario.id)
+                                      _vm.IniciarActualizacion(usuario)
                                     }
                                   }
                                 },
@@ -43926,7 +43943,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("h4", { staticClass: "modal-title" }, [
-                      _vm._v("Actualizar Colectivo")
+                      _vm._v("Actualizar Usuario")
                     ])
                   ]),
                   _vm._v(" "),
@@ -43946,7 +43963,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Nombre del Tramo:")
+                        _vm._v("Nombre de usuario:")
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -43954,18 +43971,18 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.actualizar.tramo,
-                            expression: "actualizar.tramo"
+                            value: _vm.actualizar.nombre,
+                            expression: "actualizar.nombre"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          name: "tramo",
-                          id: "tramo",
-                          placeholder: "Nombre del Tramo"
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre del usuario"
                         },
-                        domProps: { value: _vm.actualizar.tramo },
+                        domProps: { value: _vm.actualizar.nombre },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -43973,7 +43990,81 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.actualizar,
-                              "tramo",
+                              "nombre",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Email:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.email,
+                            expression: "actualizar.email"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "email",
+                          name: "email",
+                          id: "email",
+                          placeholder: "Email"
+                        },
+                        domProps: { value: _vm.actualizar.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "email",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Password:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.password,
+                            expression: "actualizar.password"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "password",
+                          name: "password",
+                          id: "password",
+                          placeholder: "Password"
+                        },
+                        domProps: { value: _vm.actualizar.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "password",
                               $event.target.value
                             )
                           }
@@ -43998,9 +44089,9 @@ var render = function() {
                       {
                         staticClass: "btn btn-primary",
                         attrs: { type: "button" },
-                        on: { click: _vm.actualizarColectivo }
+                        on: { click: _vm.actualizarUsuario }
                       },
-                      [_vm._v("Actualizar")]
+                      [_vm._v("Actualizar usuario")]
                     )
                   ])
                 ])

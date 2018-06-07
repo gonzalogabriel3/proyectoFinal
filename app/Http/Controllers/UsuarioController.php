@@ -15,7 +15,7 @@ class UsuarioController extends Controller
     public function index()
     {
         //Obtengo todos los usuarios de la DB y los devuelvo en formato json
-        $usuarios=Usuario::all();
+        $usuarios=Usuario::orderBy('id','DESC')->get();
 
         return response()->json([
             'usuarios' => $usuarios,
@@ -29,7 +29,7 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        return view('/usuario/alta');
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nombre'        => 'required',
+            'nombre'=> 'required',
             'email' => 'required',
             'password'=>'required'
         ]);
@@ -90,9 +90,25 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Usuario $usuario)
     {
-        //
+        $this->validate($request, [
+            'nombre'=> 'required',
+            'email' => 'required',
+            'password'=>'required'
+        ]);
+
+        $usuario->nombre = $request->get('nombre');
+        $usuario->email = $request->get('email');
+        //Realizo hash de la contraseña ingresada por el usuario
+        $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";
+        $usuario->password = $pass;
+        $usuario->save();
+ 
+        return response()->json([
+            'message' => 'Usuario Actualizado Correctamente'
+        ], 200);
+        
     }
 
     /**

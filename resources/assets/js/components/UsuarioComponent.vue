@@ -36,7 +36,7 @@
                                     {{ usuario.email }}
                                 </td>
                                 <td>
-                                    <button @click="IniciarActualizacion(usuario.id)" class="btn btn-success btn-xs">Editar</button>
+                                    <button @click="IniciarActualizacion(usuario)" class="btn btn-success btn-xs">Editar</button>
                                     <button @click="EliminarUsuario(usuario.id)" class="btn btn-danger btn-xs">Eliminar</button>
                                 </td>
                             </tr>
@@ -96,7 +96,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" @click="closeUpdate" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Actualizar Colectivo</h4>
+                        <h4 class="modal-title">Actualizar Usuario</h4>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-danger" v-if="errors.length > 0">
@@ -106,14 +106,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name">Nombre del Tramo:</label>
-                            <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
-                                   v-model="actualizar.tramo">
+                            <label for="name">Nombre de usuario:</label>
+                            <input type="text" v-model="actualizar.nombre" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Email:</label>
+                            <input type="email" name="email" id="email" placeholder="Email" class="form-control"
+                                   v-model="actualizar.email">
+                        </div>
+                         <div class="form-group">
+                            <label for="name">Password:</label>
+                            <input type="password" name="password" id="password" placeholder="Password" class="form-control"
+                                   v-model="actualizar.password">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
-                        <button type="button" @click="actualizarColectivo" class="btn btn-primary">Actualizar</button>
+                        <button type="button" @click="actualizarUsuario" class="btn btn-primary">Actualizar usuario</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -135,7 +144,11 @@ export default{
                 update: false,
                 errors: [],
                 usuarios: [],
-                actualizar: [],
+                actualizar: {
+                    nombre: '',
+                    password:'',
+                    email: ''
+                }
                 
             }
         },
@@ -146,8 +159,7 @@ export default{
             /*Metodo que muestra el formulario para registrar un nuevo usuario*/ 
             iniciarRegistro(){
                 this.create = true;
-            },
-             /*Metodo que muestra el formulario para editar un nuevo usuario*/ 
+            }, 
             closeCreate(){
                 this.create = false;
             },
@@ -190,26 +202,32 @@ export default{
                 this.usuario.password = '';
             },
             resetActualizar() {
+                this.actualizar.id='';
                 this.actualizar.nombre = '';
                 this.actualizar.email = '';
                 this.actualizar.password = '';
             },
-            IniciarActualizacion(id) {
-                this.actualizar = this.usuarios[id];
-                this.update = true;
+            IniciarActualizacion(usuario) {
+               this.actualizar.id=usuario.id;
+               this.actualizar.nombre=usuario.nombre;
+               this.actualizar.email=usuario.email;
+               this.actualizar.password=usuario.password;
+               this.update = true;
             },
             closeUpdate(){
                 this.update = false;
             },
-            ActualizarUsuario() {
-            axios
-                .patch("/usuario/" + this.actualizar.id, {
+            actualizarUsuario() {
+            
+            axios.patch('/usuario/' + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
                     email: this.actualizar.email,
-                    password:this.actualizar.password
-                })
-                .then(response => {
-                $("#actualizar_modelo").modal("hide");
+                    password: this.actualizar.password
+                }).then(response => {
+                    this.resetActualizar();
+                    this.update = false;
+                    this.LeerUsuarios();
+                
                 })
                 .catch(error => {
                     this.errors = [];
