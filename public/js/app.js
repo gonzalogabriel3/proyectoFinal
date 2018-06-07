@@ -44279,11 +44279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     IniciarActualizacion: function IniciarActualizacion(id) {
-<<<<<<< HEAD
       this.actualizar = this.colectivos[id];
-=======
-      this.actualizar = this.colectivos[7];
->>>>>>> 9c964cc855def5a1a66e52871e761dce627dddb9
       this.update = true;
     },
     closeUpdate: function closeUpdate() {
@@ -44295,13 +44291,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.patch("/colectivo/" + this.actualizar.id, {
         tramo: this.actualizar.tramo
       }).then(function (response) {
-<<<<<<< HEAD
-        $("#actualizar_modelo").modal("hide");
-=======
         _this3.resetActualizar();
         _this3.update = false;
         _this3.LeerColectivos();
->>>>>>> 9c964cc855def5a1a66e52871e761dce627dddb9
       }).catch(function (error) {
         _this3.errors = [];
         if (error.errors != undefined && error.errors.name != undefined) {
