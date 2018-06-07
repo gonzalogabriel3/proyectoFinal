@@ -22,6 +22,9 @@
                             <a href="{{url('/inicioColectivos')}}" >Adm.Colectivos</a>
                         </li>
                         <li>
+                            <a href="{{url('/inicioParadas')}}" >Adm.Paradas</a>
+                        </li>
+                        <li>
                             <a href="#" >Adm.Tarifas</a>
                         </li>
                         <li>

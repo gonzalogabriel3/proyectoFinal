@@ -23,6 +23,10 @@ Route::get('/inicioUsuario',function(){
 Route::get('/inicioColectivos',function(){
     return view('colectivo/index');
 });
+//Pagina de inicio para administrar usuarios
+Route::get('/inicioParadas',function(){
+    return view('parada/index');
+});
 
 Auth::routes();
 
@@ -31,3 +35,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/usuario', 'UsuarioController');
 
 Route::resource('/colectivo', 'ColectivoController');
+
+Route::resource('/parada', 'ParadaController');

@@ -21,6 +21,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('usuario-component',require('./components/UsuarioComponent.vue'));
 Vue.component('colectivo', require('./components/Colectivo.vue'));
+Vue.component('parada', require('./components/Parada.vue'));
 
 const app = new Vue({
     el: '#app'

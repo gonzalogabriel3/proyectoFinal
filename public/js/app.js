@@ -402,106 +402,6 @@ module.exports = g;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(21);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(7);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(7);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -608,6 +508,106 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(21);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(7);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(7);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 4 */
@@ -1078,7 +1078,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(51);
 
 
 /***/ }),
@@ -1112,6 +1112,7 @@ window.Vue = __webpack_require__(36);
 Vue.component('example-component', __webpack_require__(39));
 Vue.component('usuario-component', __webpack_require__(42));
 Vue.component('colectivo', __webpack_require__(45));
+Vue.component('parada', __webpack_require__(48));
 
 var app = new Vue({
   el: '#app'
@@ -31082,7 +31083,7 @@ if (typeof jQuery === 'undefined') {
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(5);
 var Axios = __webpack_require__(20);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -31165,7 +31166,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(29);
 var dispatchRequest = __webpack_require__(30);
@@ -31706,7 +31707,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(31);
 var isCancel = __webpack_require__(9);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var isAbsoluteURL = __webpack_require__(32);
 var combineURLs = __webpack_require__(33);
 
@@ -43190,7 +43191,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(40)
 /* template */
@@ -43309,7 +43310,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(43)
 /* template */
@@ -44148,7 +44149,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(3)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(46)
 /* template */
@@ -44816,6 +44817,851 @@ if (false) {
 
 /***/ }),
 /* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(49)
+/* template */
+var __vue_template__ = __webpack_require__(50)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Parada.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9cd1d7d8", Component.options)
+  } else {
+    hotAPI.reload("data-v-9cd1d7d8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            parada: {
+                nombre: '',
+                latitud: '',
+                longitud: ''
+            },
+            create: false,
+            update: false,
+            errors: [],
+            paradas: [],
+            actualizar: {
+                nombre: '',
+                latitud: '',
+                longitud: ''
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.Leer();
+    },
+
+    methods: {
+        iniciarRegistro: function iniciarRegistro() {
+            this.create = true;
+        },
+        closeCreate: function closeCreate() {
+            this.create = false;
+        },
+        Crear: function Crear() {
+            var _this = this;
+
+            axios.post('/parada', {
+                nombre: this.parada.nombre,
+                latitud: this.parada.latitud,
+                longitud: this.parada.longitud
+            }).then(function (response) {
+
+                _this.reset();
+                _this.create = false;
+                _this.Leer();
+            }).catch(function (error) {
+                _this.errors = [];
+                if (error.errors != undefined && error.errors.name != undefined) {
+                    _this.errors.push(error.errors.name[0]);
+                }
+
+                if (error.errors != undefined && error.errors.description != undefined) {
+                    _this.errors.push(error.errors.description[0]);
+                }
+            });
+        },
+        reset: function reset() {
+            this.parada.nombre = '';
+            this.parada.latitud = '';
+            this.parada.longitud = '';
+        },
+        resetActualizar: function resetActualizar() {
+            this.actualizar.nombre = '';
+            this.actualizar.latitud = '';
+            this.actualizar.longitud = '';
+        },
+        Leer: function Leer() {
+            var _this2 = this;
+
+            axios.get("/parada").then(function (response) {
+                _this2.paradas = response.data.paradas;
+            });
+        },
+        IniciarActualizacion: function IniciarActualizacion(parada) {
+            this.actualizar.id = parada.id;
+            this.actualizar.nombre = parada.nombre;
+            this.actualizar.latitud = parada.latitud;
+            this.actualizar.longitud = parada.longitud;
+            this.update = true;
+        },
+        closeUpdate: function closeUpdate() {
+            this.update = false;
+        },
+        ActualizarColectivo: function ActualizarColectivo() {
+            var _this3 = this;
+
+            axios.patch("/parada/" + this.actualizar.id, {
+                nombre: this.actualizar.nombre,
+                latitud: this.actualizar.latitud,
+                longitud: this.actualizar.longitud
+            }).then(function (response) {
+                _this3.resetActualizar();
+                _this3.update = false;
+                _this3.Leer();
+            }).catch(function (error) {
+                _this3.errors = [];
+                if (error.errors != undefined && error.errors.name != undefined) {
+                    _this3.errors.push(error.errors.name[0]);
+                }
+                if (error.errors != undefined && error.errors.description != undefined) {
+                    _this3.errors.push(error.errors.description[0]);
+                }
+            });
+        },
+        Eliminar: function Eliminar(id) {
+            var _this4 = this;
+
+            var conf = confirm("De verdad quiere borrar esta Parada?");
+            if (conf) {
+                axios({
+                    method: "delete",
+                    url: "/parada/" + id
+                }).then(function (response) {
+                    _this4.Leer();
+                }).catch(function (error) {});
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-heading" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-xs pull-right",
+                on: {
+                  click: function($event) {
+                    _vm.iniciarRegistro()
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                        + Crear Nueva Parada\n                    "
+                )
+              ]
+            ),
+            _vm._v(
+              "\n                    Paradas Registradas\n                "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _vm.paradas.length > 0
+              ? _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-bordered table-striped table-responsive"
+                  },
+                  [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c("tr", { key: parada.id }, [
+                            _c("td", [_vm._v(_vm._s(parada.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(parada.nombre) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(parada.latitud) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(parada.longitud) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.IniciarActualizacion(parada)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Editar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Eliminar(parada.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.create
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Registrar Parada")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _vm.errors.length > 0
+                      ? _c("div", { staticClass: "alert alert-danger" }, [
+                          _c(
+                            "ul",
+                            _vm._l(_vm.errors, function(error) {
+                              return _c("li", { key: error.id }, [
+                                _vm._v(_vm._s(error))
+                              ])
+                            })
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parada.nombre,
+                            expression: "parada.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre de la Parada"
+                        },
+                        domProps: { value: _vm.parada.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.parada, "nombre", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Latitud de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parada.latitud,
+                            expression: "parada.latitud"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "latitud",
+                          id: "latitud",
+                          placeholder: "Latitud de la Parada"
+                        },
+                        domProps: { value: _vm.parada.latitud },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.parada, "latitud", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Longitud de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parada.longitud,
+                            expression: "parada.longitud"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "longitud",
+                          id: "longitud",
+                          placeholder: "Longitud de la Parada"
+                        },
+                        domProps: { value: _vm.parada.longitud },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.parada,
+                              "longitud",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Crear }
+                      },
+                      [_vm._v("Registrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.update
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "actualizar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "actualizar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Actualizar Parada")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _vm.errors.length > 0
+                      ? _c("div", { staticClass: "alert alert-danger" }, [
+                          _c(
+                            "ul",
+                            _vm._l(_vm.errors, function(error) {
+                              return _c("li", { key: error.id }, [
+                                _vm._v(_vm._s(error))
+                              ])
+                            })
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.nombre,
+                            expression: "actualizar.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre de la Parada"
+                        },
+                        domProps: { value: _vm.actualizar.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "nombre",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Latitud de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.latitud,
+                            expression: "actualizar.latitud"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "latitud",
+                          id: "latitud",
+                          placeholder: "Latitud de la Parada"
+                        },
+                        domProps: { value: _vm.actualizar.latitud },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "latitud",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Longitud de la parada:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.longitud,
+                            expression: "actualizar.longitud"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "longitud",
+                          id: "longitud",
+                          placeholder: "Longitud de la Parada"
+                        },
+                        domProps: { value: _vm.actualizar.longitud },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "longitud",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Actualizar }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [
+        _vm._v(
+          "\n                                No.\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Nombre\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Latitud\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Longitud\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Acciones\n                            "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9cd1d7d8", module.exports)
+  }
+}
+
+/***/ }),
+/* 51 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
