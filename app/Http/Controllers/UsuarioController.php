@@ -55,7 +55,10 @@ class UsuarioController extends Controller
         $usuario->password = $pass;
         $usuario->save();
         
-        return redirect()->route('usuarios.index')->with("mensaje","Usuario registrado correctamente");
+        return response()->json([
+            'usuario'    => $usuario,
+            'message' => 'Usuario Creado Correctamente'
+        ], 200);
     }
 
     /**
@@ -98,12 +101,11 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Usuario $usuario)
     {
-        dd($id);
-        $usuario=Usuario::find($id);
-        Usuario::destroy($usuario);
-        
-        return redirect()->route('usuarios.index')->with("mensaje","Usuario eliminado correctamente");
+        $usuario->delete();
+        return response()->json([
+            'message' => 'Colectivo eliminado Correctamente'
+        ], 200);
     }
 }
