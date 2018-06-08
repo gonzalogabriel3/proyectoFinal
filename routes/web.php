@@ -23,7 +23,7 @@ Route::get('/inicioUsuario',function(){
 Route::get('/inicioColectivos',function(){
     return view('colectivo/index');
 });
-//Pagina de inicio para administrar usuarios
+//Pagina de inicio para administrar paradas
 Route::get('/inicioParadas',function(){
     return view('parada/index');
 });

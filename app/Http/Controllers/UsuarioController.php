@@ -7,6 +7,11 @@ use App\Usuario;
 
 class UsuarioController extends Controller
 {
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +74,10 @@ class UsuarioController extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario=Usuario::find($id);
+        return response()->json([
+            'usuario' => $usuario,
+        ], 200);
     }
 
     /**

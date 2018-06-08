@@ -20,8 +20,7 @@ class ParadaController extends Controller
     public function index()
     {
         //
-        $paradas = Parada::all();
-
+        $paradas = \DB::select("SELECT *,st_x(geom) as latitud , st_y(geom) as longitud FROM paradas ORDER BY id DESC");
         return response()->json([
             'paradas'    => $paradas,
         ], 200);
@@ -54,7 +53,8 @@ class ParadaController extends Controller
 
         $parada = new Parada;
         $parada->nombre = $request->nombre;
-        $posicion = "";
+        $posicion = DB::select("SELECT (ST_GeomFromText('POINT($request->latitud $request->longitud)'))");
+        
         $parada->geom = $posicion;
         $parada->save();
 
