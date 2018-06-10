@@ -2,12 +2,20 @@
  <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <!--MENSAJE de notificacion-->
+                    <div v-if="mensaje!=''" style="border-bottom: solid green 2px">
+                        <button type="button" class="close" @click="cerrarMensaje" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                        <b><p style="color:green"><small>{{mensaje}}</small>&nbsp;<span class="glyphicon glyphicon-ok"></span></p></b>
+                    </div>
+                    <br> 
+                <!--Fin del panel de mensaje de notificacion-->   
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <button @click="iniciarRegistro()" class="btn btn-primary btn-xs pull-right">
                             + Crear nuevo usuario
                         </button>
-                        Usuarios Registrados
+                       <h4 style="color:#6DD5B7"> Usuarios Registrados</h4>
                     </div>
              <!--LISTADO DE USUARIOS-->
                     <div class="panel-body">
@@ -140,6 +148,7 @@ export default{
                     password:'',
                     email: ''
                 },
+                mensaje:'',
                 create: false,
                 update: false,
                 errors: [],
@@ -170,6 +179,9 @@ export default{
                     this.usuarios=response.data.usuarios;                    
                 });
             },
+            cerrarMensaje(){
+                this.mensaje='';
+            },
             crearUsuario() {
                 axios.post('/usuario', {
                     nombre: this.usuario.nombre,
@@ -178,6 +190,7 @@ export default{
                 })
                 .then(response => {
                     
+                    this.mensaje="Usuario creado correctamente";
                     this.reset();
                     this.create = false;
                     this.LeerUsuarios();
@@ -224,6 +237,7 @@ export default{
                     email: this.actualizar.email,
                     password: this.actualizar.password
                 }).then(response => {
+                    this.mensaje="Datos de usuario actualizados";
                     this.resetActualizar();
                     this.update = false;
                     this.LeerUsuarios();
@@ -253,7 +267,7 @@ export default{
                             })
                             .then(
                                 response => {
-
+                                    this.mensaje="Usuario eliminado";
                                     this.LeerUsuarios();
 
                             }).catch(error => {

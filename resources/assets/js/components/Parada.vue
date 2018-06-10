@@ -7,9 +7,9 @@
                         <button @click="iniciarRegistro()" class="btn btn-primary btn-xs pull-right">
                             + Crear Nueva Parada
                         </button>
-                        Paradas Registradas
+                        <h4 style="color:#6DD5B7">Paradas Registradas</h4>
                     </div>
-
+                    
                     <div class="panel-body">
                         <table class="table table-bordered table-striped table-responsive" v-if="paradas.length > 0">
                             <tbody>

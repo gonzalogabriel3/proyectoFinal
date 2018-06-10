@@ -43491,6 +43491,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43500,6 +43508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: '',
                 email: ''
             },
+            mensaje: '',
             create: false,
             update: false,
             errors: [],
@@ -43534,6 +43543,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.usuarios = response.data.usuarios;
             });
         },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
         crearUsuario: function crearUsuario() {
             var _this2 = this;
 
@@ -43543,6 +43555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: this.usuario.password
             }).then(function (response) {
 
+                _this2.mensaje = "Usuario creado correctamente";
                 _this2.reset();
                 _this2.create = false;
                 _this2.LeerUsuarios();
@@ -43586,6 +43599,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 email: this.actualizar.email,
                 password: this.actualizar.password
             }).then(function (response) {
+                _this3.mensaje = "Datos de usuario actualizados";
                 _this3.resetActualizar();
                 _this3.update = false;
                 _this3.LeerUsuarios();
@@ -43609,7 +43623,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: 'delete',
                     url: '/usuario/' + id
                 }).then(function (response) {
-
+                    _this4.mensaje = "Usuario eliminado";
                     _this4.LeerUsuarios();
                 }).catch(function (error) {});
             }
@@ -43629,6 +43643,34 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
         _c("div", { staticClass: "panel panel-default" }, [
           _c("div", { staticClass: "panel-heading" }, [
             _c(
@@ -43647,9 +43689,10 @@ var render = function() {
                 )
               ]
             ),
-            _vm._v(
-              "\n                       Usuarios Registrados\n                   "
-            )
+            _vm._v(" "),
+            _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+              _vm._v(" Usuarios Registrados")
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "panel-body" }, [
@@ -44311,6 +44354,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44318,6 +44369,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             colectivo: {
                 tramo: ''
             },
+            mensaje: '',
             create: false,
             update: false,
             errors: [],
@@ -44338,13 +44390,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeCreate: function closeCreate() {
             this.create = false;
         },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
         crearColectivo: function crearColectivo() {
             var _this = this;
 
             axios.post('/colectivo', {
                 tramo: this.colectivo.tramo
             }).then(function (response) {
-
+                _this.mensaje = "Colectivo creado correctamente";
                 _this.reset();
                 _this.create = false;
                 _this.LeerColectivos();
@@ -44386,6 +44441,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.patch("/colectivo/" + this.actualizar.id, {
                 tramo: this.actualizar.tramo
             }).then(function (response) {
+                _this3.mensaje = "Datos de colectivo actualizados";
                 _this3.resetActualizar();
                 _this3.update = false;
                 _this3.LeerColectivos();
@@ -44408,6 +44464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/colectivo/" + id
                 }).then(function (response) {
+                    _this4.mensaje = "Colectivo eliminado";
                     _this4.LeerColectivos();
                 }).catch(function (error) {});
             }
@@ -44426,6 +44483,34 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
         _c("div", { staticClass: "panel panel-default" }, [
           _c("div", { staticClass: "panel-heading" }, [
             _c(
@@ -44444,9 +44529,10 @@ var render = function() {
                 )
               ]
             ),
-            _vm._v(
-              "\n                    Colectivos Registrados\n                "
-            )
+            _vm._v(" "),
+            _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+              _vm._v(" Colectivos Registrados")
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "panel-body" }, [
@@ -45149,9 +45235,10 @@ var render = function() {
                 )
               ]
             ),
-            _vm._v(
-              "\n                    Paradas Registradas\n                "
-            )
+            _vm._v(" "),
+            _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+              _vm._v("Paradas Registradas")
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "panel-body" }, [
