@@ -59,6 +59,7 @@ class UsuarioController extends Controller
         $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";
        
         $usuario->password = $pass;
+        
         $usuario->save();
         
         return response()->json([

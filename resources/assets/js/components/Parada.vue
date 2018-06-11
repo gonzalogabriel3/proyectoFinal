@@ -2,6 +2,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                 <!--MENSAJE de notificacion-->
+                    <div v-if="mensaje!=''" style="border-bottom: solid green 2px">
+                        <button type="button" class="close" @click="cerrarMensaje" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                        <b><p style="color:green"><small>{{mensaje}}</small>&nbsp;<span class="glyphicon glyphicon-ok"></span></p></b>
+                    </div>
+                    <br> 
+                <!--Fin del panel de mensaje de notificacion-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <button @click="iniciarRegistro()" class="btn btn-primary btn-xs pull-right">
@@ -141,6 +149,7 @@ export default {
                 latitud: '',
                 longitud: '',
             },
+            mensaje:'',
             create: false,
             update: false,
             errors: [],
@@ -164,6 +173,9 @@ export default {
         closeCreate(){
             this.create = false;
         },
+        cerrarMensaje(){
+                this.mensaje='';
+        },
         Crear() {
             axios.post('/parada', {
                 nombre: this.parada.nombre,
@@ -172,6 +184,7 @@ export default {
              })
             .then(response => {
                 
+                this.mensaje="Parada creada correctamente";
                 this.reset();
                 this.create = false;
                 this.Leer();
@@ -223,6 +236,7 @@ export default {
                 longitud: this.actualizar.longitud
             })
             .then(response => {
+                this.mensaje="Datos de parada actualizados";
                 this.resetActualizar();
                 this.update = false;
                 this.Leer();
@@ -248,6 +262,7 @@ export default {
                 url: "/parada/" + id
             })
             .then(response => {
+                this.mensaje="Parada eliminada";
                 this.Leer();
             })
             .catch(error => {});

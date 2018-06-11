@@ -45088,6 +45088,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -45097,6 +45105,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 latitud: '',
                 longitud: ''
             },
+            mensaje: '',
             create: false,
             update: false,
             errors: [],
@@ -45119,6 +45128,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeCreate: function closeCreate() {
             this.create = false;
         },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
         Crear: function Crear() {
             var _this = this;
 
@@ -45128,6 +45140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 longitud: this.parada.longitud
             }).then(function (response) {
 
+                _this.mensaje = "Parada creada correctamente";
                 _this.reset();
                 _this.create = false;
                 _this.Leer();
@@ -45177,6 +45190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 latitud: this.actualizar.latitud,
                 longitud: this.actualizar.longitud
             }).then(function (response) {
+                _this3.mensaje = "Datos de parada actualizados";
                 _this3.resetActualizar();
                 _this3.update = false;
                 _this3.Leer();
@@ -45199,6 +45213,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/parada/" + id
                 }).then(function (response) {
+                    _this4.mensaje = "Parada eliminada";
                     _this4.Leer();
                 }).catch(function (error) {});
             }
@@ -45217,6 +45232,34 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
         _c("div", { staticClass: "panel panel-default" }, [
           _c("div", { staticClass: "panel-heading" }, [
             _c(
