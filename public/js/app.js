@@ -45083,7 +45083,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeUpdate: function closeUpdate() {
             this.update = false;
         },
-        ActualizarColectivo: function ActualizarColectivo() {
+        Actualizar: function Actualizar() {
             var _this3 = this;
 
             axios.patch("/parada/" + this.actualizar.id, {

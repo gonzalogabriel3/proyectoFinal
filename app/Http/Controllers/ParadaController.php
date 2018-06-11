@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Parada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Phaza\LaravelPostgis\Geometries\Point;
 
 class ParadaController extends Controller
 {
@@ -53,10 +54,11 @@ class ParadaController extends Controller
 
         $parada = new Parada;
         $parada->nombre = $request->nombre;
-        $posicion = \DB::select("SELECT (ST_GeomFromText('POINT( $request->latitud $request->longitud )', 4326))");
-        $parada->geom = $posicion[0];
-        $parada->save();
 
+        $parada->geom = new Point( $request->latitud , $request ->longitud );
+
+        $parada->save();
+        
 
         return response()->json([
             'parada'    => $parada,
@@ -102,12 +104,13 @@ class ParadaController extends Controller
             'longitud' => 'required'
         ]);
 
+
         $parada->nombre = $request->nombre;
-        $posicion = "";
-        $parada->geom = $posicion;
+        $parada->geom->setLat($request->latitud);
+        $parada->geom->setLng($request->longitud);
+
         $parada->save();
-
-
+    
         return response()->json([
             'message' => 'Parada Actualizada Correctamente'
         ], 200);

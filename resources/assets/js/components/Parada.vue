@@ -215,7 +215,7 @@ export default {
         closeUpdate(){
             this.update = false;
         },
-        ActualizarColectivo() {
+        Actualizar() {
             axios
             .patch("/parada/" + this.actualizar.id, {
                 nombre: this.actualizar.nombre,
