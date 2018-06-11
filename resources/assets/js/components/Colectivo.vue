@@ -2,12 +2,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <!--MENSAJE de notificacion-->
+                    <div v-if="mensaje!=''" style="border-bottom: solid green 2px">
+                        <button type="button" class="close" @click="cerrarMensaje" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                        <b><p style="color:green"><small>{{mensaje}}</small>&nbsp;<span class="glyphicon glyphicon-ok"></span></p></b>
+                    </div>
+                    <br>
+                <!--Fin del panel de mensaje de notificacion-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <button @click="iniciarRegistro()" class="btn btn-primary btn-xs pull-right">
                             + Crear Nuevo Colectivo
                         </button>
-                        Colectivos Registrados
+                        <h4 style="color:#6DD5B7"> Colectivos Registrados</h4>
                     </div>
 
                     <div class="panel-body">
@@ -119,6 +127,7 @@ export default {
             colectivo: {
                 tramo: '',
             },
+            mensaje:'',
             create: false,
             update: false,
             errors: [],
@@ -140,12 +149,15 @@ export default {
         closeCreate(){
             this.create = false;
         },
+        cerrarMensaje(){
+            this.mensaje='';
+        },
         crearColectivo() {
             axios.post('/colectivo', {
                 tramo: this.colectivo.tramo,
              })
             .then(response => {
-                
+                this.mensaje="Colectivo creado correctamente";
                 this.reset();
                 this.create = false;
                 this.LeerColectivos();
@@ -189,6 +201,7 @@ export default {
           tramo: this.actualizar.tramo
         })
         .then(response => {
+            this.mensaje="Datos de colectivo actualizados";
             this.resetActualizar();
             this.update = false;
             this.LeerColectivos();
@@ -214,6 +227,7 @@ export default {
           url: "/colectivo/" + id
         })
           .then(response => {
+            this.mensaje="Colectivo eliminado";
             this.LeerColectivos();
           })
 

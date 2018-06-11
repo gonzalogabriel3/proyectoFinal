@@ -27,4 +27,6 @@ class Parada extends Model
             'srid' => 4326
         ],
     ];
+
+    
 }

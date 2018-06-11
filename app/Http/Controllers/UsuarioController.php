@@ -57,6 +57,7 @@ class UsuarioController extends Controller
         
         //Realizo hash de la contraseña ingresada por el usuario
         $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";
+       
         $usuario->password = $pass;
         $usuario->save();
         

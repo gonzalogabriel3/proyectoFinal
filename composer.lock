@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "6c44158e35a3f8fa37680468cdee9648",
@@ -1867,6 +1867,55 @@
                 "uuid"
             ],
             "time": "2018-01-20T00:28:24+00:00"
+        },
+        {
+            "name": "shaozeming/lumen-postgis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ShaoZeMing/lumen-postgis.git",
+                "reference": "48e528c25ff54e120d6d580584089636f2b85064"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ShaoZeMing/lumen-postgis/zipball/48e528c25ff54e120d6d580584089636f2b85064",
+                "reference": "48e528c25ff54e120d6d580584089636f2b85064",
+                "shasum": ""
+            },
+            "require": {
+                "bosnadev/database": "~0.16",
+                "geo-io/wkb-parser": "^1.0",
+                "illuminate/database": "^5.2",
+                "jmikola/geojson": "^1.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "~0.3",
+                "illuminate/pagination": "~5.0",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Shaozeming\\LumenPostgis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Peter Haza",
+                    "email": "peter.haza@gmail.com"
+                },
+                {
+                    "name": "Nicholas Barrett"
+                }
+            ],
+            "description": "Postgis extensions for laravel+lumen. Aims to make it easy to work with geometries from laravel models",
+            "time": "2017-04-23T06:06:22+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4624,7 +4673,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shaozeming/lumen-postgis": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
