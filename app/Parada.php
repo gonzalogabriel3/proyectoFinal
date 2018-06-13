@@ -19,11 +19,11 @@ class Parada extends Model
         'nombre',
     ];
     protected $postgisFields = [
-        'geom' => Geometry::class,
+        'geom',
     ];
     protected $postgisTypes = [
         'geom' => [
-            'geomtype' => 'geometry',
+            'geomtype' => 'geography',
             'srid' => 4326
         ],
     ];

@@ -21,7 +21,7 @@ class ParadaController extends Controller
     public function index()
     {
         //
-        $paradas = \DB::select("SELECT *,st_x(geom) as longitud , st_y(geom) as latitud FROM paradas ORDER BY id DESC");
+        $paradas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas ORDER BY id DESC");
         return response()->json([
             'paradas' => $paradas,
         ], 200);
@@ -106,8 +106,8 @@ class ParadaController extends Controller
 
 
         $parada->nombre = $request->nombre;
-        $parada->geom->setLat($request->latitud);
-        $parada->geom->setLng($request->longitud);
+        $parada->geom = new Point( $request->latitud , $request ->longitud );
+
 
         $parada->save();
     
