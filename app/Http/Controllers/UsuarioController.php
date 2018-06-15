@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Usuario;
-
 class UsuarioController extends Controller
 {
     
@@ -21,12 +18,10 @@ class UsuarioController extends Controller
     {
         //Obtengo todos los usuarios de la DB y los devuelvo en formato json
         $usuarios=Usuario::orderBy('id','DESC')->get();
-
         return response()->json([
             'usuarios' => $usuarios,
         ], 200);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -36,7 +31,6 @@ class UsuarioController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -50,7 +44,6 @@ class UsuarioController extends Controller
             'email' => 'required',
             'password'=>'required'
         ]);
-
         $usuario = new Usuario;
         $usuario->nombre = $request->nombre;
         $usuario->email = $request->email;
@@ -67,7 +60,6 @@ class UsuarioController extends Controller
             'message' => 'Usuario Creado Correctamente'
         ], 200);
     }
-
     /**
      * Display the specified resource.
      *
@@ -81,7 +73,6 @@ class UsuarioController extends Controller
             'usuario' => $usuario,
         ], 200);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -92,7 +83,6 @@ class UsuarioController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -107,7 +97,6 @@ class UsuarioController extends Controller
             'email' => 'required',
             'password'=>'required'
         ]);
-
         $usuario->nombre = $request->get('nombre');
         $usuario->email = $request->get('email');
         //Realizo hash de la contraseña ingresada por el usuario
@@ -120,7 +109,6 @@ class UsuarioController extends Controller
         ], 200);
         
     }
-
     /**
      * Remove the specified resource from storage.
      *

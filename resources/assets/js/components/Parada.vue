@@ -70,25 +70,29 @@
                         <h4 class="modal-title">Registrar Parada</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
-
                         <div class="form-group">
                             <label for="name">Nombre de la parada:</label>
+                            <br>
+                            <span v-if="parada.nombre.trim().length<3" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre de la Parada" class="form-control"
                                    v-model="parada.nombre">
                         </div>
                         <div class="form-group">
                             <label for="name">Latitud de la parada:</label>
-                            <input type="text" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
+                            <br>
+                            <span v-if="parada.latitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <!--Se cambio type de text a number-->
+                            <input type="number" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
                                    v-model="parada.latitud">
                         </div>
                         <div class="form-group">
                             <label for="name">Longitud de la parada:</label>
-                            <input type="text" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
+                            <br>
+                            <span v-if="parada.longitud.trim().length<5" class="label label-danger" >Debe ingresar una longitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
                                    v-model="parada.longitud">
                         </div>
                     </div>
@@ -109,24 +113,28 @@
                         <h4 class="modal-title">Actualizar Parada</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
                         <div class="form-group">
                             <label for="name">Nombre de la parada:</label>
+                            <br>
+                            <span v-if="actualizar.nombre.trim().length<3" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre de la Parada" class="form-control"
                                    v-model="actualizar.nombre">
                         </div>
                         <div class="form-group">
                             <label for="name">Latitud de la parada:</label>
-                            <input type="text" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
+                            <br>
+                            <span v-if="actualizar.latitud.trim().length<5" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="number" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
                                    v-model="actualizar.latitud">
                         </div>
                         <div class="form-group">
                             <label for="name">Longitud de la parada:</label>
-                            <input type="text" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
+                            <br>
+                            <span v-if="actualizar.longitud.trim().length<5" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
                                    v-model="actualizar.longitud">
                         </div>
 
@@ -152,7 +160,6 @@ export default {
             mensaje:'',
             create: false,
             update: false,
-            errors: [],
             paradas: [],
             actualizar: {
                 nombre: '',
@@ -166,6 +173,20 @@ export default {
         this.Leer();
     },
     methods: {
+        validarRegistro(){ //validacion del formulario de registro
+            if(this.parada.nombre.trim().length<3 || this.parada.latitud.trim().length<5 ||this.parada.longitud.trim().length<5){
+                return false;
+            }else{
+                return true;
+            }
+        },
+        validarActualizacion(){ //validacion del formulario de actualizacion
+            if(this.actualizar.nombre.trim().length<3 || this.actualizar.latitud.trim().length<5 ||this.actualizar.longitud.trim().length<5){
+                return false;
+            }else{
+                return true;
+            }
+        },
         iniciarRegistro()
         {
            this.create = true;
@@ -177,31 +198,22 @@ export default {
                 this.mensaje='';
         },
         Crear() {
-            axios.post('/parada', {
-                nombre: this.parada.nombre,
-                latitud: this.parada.latitud,
-                longitud: this.parada.longitud
-             })
-            .then(response => {
-                
-                this.mensaje="Parada creada correctamente";
-                this.reset();
-                this.create = false;
-                this.Leer();
-            })
-            .catch(error => {
-                this.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    this.errors.push(error.errors.name[0]);
+            if(this.validarRegistro()){            
+                axios.post('/parada', {
+                    nombre: this.parada.nombre,
+                    latitud: this.parada.latitud,
+                    longitud: this.parada.longitud
+                })
+                .then(response => {
+                    
+                    this.mensaje="Parada creada correctamente";
+                    this.reset();
+                    this.create = false;
+                    this.Leer();
+                });
+            }else{
+                return;
             }
-
-            if (
-                error.errors != undefined &&
-                error.errors.description != undefined
-            ) {
-                this.errors.push(error.errors.description[0]);
-            }
-            });
         },
         reset() {
             this.parada.nombre = '';
@@ -229,30 +241,21 @@ export default {
             this.update = false;
         },
         Actualizar() {
-            axios
-            .patch("/parada/" + this.actualizar.id, {
-                nombre: this.actualizar.nombre,
-                latitud: this.actualizar.latitud,
-                longitud: this.actualizar.longitud
-            })
-            .then(response => {
-                this.mensaje="Datos de parada actualizados";
-                this.resetActualizar();
-                this.update = false;
-                this.Leer();
-            })
-            .catch(error => {
-                this.errors = [];
-                    if (error.errors != undefined && error.errors.name != undefined) {
-                    this.errors.push(error.errors.name[0]);
-                }
-                if (
-                    error.errors != undefined &&
-                    error.errors.description != undefined
-                ) {
-                    this.errors.push(error.errors.description[0]);
-                }
-            });
+            if(this.validarActualizacion()){
+                axios.patch("/parada/" + this.actualizar.id, {
+                    nombre: this.actualizar.nombre,
+                    latitud: this.actualizar.latitud,
+                    longitud: this.actualizar.longitud
+                })
+                .then(response => {
+                    this.mensaje="Datos de parada actualizados";
+                    this.resetActualizar();
+                    this.update = false;
+                    this.Leer();
+                });
+            }else{
+                return;
+            }    
         },
         Eliminar(id) {
             let conf = confirm("De verdad quiere borrar esta Parada?");

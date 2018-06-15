@@ -70,14 +70,11 @@
                         <h4 class="modal-title">Registrar Colectivo</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
-
                         <div class="form-group">
                             <label for="name">Nombre del Tramo:</label>
+                            <br>
+                            <span v-if="colectivo.tramo.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
                                    v-model="colectivo.tramo">
                         </div>
@@ -99,14 +96,11 @@
                         <h4 class="modal-title">Actualizar Colectivo</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
-
                         <div class="form-group">
                             <label for="name">Nombre del Tramo:</label>
+                            <br>
+                            <span v-if="actualizar.tramo.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
                                    v-model="actualizar.tramo">
                         </div>
@@ -130,7 +124,6 @@ export default {
             mensaje:'',
             create: false,
             update: false,
-            errors: [],
             colectivos: [],
             actualizar: {
                 tramo: '',
@@ -142,6 +135,20 @@ export default {
         this.LeerColectivos();
     },
     methods: {
+        validarRegistro(){ //validacion del formulario de registro
+            if(this.colectivo.tramo.trim().length<3){
+                return false;
+            }else{
+                return true;
+            }
+        },
+        validarActualizacion(){ //validacion del formulario de actualizacion
+            if(this.actualizar.tramo.trim().length<3){
+                return false;
+            }else{
+                return true;
+            }
+        },
         iniciarRegistro()
         {
            this.create = true;
@@ -153,28 +160,19 @@ export default {
             this.mensaje='';
         },
         crearColectivo() {
-            axios.post('/colectivo', {
-                tramo: this.colectivo.tramo,
-             })
-            .then(response => {
-                this.mensaje="Colectivo creado correctamente";
-                this.reset();
-                this.create = false;
-                this.LeerColectivos();
-            })
-            .catch(error => {
-                this.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    this.errors.push(error.errors.name[0]);
+            if(this.validarRegistro()){
+                    axios.post('/colectivo', {
+                        tramo: this.colectivo.tramo,
+                    })
+                    .then(response => {
+                        this.mensaje="Colectivo creado correctamente";
+                        this.reset();
+                        this.create = false;
+                        this.LeerColectivos();
+                    });                   
+            }else{
+                return;
             }
-
-            if (
-                error.errors != undefined &&
-                error.errors.description != undefined
-            ) {
-                this.errors.push(error.errors.description[0]);
-            }
-        });
     },
     reset() {
       this.colectivo.tramo = '';
@@ -196,28 +194,20 @@ export default {
         this.update = false;
     },
     ActualizarColectivo() {
-      axios
-        .patch("/colectivo/" + this.actualizar.id, {
-          tramo: this.actualizar.tramo
-        })
-        .then(response => {
-            this.mensaje="Datos de colectivo actualizados";
-            this.resetActualizar();
-            this.update = false;
-            this.LeerColectivos();
-        })
-        .catch(error => {
-          this.errors = [];
-          if (error.errors != undefined && error.errors.name != undefined) {
-            this.errors.push(error.errors.name[0]);
-          }
-          if (
-            error.errors != undefined &&
-            error.errors.description != undefined
-          ) {
-            this.errors.push(error.errors.description[0]);
-          }
-        });
+        
+        if(this.validarActualizacion()){
+            axios.patch("/colectivo/" + this.actualizar.id, {
+            tramo: this.actualizar.tramo
+            })
+            .then(response => {
+                this.mensaje="Datos de colectivo actualizados";
+                this.resetActualizar();
+                this.update = false;
+                this.LeerColectivos();
+            });               
+        }else{
+            return;
+        }    
     },
     EliminarColectivo(id) {
       let conf = confirm("De verdad quiere borrar este Colectivo?");
@@ -230,7 +220,6 @@ export default {
             this.mensaje="Colectivo eliminado";
             this.LeerColectivos();
           })
-
           .catch(error => {});
       }
     }

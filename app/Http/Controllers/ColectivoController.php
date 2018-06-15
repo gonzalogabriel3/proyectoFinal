@@ -20,7 +20,7 @@ class ColectivoController extends Controller
     public function index()
     {
         //
-        $colectivos = Colectivo::all();
+        $colectivos = Colectivo::orderBy('id','DESC')->get();
 
         return response()->json([
             'colectivos'    => $colectivos,

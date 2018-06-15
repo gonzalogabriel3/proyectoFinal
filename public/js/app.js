@@ -43499,6 +43499,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43511,7 +43521,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensaje: '',
             create: false,
             update: false,
-            errors: [],
             usuarios: [],
             actualizar: {
                 nombre: '',
@@ -43526,6 +43535,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        validarRegistro: function validarRegistro() {
+            //validacion del formulario de registro
+            if (this.usuario.nombre.trim().length < 3 || this.usuario.password.trim().length < 3 || this.usuario.email.trim().length < 3 || this.usuario.email.indexOf('@') == -1 || this.usuario.email.indexOf('.') == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario de actualizacion
+            if (this.actualizar.nombre.trim().length < 3 || this.actualizar.password.trim().length < 3 || this.actualizar.email.trim().length < 3 || this.actualizar.email.indexOf('@') == -1 || this.actualizar.email.indexOf('.') == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+
         /*Metodo que muestra el formulario para registrar un nuevo usuario*/
         iniciarRegistro: function iniciarRegistro() {
             this.create = true;
@@ -43549,26 +43575,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         crearUsuario: function crearUsuario() {
             var _this2 = this;
 
-            axios.post('/usuario', {
-                nombre: this.usuario.nombre,
-                email: this.usuario.email,
-                password: this.usuario.password
-            }).then(function (response) {
+            if (this.validarRegistro()) {
+                axios.post('/usuario', {
+                    nombre: this.usuario.nombre,
+                    email: this.usuario.email,
+                    password: this.usuario.password
+                }).then(function (response) {
 
-                _this2.mensaje = "Usuario creado correctamente";
-                _this2.reset();
-                _this2.create = false;
-                _this2.LeerUsuarios();
-            }).catch(function (error) {
-                _this2.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this2.errors.push(error.errors.name[0]);
-                }
-
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this2.errors.push(error.errors.description[0]);
-                }
-            });
+                    _this2.mensaje = "Usuario creado correctamente";
+                    _this2.reset();
+                    _this2.create = false;
+                    _this2.LeerUsuarios();
+                });
+            } else {
+                return;
+            }
         },
         reset: function reset() {
             this.usuario.nombre = '';
@@ -43594,30 +43615,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         actualizarUsuario: function actualizarUsuario() {
             var _this3 = this;
 
-            axios.patch('/usuario/' + this.actualizar.id, {
-                nombre: this.actualizar.nombre,
-                email: this.actualizar.email,
-                password: this.actualizar.password
-            }).then(function (response) {
-                _this3.mensaje = "Datos de usuario actualizados";
-                _this3.resetActualizar();
-                _this3.update = false;
-                _this3.LeerUsuarios();
-            }).catch(function (error) {
-                _this3.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this3.errors.push(error.errors.name[0]);
-                }
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this3.errors.push(error.errors.description[0]);
-                }
-            });
+            if (this.validarActualizacion()) {
+                axios.patch('/usuario/' + this.actualizar.id, {
+                    nombre: this.actualizar.nombre,
+                    email: this.actualizar.email,
+                    password: this.actualizar.password
+                }).then(function (response) {
+                    _this3.mensaje = "Datos de usuario actualizados";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.LeerUsuarios();
+                });
+            } else {
+                return;
+            }
         },
         EliminarUsuario: function EliminarUsuario(id) {
             var _this4 = this;
 
             var conf = confirm("De verdad quiere borrar este usuario?");
-
             if (conf) {
                 axios({
                     method: 'delete',
@@ -43629,7 +43645,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         }
     }
-
 });
 
 /***/ }),
@@ -43808,23 +43823,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre de usuario:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.usuario.nombre.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -43859,6 +43873,28 @@ var render = function() {
                         _vm._v("Email:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.usuario.email.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar un email valido")
+                          ])
+                        : _vm.usuario.email.indexOf("@") == -1
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar un email valido")
+                            ])
+                          : _vm.usuario.email.indexOf(".") == -1
+                            ? _c(
+                                "span",
+                                { staticClass: "label label-danger" },
+                                [_vm._v("Debe ingresar un email valido")]
+                              )
+                            : _c(
+                                "span",
+                                { staticClass: "label label-success" },
+                                [_vm._v("Correcto!")]
+                              ),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -43891,6 +43927,18 @@ var render = function() {
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Password:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.usuario.password.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El password debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -43992,23 +44040,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre de usuario:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.nombre.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -44047,6 +44094,30 @@ var render = function() {
                         _vm._v("Email:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.email.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _vm.actualizar.email.indexOf("@") == -1
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar un email valido")
+                            ])
+                          : _vm.actualizar.email.indexOf(".") == -1
+                            ? _c(
+                                "span",
+                                { staticClass: "label label-danger" },
+                                [_vm._v("Debe ingresar un email valido")]
+                              )
+                            : _c(
+                                "span",
+                                { staticClass: "label label-success" },
+                                [_vm._v("Correcto!")]
+                              ),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -44083,6 +44154,18 @@ var render = function() {
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Password:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.password.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -44356,12 +44439,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44372,7 +44449,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensaje: '',
             create: false,
             update: false,
-            errors: [],
             colectivos: [],
             actualizar: {
                 tramo: ''
@@ -44384,6 +44460,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        validarRegistro: function validarRegistro() {
+            //validacion del formulario de registro
+            if (this.colectivo.tramo.trim().length < 3) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario de actualizacion
+            if (this.actualizar.tramo.trim().length < 3) {
+                return false;
+            } else {
+                return true;
+            }
+        },
         iniciarRegistro: function iniciarRegistro() {
             this.create = true;
         },
@@ -44396,23 +44488,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         crearColectivo: function crearColectivo() {
             var _this = this;
 
-            axios.post('/colectivo', {
-                tramo: this.colectivo.tramo
-            }).then(function (response) {
-                _this.mensaje = "Colectivo creado correctamente";
-                _this.reset();
-                _this.create = false;
-                _this.LeerColectivos();
-            }).catch(function (error) {
-                _this.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this.errors.push(error.errors.name[0]);
-                }
-
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this.errors.push(error.errors.description[0]);
-                }
-            });
+            if (this.validarRegistro()) {
+                axios.post('/colectivo', {
+                    tramo: this.colectivo.tramo
+                }).then(function (response) {
+                    _this.mensaje = "Colectivo creado correctamente";
+                    _this.reset();
+                    _this.create = false;
+                    _this.LeerColectivos();
+                });
+            } else {
+                return;
+            }
         },
         reset: function reset() {
             this.colectivo.tramo = '';
@@ -44438,22 +44525,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         ActualizarColectivo: function ActualizarColectivo() {
             var _this3 = this;
 
-            axios.patch("/colectivo/" + this.actualizar.id, {
-                tramo: this.actualizar.tramo
-            }).then(function (response) {
-                _this3.mensaje = "Datos de colectivo actualizados";
-                _this3.resetActualizar();
-                _this3.update = false;
-                _this3.LeerColectivos();
-            }).catch(function (error) {
-                _this3.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this3.errors.push(error.errors.name[0]);
-                }
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this3.errors.push(error.errors.description[0]);
-                }
-            });
+            if (this.validarActualizacion()) {
+                axios.patch("/colectivo/" + this.actualizar.id, {
+                    tramo: this.actualizar.tramo
+                }).then(function (response) {
+                    _this3.mensaje = "Datos de colectivo actualizados";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.LeerColectivos();
+                });
+            } else {
+                return;
+            }
         },
         EliminarColectivo: function EliminarColectivo(id) {
             var _this4 = this;
@@ -44656,23 +44739,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre del Tramo:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.colectivo.tramo.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -44774,23 +44856,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre del Tramo:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.tramo.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -45096,6 +45177,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -45108,7 +45197,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensaje: '',
             create: false,
             update: false,
-            errors: [],
             paradas: [],
             actualizar: {
                 nombre: '',
@@ -45122,6 +45210,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        validarRegistro: function validarRegistro() {
+            //validacion del formulario de registro
+            if (this.parada.nombre.trim().length < 3 || this.parada.latitud.trim().length < 5 || this.parada.longitud.trim().length < 5) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario de actualizacion
+            if (this.actualizar.nombre.trim().length < 3 || this.actualizar.latitud.trim().length < 5 || this.actualizar.longitud.trim().length < 5) {
+                return false;
+            } else {
+                return true;
+            }
+        },
         iniciarRegistro: function iniciarRegistro() {
             this.create = true;
         },
@@ -45134,26 +45238,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Crear: function Crear() {
             var _this = this;
 
-            axios.post('/parada', {
-                nombre: this.parada.nombre,
-                latitud: this.parada.latitud,
-                longitud: this.parada.longitud
-            }).then(function (response) {
+            if (this.validarRegistro()) {
+                axios.post('/parada', {
+                    nombre: this.parada.nombre,
+                    latitud: this.parada.latitud,
+                    longitud: this.parada.longitud
+                }).then(function (response) {
 
-                _this.mensaje = "Parada creada correctamente";
-                _this.reset();
-                _this.create = false;
-                _this.Leer();
-            }).catch(function (error) {
-                _this.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this.errors.push(error.errors.name[0]);
-                }
-
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this.errors.push(error.errors.description[0]);
-                }
-            });
+                    _this.mensaje = "Parada creada correctamente";
+                    _this.reset();
+                    _this.create = false;
+                    _this.Leer();
+                });
+            } else {
+                return;
+            }
         },
         reset: function reset() {
             this.parada.nombre = '';
@@ -45185,24 +45284,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Actualizar: function Actualizar() {
             var _this3 = this;
 
-            axios.patch("/parada/" + this.actualizar.id, {
-                nombre: this.actualizar.nombre,
-                latitud: this.actualizar.latitud,
-                longitud: this.actualizar.longitud
-            }).then(function (response) {
-                _this3.mensaje = "Datos de parada actualizados";
-                _this3.resetActualizar();
-                _this3.update = false;
-                _this3.Leer();
-            }).catch(function (error) {
-                _this3.errors = [];
-                if (error.errors != undefined && error.errors.name != undefined) {
-                    _this3.errors.push(error.errors.name[0]);
-                }
-                if (error.errors != undefined && error.errors.description != undefined) {
-                    _this3.errors.push(error.errors.description[0]);
-                }
-            });
+            if (this.validarActualizacion()) {
+                axios.patch("/parada/" + this.actualizar.id, {
+                    nombre: this.actualizar.nombre,
+                    latitud: this.actualizar.latitud,
+                    longitud: this.actualizar.longitud
+                }).then(function (response) {
+                    _this3.mensaje = "Datos de parada actualizados";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.Leer();
+                });
+            } else {
+                return;
+            }
         },
         Eliminar: function Eliminar(id) {
             var _this4 = this;
@@ -45405,23 +45500,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre de la parada:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.parada.nombre.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre de la parada debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -45456,6 +45550,16 @@ var render = function() {
                         _vm._v("Latitud de la parada:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.parada.latitud.trim().length < 5
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar una latitud valida")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -45467,7 +45571,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          type: "text",
+                          type: "number",
                           name: "latitud",
                           id: "latitud",
                           placeholder: "Latitud de la Parada"
@@ -45489,6 +45593,16 @@ var render = function() {
                         _vm._v("Longitud de la parada:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.parada.longitud.trim().length < 5
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar una longitud valida")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -45500,7 +45614,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          type: "text",
+                          type: "number",
                           name: "longitud",
                           id: "longitud",
                           placeholder: "Longitud de la Parada"
@@ -45589,23 +45703,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
-                    _vm.errors.length > 0
-                      ? _c("div", { staticClass: "alert alert-danger" }, [
-                          _c(
-                            "ul",
-                            _vm._l(_vm.errors, function(error) {
-                              return _c("li", { key: error.id }, [
-                                _vm._v(_vm._s(error))
-                              ])
-                            })
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre de la parada:")
                       ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.nombre.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre de la parada debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -45644,6 +45757,18 @@ var render = function() {
                         _vm._v("Latitud de la parada:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.latitud.trim().length < 5
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre de la parada debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -45655,7 +45780,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          type: "text",
+                          type: "number",
                           name: "latitud",
                           id: "latitud",
                           placeholder: "Latitud de la Parada"
@@ -45681,6 +45806,18 @@ var render = function() {
                         _vm._v("Longitud de la parada:")
                       ]),
                       _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.longitud.trim().length < 5
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre de la parada debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
                       _c("input", {
                         directives: [
                           {
@@ -45692,7 +45829,7 @@ var render = function() {
                         ],
                         staticClass: "form-control",
                         attrs: {
-                          type: "text",
+                          type: "number",
                           name: "longitud",
                           id: "longitud",
                           placeholder: "Longitud de la Parada"

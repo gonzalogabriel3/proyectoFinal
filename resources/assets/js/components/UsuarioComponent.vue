@@ -66,24 +66,29 @@
                         <h4 class="modal-title">Registrar Usuario</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
-
                         <div class="form-group">
                             <label for="name">Nombre de usuario:</label>
+                            <br>
+                            <span v-if="usuario.nombre.trim().length<3" class="label label-danger" >El nombre debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control"
                                    v-model="usuario.nombre">
                         </div>
                          <div class="form-group">
                             <label for="name">Email:</label>
+                            <br>
+                            <span v-if="usuario.email.trim().length<3" class="label label-danger" >Debe ingresar un email valido</span>
+                            <span v-else-if="usuario.email.indexOf('@')==-1" class="label label-danger" >Debe ingresar un email valido</span>
+                            <span v-else-if="usuario.email.indexOf('.')==-1" class="label label-danger" >Debe ingresar un email valido</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="email" name="email" id="email" placeholder="Email" class="form-control"
                                    v-model="usuario.email">
                         </div>
                          <div class="form-group">
                             <label for="name">Password:</label>
+                            <br>
+                            <span v-if="usuario.password.trim().length<3" class="label label-danger" >El password debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="password" name="password" id="password" placeholder="Password" class="form-control"
                                    v-model="usuario.password">
                         </div>
@@ -107,23 +112,28 @@
                         <h4 class="modal-title">Actualizar Usuario</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <ul>
-                                <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                            </ul>
-                        </div>
-
                         <div class="form-group">
                             <label for="name">Nombre de usuario:</label>
+                            <br>
+                            <span v-if="actualizar.nombre.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="text" v-model="actualizar.nombre" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="name">Email:</label>
+                            <br>
+                            <span v-if="actualizar.email.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else-if="actualizar.email.indexOf('@')==-1" class="label label-danger" >Debe ingresar un email valido</span>
+                            <span v-else-if="actualizar.email.indexOf('.')==-1" class="label label-danger" >Debe ingresar un email valido</span>
+                           <span v-else class="label label-success">Correcto!</span>
                             <input type="email" name="email" id="email" placeholder="Email" class="form-control"
                                    v-model="actualizar.email">
                         </div>
                          <div class="form-group">
                             <label for="name">Password:</label>
+                            <br>
+                            <span v-if="actualizar.password.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
                             <input type="password" name="password" id="password" placeholder="Password" class="form-control"
                                    v-model="actualizar.password">
                         </div>
@@ -151,7 +161,6 @@ export default{
                 mensaje:'',
                 create: false,
                 update: false,
-                errors: [],
                 usuarios: [],
                 actualizar: {
                     nombre: '',
@@ -165,6 +174,22 @@ export default{
             this.LeerUsuarios();
         },
         methods:{
+            validarRegistro(){ //validacion del formulario de registro
+                if(this.usuario.nombre.trim().length<3 || this.usuario.password.trim().length<3 ||this.usuario.email.trim().length<3
+                 || this.usuario.email.indexOf('@')==-1 || this.usuario.email.indexOf('.')==-1 ){
+                    return false;
+                }else{
+                    return true;
+                }
+            },
+            validarActualizacion(){ //validacion del formulario de actualizacion
+                if(this.actualizar.nombre.trim().length<3 || this.actualizar.password.trim().length<3 ||this.actualizar.email.trim().length<3
+                 || this.actualizar.email.indexOf('@')==-1 || this.actualizar.email.indexOf('.')==-1){
+                    return false;
+                }else{
+                    return true;
+                }
+            },
             /*Metodo que muestra el formulario para registrar un nuevo usuario*/ 
             iniciarRegistro(){
                 this.create = true;
@@ -183,31 +208,22 @@ export default{
                 this.mensaje='';
             },
             crearUsuario() {
-                axios.post('/usuario', {
-                    nombre: this.usuario.nombre,
-                    email:this.usuario.email,
-                    password:this.usuario.password
-                })
-                .then(response => {
-                    
-                    this.mensaje="Usuario creado correctamente";
-                    this.reset();
-                    this.create = false;
-                    this.LeerUsuarios();
-                })
-                .catch(error => {
-                    this.errors = [];
-                    if (error.errors != undefined && error.errors.name != undefined) {
-                        this.errors.push(error.errors.name[0]);
-                }
-
-                if (
-                    error.errors != undefined &&
-                    error.errors.description != undefined
-                ) {
-                    this.errors.push(error.errors.description[0]);
-                }
-                });
+                if(this.validarRegistro()){
+                    axios.post('/usuario', {
+                        nombre: this.usuario.nombre,
+                        email:this.usuario.email,
+                        password:this.usuario.password
+                    })
+                    .then(response => {
+                        
+                        this.mensaje="Usuario creado correctamente";
+                        this.reset();
+                        this.create = false;
+                        this.LeerUsuarios();
+                    });
+                }else{
+                    return;
+                }    
             },
             reset() {
                 this.usuario.nombre = '';
@@ -231,35 +247,25 @@ export default{
                 this.update = false;
             },
             actualizarUsuario() {
-            
-            axios.patch('/usuario/' + this.actualizar.id, {
-                    nombre: this.actualizar.nombre,
-                    email: this.actualizar.email,
-                    password: this.actualizar.password
-                }).then(response => {
-                    this.mensaje="Datos de usuario actualizados";
-                    this.resetActualizar();
-                    this.update = false;
-                    this.LeerUsuarios();
-                
-                })
-                .catch(error => {
-                    this.errors = [];
-                    if (error.errors != undefined && error.errors.name != undefined) {
-                        this.errors.push(error.errors.name[0]);
-                    }
-                    if (
-                        error.errors != undefined &&
-                        error.errors.description != undefined
-                    ) {
-                        this.errors.push(error.errors.description[0]);
-                    }
-                });
+                if(this.validarActualizacion()){
+                    axios.patch('/usuario/' + this.actualizar.id, {
+                            nombre: this.actualizar.nombre,
+                            email: this.actualizar.email,
+                            password: this.actualizar.password
+                        }).then(response => {
+                            this.mensaje="Datos de usuario actualizados";
+                            this.resetActualizar();
+                            this.update = false;
+                            this.LeerUsuarios();
+                        
+                        });
+                }else{
+                    return;
+                }
             },
             EliminarUsuario(id){
                 
                 let conf=confirm("De verdad quiere borrar este usuario?");
-
                 if (conf) {
                     axios({
                             method:'delete',
@@ -269,15 +275,11 @@ export default{
                                 response => {
                                     this.mensaje="Usuario eliminado";
                                     this.LeerUsuarios();
-
                             }).catch(error => {
-
                             });
                 }
             },
         //Fin de los metodos    
         },
-
 }
-
 </script>
