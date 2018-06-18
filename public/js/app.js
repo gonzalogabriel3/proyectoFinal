@@ -377,33 +377,6 @@ module.exports = {
 /* 1 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
 /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file.
@@ -507,6 +480,33 @@ module.exports = function normalizeComponent (
     options: options
   }
 }
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
@@ -1078,7 +1078,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(51);
+module.exports = __webpack_require__(54);
 
 
 /***/ }),
@@ -1113,6 +1113,7 @@ Vue.component('example-component', __webpack_require__(39));
 Vue.component('usuario-component', __webpack_require__(42));
 Vue.component('colectivo', __webpack_require__(45));
 Vue.component('parada', __webpack_require__(48));
+Vue.component('tarifa', __webpack_require__(51));
 
 var app = new Vue({
   el: '#app'
@@ -18289,7 +18290,7 @@ if (token) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(15)(module)))
 
 /***/ }),
 /* 15 */
@@ -42921,7 +42922,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(37).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(37).setImmediate))
 
 /***/ }),
 /* 37 */
@@ -42991,7 +42992,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 38 */
@@ -43184,14 +43185,14 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(6)))
 
 /***/ }),
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(40)
 /* template */
@@ -43310,7 +43311,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(43)
 /* template */
@@ -44275,7 +44276,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(46)
 /* template */
@@ -44987,7 +44988,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(49)
 /* template */
@@ -45929,6 +45930,671 @@ if (false) {
 
 /***/ }),
 /* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(52)
+/* template */
+var __vue_template__ = __webpack_require__(53)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Tarifa.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2d5863d6", Component.options)
+  } else {
+    hotAPI.reload("data-v-2d5863d6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            tarifa: {
+                monto: ''
+            },
+            mensaje: '',
+            create: false,
+            update: false,
+            tarifas: [],
+            actualizar: {
+                monto: ''
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.Leer();
+    },
+
+    methods: {
+        validarRegistro: function validarRegistro() {
+            //validacion del formulario de registro
+            if (this.tarifa.monto.trim().length < 2) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario de actualizacion
+            if (this.actualizar.monto.trim().length < 2) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        iniciarRegistro: function iniciarRegistro() {
+            this.create = true;
+        },
+        closeCreate: function closeCreate() {
+            this.create = false;
+        },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
+        Crear: function Crear() {
+            var _this = this;
+
+            if (this.validarRegistro()) {
+                axios.post('/tarifa', {
+                    monto: this.tarifa.monto
+                }).then(function (response) {
+
+                    _this.mensaje = "Tarifa creada correctamente";
+                    _this.reset();
+                    _this.create = false;
+                    _this.Leer();
+                });
+            } else {
+                return;
+            }
+        },
+        reset: function reset() {
+            this.tarifa.monto = '';
+        },
+        resetActualizar: function resetActualizar() {
+            this.actualizar.monto = '';
+        },
+        Leer: function Leer() {
+            var _this2 = this;
+
+            axios.get("/tarifa").then(function (response) {
+                _this2.tarifas = response.data.tarifas;
+            });
+        },
+        IniciarActualizacion: function IniciarActualizacion(tarifa) {
+            this.actualizar.id = tarifa.id;
+            this.actualizar.monto = tarifa.monto;
+            this.update = true;
+        },
+        closeUpdate: function closeUpdate() {
+            this.update = false;
+        },
+        Actualizar: function Actualizar() {
+            var _this3 = this;
+
+            if (this.validarActualizacion()) {
+                axios.patch("/tarifa/" + this.actualizar.id, {
+                    monto: this.actualizar.monto
+                }).then(function (response) {
+                    _this3.mensaje = "Datos de tarifa actualizados";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.Leer();
+                });
+            } else {
+                return;
+            }
+        },
+        Eliminar: function Eliminar(id) {
+            var _this4 = this;
+
+            var conf = confirm("De verdad quiere borrar esta Tarifa?");
+            if (conf) {
+                axios({
+                    method: "delete",
+                    url: "/tarifa/" + id
+                }).then(function (response) {
+                    _this4.mensaje = "Tarifa eliminada";
+                    _this4.Leer();
+                }).catch(function (error) {});
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-heading" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-xs pull-right",
+                on: {
+                  click: function($event) {
+                    _vm.iniciarRegistro()
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                        + Crear Nueva Tarifa\n                    "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+              _vm._v(" Tarifas Registradas")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _vm.tarifas.length > 0
+              ? _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-bordered table-striped table-responsive"
+                  },
+                  [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._l(_vm.tarifas, function(tarifa) {
+                          return _c("tr", { key: tarifa.id }, [
+                            _c("td", [_vm._v(_vm._s(tarifa.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tarifa.monto) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.IniciarActualizacion(tarifa)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Editar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Eliminar(tarifa.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.create
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Registrar Tarifa")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Monto de la tarifa:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.tarifa.monto.trim().length < 2
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar un monto valido")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tarifa.monto,
+                            expression: "tarifa.monto"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          name: "monto",
+                          id: "monto",
+                          placeholder: "Monto de la Tarifa"
+                        },
+                        domProps: { value: _vm.tarifa.monto },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.tarifa, "monto", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Crear }
+                      },
+                      [_vm._v("Registrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.update
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "actualizar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "actualizar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Actualizar Tarifa")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Monto de la tarifa:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.monto.trim().length < 2
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar un monto valido")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.monto,
+                            expression: "actualizar.monto"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          name: "monto",
+                          id: "monto",
+                          placeholder: "Monto a actualizar"
+                        },
+                        domProps: { value: _vm.actualizar.monto },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "monto",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Actualizar }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [
+        _vm._v(
+          "\n                                No.\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Tarifa\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Acciones\n                            "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2d5863d6", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

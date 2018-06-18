@@ -19,13 +19,18 @@ Route::get('/', function () {
 Route::get('/inicioUsuario',function(){
     return view('usuario/index');
 });
-//Pagina de inicio para administrar usuarios
+//Pagina de inicio para administrar colectivos
 Route::get('/inicioColectivos',function(){
     return view('colectivo/index');
 });
 //Pagina de inicio para administrar paradas
 Route::get('/inicioParadas',function(){
     return view('parada/index');
+});
+
+//Pagina de inicio para administrar tarifas
+Route::get('/inicioTarifas',function(){
+    return view('tarifa/index');
 });
 
 Auth::routes();
@@ -37,3 +42,5 @@ Route::resource('/usuario', 'UsuarioController');
 Route::resource('/colectivo', 'ColectivoController');
 
 Route::resource('/parada', 'ParadaController');
+
+Route::resource('/tarifa', 'TarifaController');

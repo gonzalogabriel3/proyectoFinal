@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Administracion</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -25,7 +25,7 @@
                             <a href="{{url('/inicioParadas')}}" >Adm.Paradas</a>
                         </li>
                         <li>
-                            <a href="#" >Adm.Tarifas</a>
+                            <a href="{{url('/inicioTarifas')}}" >Adm.Tarifas</a>
                         </li>
                         <li>
                             <a href="#" >Adm.Recorridos</a>
