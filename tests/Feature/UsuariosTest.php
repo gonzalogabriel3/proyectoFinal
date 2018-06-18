@@ -16,7 +16,7 @@ class UsuariosTest extends TestCase
      */
     function ObtenerUsuarios()
     {
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
     	$this->get("/usuario")
@@ -33,7 +33,7 @@ class UsuariosTest extends TestCase
      */
     function CrearUsuarios()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
     	$response = $this->json('POST', '/usuario', [ 
@@ -63,7 +63,7 @@ class UsuariosTest extends TestCase
      */
     function ActualizarUsuarios()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
     	$response = $this->json('PATCH', '/usuario/11', [
@@ -87,7 +87,7 @@ class UsuariosTest extends TestCase
      */
     function ElmininarUsuarios()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
         $response = $this->json('delete', '/usuario/14');

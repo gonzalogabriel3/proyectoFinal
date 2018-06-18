@@ -16,7 +16,7 @@ class ParadasTest extends TestCase
      */
     function ObtenerParadas()
     {
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
         $this->get("/parada")
@@ -33,7 +33,7 @@ class ParadasTest extends TestCase
      */
     function CrearParadas()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
     	$response = $this->json('POST', '/parada', [
@@ -62,7 +62,7 @@ class ParadasTest extends TestCase
      */
     function ActualizarParadas()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
         $response = $this->json('PATCH', '/parada/1409', [
@@ -85,7 +85,7 @@ class ParadasTest extends TestCase
      */
     function ElmininarParadas()
     {	
-        $user = User::where('id', 2)->first();
+        $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
     	$response = $this->json('delete', '/parada/1415');
