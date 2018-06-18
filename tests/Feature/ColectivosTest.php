@@ -16,7 +16,10 @@ class ColectivosTest extends TestCase
      */
     function ObtenerColectivos()
     {
-    	$this->get("/colectivo")
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+        
+        $this->get("/colectivo")
         	 ->assertStatus(200)
         	 ->assertJson([
         	 		'colectivos' => true,
@@ -30,7 +33,9 @@ class ColectivosTest extends TestCase
      */
     function CrearColectivos()
     {	
-    	
+    	$user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+
     	$response = $this->json('POST', '/colectivo', ['tramo' => 'asd']);
 
         $response
@@ -55,8 +60,10 @@ class ColectivosTest extends TestCase
      */
     function ActualizarColectivos()
     {	
-    	
-    	$response = $this->json('PATCH', '/colectivo/13', ['tramo' => 'asda']);
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+        
+        $response = $this->json('PATCH', '/colectivo/17', ['tramo' => 'asda']);
 
         $response
             ->assertStatus(200);
@@ -73,7 +80,10 @@ class ColectivosTest extends TestCase
      */
     function ElmininarColectivos()
     {	
-    	$response = $this->json('delete', '/colectivo/15');
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+        
+        $response = $this->json('delete', '/colectivo/18');
 
         $response
             ->assertStatus(200);

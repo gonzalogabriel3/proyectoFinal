@@ -10,13 +10,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ParadasTest extends TestCase
 {
         /**
-     * Test de control de metodos del controlador ColectivosController.
+     * Test de control de obtener del controlador ParadasController.
      *
      * @test
      */
     function ObtenerParadas()
     {
-    	$this->get("/parada")
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+
+        $this->get("/parada")
         	 ->assertStatus(200)
         	 ->assertJson([
         	 		'paradas' => true,
@@ -24,12 +27,14 @@ class ParadasTest extends TestCase
     }
     
     /**
-     * Test de control de metodos del controlador ColectivosController.
+     * Test de control de crear del controlador ParadasController.
      *
      * @test
      */
     function CrearParadas()
     {	
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
 
     	$response = $this->json('POST', '/parada', [
             'nombre' => 'Parada Terminal Playa', 
@@ -51,13 +56,16 @@ class ParadasTest extends TestCase
     }
 
     /**
-     * Test de control de metodos del controlador ColectivosController.
+     * Test de control de actualizar del controlador ParadasController.
      *
      * @test
      */
     function ActualizarParadas()
     {	
-    	$response = $this->json('PATCH', '/parada/1411', [
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
+
+        $response = $this->json('PATCH', '/parada/1409', [
             'nombre' => 'Parada Terminaal Playaa', 
             'latitud' => '-123123',
             'longitud' => '-6543123']);
@@ -71,14 +79,16 @@ class ParadasTest extends TestCase
 
     }
     /**
-     * Test de control de metodos del controlador ColectivosController.
+     * Test de control de eliminar del controlador ParadasController.
      *
      * @test
      */
     function ElmininarParadas()
     {	
+        $user = User::where('id', 2)->first();
+        \Auth::loginUsingId($user->id);
         
-    	$response = $this->json('delete', '/parada/1413');
+    	$response = $this->json('delete', '/parada/1415');
 
         $response
             ->assertStatus(200);
