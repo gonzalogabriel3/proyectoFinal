@@ -12,5 +12,10 @@ class tarifa extends Model
     protected $fillable=[
         'monto'
     ];
+
+    public function colectivo(){
+        
+        return $this->hasMany('App\Colectivo','tarifa_id');
+    }
 }
 

@@ -20,13 +20,15 @@ class ColectivoController extends Controller
      */
     public function index()
     {
-        //
-        $colectivos = Colectivo::orderBy('id','DESC')->get();
-
+        $colectivos=Colectivo::all();
+        
+        /*muestra el monto de la tarifa
+        dd(Colectivo::find(2)->tarifa->monto);
+        */
         return response()->json([
-            'colectivos'    => $colectivos,
+            'colectivos' => $colectivos,
         ], 200);
-    
+        
     }
 
     /**
@@ -54,7 +56,7 @@ class ColectivoController extends Controller
 
         $colectivo = new Colectivo;
         $colectivo->tramo = $request->tramo;
-        $colectivo->tarifa_id = 1;
+        $colectivo->tarifa_id = $request->tarifa_id;
         $colectivo->horario_id = 1;
         $colectivo->save();
 

@@ -78,6 +78,20 @@
                             <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
                                    v-model="colectivo.tramo">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Tarifa:</label>
+                            <br>
+                            <span v-if="!colectivo.tarifa_id" class="label label-danger" >Debe ingresar una tarifa valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <select v-model="colectivo.tarifa_id">
+                                <option disabled value="">Eliga una tarifa</option>
+                                <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
+                            <!--<input type="number" name="monto" id="monto" placeholder="Monto a actualizar" class="form-control"
+                                   v-model="actualizar.monto">-->
+
+                            </select>       
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
@@ -120,11 +134,13 @@ export default {
         return {
             colectivo: {
                 tramo: '',
+                tarifa_id:''
             },
             mensaje:'',
             create: false,
             update: false,
             colectivos: [],
+            tarifas: [],
             actualizar: {
                 tramo: '',
             },
@@ -133,10 +149,16 @@ export default {
     mounted()
     {
         this.LeerColectivos();
+        this.obtenerTarifas();
     },
     methods: {
+        obtenerTarifas() {
+            axios.get("/tarifa").then(response => {
+            this.tarifas = response.data.tarifas;
+            });
+        },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.colectivo.tramo.trim().length<3){
+            if(this.colectivo.tramo.trim().length<3 || !this.colectivo.tarifa_id){
                 return false;
             }else{
                 return true;
@@ -163,6 +185,7 @@ export default {
             if(this.validarRegistro()){
                     axios.post('/colectivo', {
                         tramo: this.colectivo.tramo,
+                        tarifa_id: this.colectivo.tarifa_id
                     })
                     .then(response => {
                         this.mensaje="Colectivo creado correctamente";
@@ -176,6 +199,7 @@ export default {
     },
     reset() {
       this.colectivo.tramo = '';
+      this.colectivo.tarifa_id='';
     },
     resetActualizar() {
       this.actualizar.tramo = '';

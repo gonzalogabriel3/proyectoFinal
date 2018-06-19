@@ -44440,17 +44440,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             colectivo: {
-                tramo: ''
+                tramo: '',
+                tarifa_id: ''
             },
             mensaje: '',
             create: false,
             update: false,
             colectivos: [],
+            tarifas: [],
             actualizar: {
                 tramo: ''
             }
@@ -44458,12 +44474,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.LeerColectivos();
+        this.obtenerTarifas();
     },
 
     methods: {
+        obtenerTarifas: function obtenerTarifas() {
+            var _this = this;
+
+            axios.get("/tarifa").then(function (response) {
+                _this.tarifas = response.data.tarifas;
+            });
+        },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.colectivo.tramo.trim().length < 3) {
+            if (this.colectivo.tramo.trim().length < 3 || !this.colectivo.tarifa_id) {
                 return false;
             } else {
                 return true;
@@ -44487,16 +44511,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         crearColectivo: function crearColectivo() {
-            var _this = this;
+            var _this2 = this;
 
             if (this.validarRegistro()) {
                 axios.post('/colectivo', {
-                    tramo: this.colectivo.tramo
+                    tramo: this.colectivo.tramo,
+                    tarifa_id: this.colectivo.tarifa_id
                 }).then(function (response) {
-                    _this.mensaje = "Colectivo creado correctamente";
-                    _this.reset();
-                    _this.create = false;
-                    _this.LeerColectivos();
+                    _this2.mensaje = "Colectivo creado correctamente";
+                    _this2.reset();
+                    _this2.create = false;
+                    _this2.LeerColectivos();
                 });
             } else {
                 return;
@@ -44504,15 +44529,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         reset: function reset() {
             this.colectivo.tramo = '';
+            this.colectivo.tarifa_id = '';
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.tramo = '';
         },
         LeerColectivos: function LeerColectivos() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("/colectivo").then(function (response) {
-                _this2.colectivos = response.data.colectivos;
+                _this3.colectivos = response.data.colectivos;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(colectivo) {
@@ -44524,23 +44550,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.update = false;
         },
         ActualizarColectivo: function ActualizarColectivo() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.validarActualizacion()) {
                 axios.patch("/colectivo/" + this.actualizar.id, {
                     tramo: this.actualizar.tramo
                 }).then(function (response) {
-                    _this3.mensaje = "Datos de colectivo actualizados";
-                    _this3.resetActualizar();
-                    _this3.update = false;
-                    _this3.LeerColectivos();
+                    _this4.mensaje = "Datos de colectivo actualizados";
+                    _this4.resetActualizar();
+                    _this4.update = false;
+                    _this4.LeerColectivos();
                 });
             } else {
                 return;
             }
         },
         EliminarColectivo: function EliminarColectivo(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             var conf = confirm("De verdad quiere borrar este Colectivo?");
             if (conf) {
@@ -44548,8 +44574,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/colectivo/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Colectivo eliminado";
-                    _this4.LeerColectivos();
+                    _this5.mensaje = "Colectivo eliminado";
+                    _this5.LeerColectivos();
                 }).catch(function (error) {});
             }
         }
@@ -44787,6 +44813,74 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Tarifa:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.colectivo.tarifa_id
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar una tarifa valida")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.colectivo.tarifa_id,
+                              expression: "colectivo.tarifa_id"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.colectivo,
+                                "tarifa_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Eliga una tarifa")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.tarifas, function(tarifa) {
+                            return _c(
+                              "option",
+                              {
+                                key: tarifa.id,
+                                domProps: { value: tarifa.id }
+                              },
+                              [_vm._v("$" + _vm._s(tarifa.monto))]
+                            )
+                          })
+                        ],
+                        2
+                      )
                     ])
                   ]),
                   _vm._v(" "),

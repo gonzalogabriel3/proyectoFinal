@@ -13,4 +13,9 @@ class Colectivo extends Model
     protected $fillable=[
         'tramo','tarifa_id','horario_id'
     ];
+
+    public function tarifa(){
+       
+        return $this->belongsTo('App\Tarifa','tarifa_id');
+    }
 }
