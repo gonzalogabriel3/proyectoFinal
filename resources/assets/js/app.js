@@ -23,6 +23,7 @@ Vue.component('usuario-component',require('./components/UsuarioComponent.vue'));
 Vue.component('colectivo', require('./components/Colectivo.vue'));
 Vue.component('parada', require('./components/Parada.vue'));
 Vue.component('tarifa', require('./components/Tarifa.vue'));
+Vue.component('horario', require('./components/Horario.vue'));
 
 const app = new Vue({
     el: '#app'

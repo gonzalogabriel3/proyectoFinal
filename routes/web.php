@@ -33,6 +33,11 @@ Route::get('/inicioTarifas',function(){
     return view('tarifa/index');
 });
 
+//Pagina de inicio para administrar horarios
+Route::get('/inicioHorarios',function(){
+    return view('horario/index');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -44,3 +49,5 @@ Route::resource('/colectivo', 'ColectivoController');
 Route::resource('/parada', 'ParadaController');
 
 Route::resource('/tarifa', 'TarifaController');
+
+Route::resource('/horario', 'HorarioController');

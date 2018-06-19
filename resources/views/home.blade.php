@@ -28,6 +28,9 @@
                             <a href="{{url('/inicioTarifas')}}" >Adm.Tarifas</a>
                         </li>
                         <li>
+                            <a href="{{url('/inicioHorarios')}}" >Adm.Horarios</a>
+                        </li>
+                        <li>
                             <a href="#" >Adm.Recorridos</a>
                         </li>
                     </ul>
