@@ -20,11 +20,13 @@ class ColectivoController extends Controller
      */
     public function index()
     {
-        $colectivos=Colectivo::all();
+    $colectivos=\DB::select("SELECT colectivos.id,colectivos.tramo,colectivos.tarifa_id,colectivos.horario_id, tarifas.monto
+    FROM colectivos INNER JOIN tarifas ON colectivos.tarifa_id=tarifas.id ");
         
         /*muestra el monto de la tarifa
         dd(Colectivo::find(2)->tarifa->monto);
         */
+        
         return response()->json([
             'colectivos' => $colectivos,
         ], 200);
@@ -105,7 +107,7 @@ class ColectivoController extends Controller
         ]);
  
         $colectivo->tramo = $request->get('tramo');
-        $colectivo->tarifa_id = 1;
+        $colectivo->tarifa_id = $request->tarifa_id;
         $colectivo->horario_id = 1;
         $colectivo->save();
  

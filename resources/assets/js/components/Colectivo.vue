@@ -32,6 +32,9 @@
                                     Tarifa
                                 </th>
                                 <th>
+                                    Tarifa_id
+                                </th>
+                                <th>
                                     Horario
                                 </th>    
                                 <th>
@@ -44,7 +47,10 @@
                                     {{ colectivo.tramo }}
                                 </td>
                                 <td>
-                                    {{ colectivo.tarifa_id }}
+                                   ${{ colectivo.monto }}
+                                </td>
+                                <td>
+                                   {{ colectivo.tarifa_id }}
                                 </td>
                                 <td>
                                     {{ colectivo.horario_id}}
@@ -87,9 +93,6 @@
                             <select v-model="colectivo.tarifa_id">
                                 <option disabled value="">Eliga una tarifa</option>
                                 <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
-                            <!--<input type="number" name="monto" id="monto" placeholder="Monto a actualizar" class="form-control"
-                                   v-model="actualizar.monto">-->
-
                             </select>       
                         </div>
                     </div>
@@ -118,6 +121,17 @@
                             <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
                                    v-model="actualizar.tramo">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Tarifa:</label>
+                            <br>
+                            <span v-if="!actualizar.tarifa_id" class="label label-danger" >Debe ingresar una tarifa valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <select v-model="actualizar.tarifa_id">
+                                <option disabled value="">Eliga una tarifa</option>
+                                <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
+                            </select>       
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -143,6 +157,7 @@ export default {
             tarifas: [],
             actualizar: {
                 tramo: '',
+                tarifa_id:''
             },
         }
     },
@@ -165,7 +180,7 @@ export default {
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.tramo.trim().length<3){
+            if(this.actualizar.tramo.trim().length<3 || !this.actualizar.tarifa_id){
                 return false;
             }else{
                 return true;
@@ -203,6 +218,7 @@ export default {
     },
     resetActualizar() {
       this.actualizar.tramo = '';
+      this.actualizar.tarifa_id = '';
     },
     LeerColectivos() {
       axios.get("/colectivo").then(response => {
@@ -212,6 +228,7 @@ export default {
     IniciarActualizacion(colectivo) {
         this.actualizar.id = colectivo.id;
         this.actualizar.tramo = colectivo.tramo;
+        this.actualizar.tarifa_id=colectivo.tarifa_id;
         this.update = true;
     },
     closeUpdate(){
@@ -221,7 +238,8 @@ export default {
         
         if(this.validarActualizacion()){
             axios.patch("/colectivo/" + this.actualizar.id, {
-            tramo: this.actualizar.tramo
+            tramo: this.actualizar.tramo,
+            tarifa_id:this.actualizar.tarifa_id
             })
             .then(response => {
                 this.mensaje="Datos de colectivo actualizados";

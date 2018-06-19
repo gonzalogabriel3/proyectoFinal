@@ -44455,6 +44455,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44469,7 +44483,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             colectivos: [],
             tarifas: [],
             actualizar: {
-                tramo: ''
+                tramo: '',
+                tarifa_id: ''
             }
         };
     },
@@ -44496,7 +44511,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.tramo.trim().length < 3) {
+            if (this.actualizar.tramo.trim().length < 3 || !this.actualizar.tarifa_id) {
                 return false;
             } else {
                 return true;
@@ -44534,6 +44549,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.tramo = '';
+            this.actualizar.tarifa_id = '';
         },
         LeerColectivos: function LeerColectivos() {
             var _this3 = this;
@@ -44545,6 +44561,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         IniciarActualizacion: function IniciarActualizacion(colectivo) {
             this.actualizar.id = colectivo.id;
             this.actualizar.tramo = colectivo.tramo;
+            this.actualizar.tarifa_id = colectivo.tarifa_id;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
@@ -44555,7 +44572,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.validarActualizacion()) {
                 axios.patch("/colectivo/" + this.actualizar.id, {
-                    tramo: this.actualizar.tramo
+                    tramo: this.actualizar.tramo,
+                    tarifa_id: this.actualizar.tarifa_id
                 }).then(function (response) {
                     _this4.mensaje = "Datos de colectivo actualizados";
                     _this4.resetActualizar();
@@ -44674,7 +44692,15 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                                " +
+                                "\n                               $" +
+                                  _vm._s(colectivo.monto) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                               " +
                                   _vm._s(colectivo.tarifa_id) +
                                   "\n                            "
                               )
@@ -44999,6 +45025,74 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Tarifa:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.tarifa_id
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar una tarifa valida")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.tarifa_id,
+                              expression: "actualizar.tarifa_id"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "tarifa_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Eliga una tarifa")
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.tarifas, function(tarifa) {
+                            return _c(
+                              "option",
+                              {
+                                key: tarifa.id,
+                                domProps: { value: tarifa.id }
+                              },
+                              [_vm._v("$" + _vm._s(tarifa.monto))]
+                            )
+                          })
+                        ],
+                        2
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -45052,6 +45146,12 @@ var staticRenderFns = [
       _c("th", [
         _vm._v(
           "\n                                Tarifa\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Tarifa_id\n                            "
         )
       ]),
       _vm._v(" "),
