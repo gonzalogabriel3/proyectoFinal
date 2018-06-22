@@ -38,6 +38,10 @@ Route::get('/inicioHorarios',function(){
     return view('horario/index');
 });
 
+Route::get('/inicioRecorridos',function(){
+    return view('recorrido/index');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -51,3 +55,5 @@ Route::resource('/parada', 'ParadaController');
 Route::resource('/tarifa', 'TarifaController');
 
 Route::resource('/horario', 'HorarioController');
+
+Route::resource('/recorrido', 'RecorridoController');

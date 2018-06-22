@@ -31,7 +31,7 @@
                             <a href="{{url('/inicioHorarios')}}" >Adm.Horarios</a>
                         </li>
                         <li>
-                            <a href="#" >Adm.Recorridos</a>
+                            <a href="{{url('/inicioRecorridos')}}" >Adm.Recorridos</a>
                         </li>
                     </ul>
                 </div>

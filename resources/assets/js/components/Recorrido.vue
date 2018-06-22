@@ -72,27 +72,27 @@
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre del recorrido" class="form-control"
                                    v-model="recorrido.nombre">
                         </div>
-                        <div class="form-group">
-                            <label for="name">Latitud del nuevo punto:</label>
-                            <br>
-                            
-                            <input type="number" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
-                                   v-model="latitud">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Longitud del nuevo punto:</label>
-                            <br>
-                            
-                            <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
-                                   v-model="longitud">
-                        </div>
+                        <div id="Punto">
+                                        <label for="new-todo">Add a Punto</label>
+                                        <ul v-for="punto in puntos" :key="punto.id">
+                                            <li>
+                                                {{punto.id}}: {{punto.latitud}} // {{punto.longitud}}
+                                            </li>
+                                        </ul>
+                                        <form @submit.prevent="crearPunto" class="form">
+                                            
+                                            <label for="nuevo punto">Latitud</label>
+                                            <input v-model="nuevoPunto.latitud" type="text" name="latitud">
+​
+                                            <label for="nuevo punto">Longitud</label>
+                                            <input v-model="nuevoPunto.longitud" type="text" name="longitud">
+                                            
+                                            <button type="submit" class="btn btn-primary">agregar punto</button>
+                                        </form>
+                                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
-                        <button type="button" class="btn btn-default" @click="agregarPunto()">Agregar punto</button>
-                        <div v-if="recorrido.puntos.length>2">
-                            <button type="button" @click="Crear" class="btn btn-primary">Registrar nuevo recorrido</button>
-                        </div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -150,9 +150,12 @@ export default {
                 nombre: '',
                 puntos:[]
             },
+            puntos:[],
             mensaje:'',
-            longitud:'',
-            latitud:'',
+            nuevoPunto:{
+                latitud:'',
+                longitud:''
+            },
             create: false,
             update: false,
             recorridos: [],
@@ -167,6 +170,10 @@ export default {
         this.Leer();
     },
     methods: {
+        crearPunto() {
+                        this.puntos.push(this.nuevoPunto);
+                        this.nuevoPunto = {latitud:'',longitud:''};
+                },
         validarRegistro(){ //validacion del formulario de registro
             if(this.parada.nombre.trim().length<3 || this.parada.latitud.trim().length<5 ||this.parada.longitud.trim().length<5){
                 return false;
@@ -192,8 +199,10 @@ export default {
                 this.mensaje='';
         },
         agregarPunto(){
-                var punto=this.latitud;
-                this.puntospush(punto);
+                var punto="["+this.latitud+","+this.longitud+"]";
+                this.latitud='';
+                this.longitud='';
+                this.recorrido.puntos.push(punto);
         },
         Crear() {
             if(this.validarRegistro()){            
