@@ -13,5 +13,8 @@ class Horario extends Model
     protected $fillable=[
         'salida','llegada'
     ];
+    public function colectivos (){
+        return $this->belongsToMany("App\Colectivo","colectivo_horario");
+    }
 
 }

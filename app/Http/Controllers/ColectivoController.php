@@ -20,13 +20,22 @@ class ColectivoController extends Controller
      */
     public function index()
     {
-    $colectivos=\DB::select("SELECT colectivos.id,colectivos.tramo,colectivos.tarifa_id,colectivos.horario_id, tarifas.monto
-    FROM colectivos INNER JOIN tarifas ON colectivos.tarifa_id=tarifas.id ");
-        
+    $colectivos=\DB::select("SELECT colectivos.id,colectivos.tramo,colectivos.tarifa_id, tarifas.monto,
+    horarios.salida || '/' || horarios.llegada as horas FROM colectivos 
+    INNER JOIN tarifas ON colectivos.tarifa_id=tarifas.id 
+    INNER JOIN colectivo_horario ON colectivos.id = colectivo_horario.colectivo_id
+    INNER JOIN horarios ON colectivo_horario.horario_id = horarios.id 
+    ORDER BY colectivos.tramo DESC");
+
+    /*$horarios = \DB::select("SELECT horarios.salida || '/' || horarios.llegada as horas FROM colectivos 
+    INNER JOIN colectivo_horario ON colectivos.id = colectivo_horario.colectivo_id
+    INNER JOIN horarios ON colectivo_horario.horario_id = horarios.id 
+    WHERE colectivos.id = colectivo_horario.colectivo_id");
+        */
+
         /*muestra el monto de la tarifa
         dd(Colectivo::find(2)->tarifa->monto);
         */
-        
         return response()->json([
             'colectivos' => $colectivos,
         ], 200);
@@ -59,9 +68,8 @@ class ColectivoController extends Controller
         $colectivo = new Colectivo;
         $colectivo->tramo = $request->tramo;
         $colectivo->tarifa_id = $request->tarifa_id;
-        $colectivo->horario_id = 1;
         $colectivo->save();
-
+        $colectivo->horarios()->attach($request->horarios);
 
         return response()->json([
             'colectivo'    => $colectivo,
@@ -110,7 +118,10 @@ class ColectivoController extends Controller
         $colectivo->tarifa_id = $request->tarifa_id;
         $colectivo->horario_id = 1;
         $colectivo->save();
- 
+        if(isset($request->horarios)){
+            $colectivo->horarios()->sync($request->horarios);
+        }
+    
         return response()->json([
             'message' => 'Colectivo Actualizado Correctamente'
         ], 200);
@@ -125,7 +136,9 @@ class ColectivoController extends Controller
     public function destroy(Colectivo $colectivo)
     {
         //
-        $colectivo->delete();
+        if($colectivo->delete()){
+        $colectivo->horarios()->detach();
+        }
         return response()->json([
             'message' => 'Colectivo eliminado Correctamente'
         ], 200);

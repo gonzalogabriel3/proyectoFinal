@@ -53,7 +53,7 @@
                                    {{ colectivo.tarifa_id }}
                                 </td>
                                 <td>
-                                    {{ colectivo.horario_id}}
+                                    {{ colectivo.horas}}
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(colectivo)" class="btn btn-success btn-xs">Editar</button>
@@ -95,6 +95,17 @@
                                 <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
                             </select>       
                         </div>
+                        <div class="form-group">
+                            <label for="name">Horarios:</label>
+                            <br>
+                            <span v-if="!colectivo.horarios" class="label label-danger" >Debe ingresar un horario valido</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <select v-model="colectivo.horarios" multiple>
+                                <option disabled value="">Elija los horarios</option>
+                                <option v-for="horario in horarios" :key="horario.id" v-bind:value="horario.id">{{horario.horas}}</option>
+                            </select>       
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
@@ -132,6 +143,17 @@
                                 <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
                             </select>       
                         </div>
+                        <div class="form-group">
+                            <label for="name">Horarios:</label>
+                            <br>
+                            <span v-if="!actualizar.horarios" class="label label-danger" >Debe ingresar un horario valido</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <select v-model="actualizar.horarios" multiple>
+                                <option disabled value="">Elija los horarios</option>
+                                <option v-for="horario in horarios" :key="horario.id" v-bind:value="horario.id">{{horario.horas}}</option>
+                            </select>       
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -148,16 +170,19 @@ export default {
         return {
             colectivo: {
                 tramo: '',
-                tarifa_id:''
+                tarifa_id:'',
+                horarios: [],
             },
             mensaje:'',
             create: false,
             update: false,
             colectivos: [],
             tarifas: [],
+            horarios: [],
             actualizar: {
                 tramo: '',
-                tarifa_id:''
+                tarifa_id:'',
+                horarios: '',
             },
         }
     },
@@ -165,11 +190,17 @@ export default {
     {
         this.LeerColectivos();
         this.obtenerTarifas();
+        this.obtenerHorarios();
     },
     methods: {
         obtenerTarifas() {
             axios.get("/tarifa").then(response => {
             this.tarifas = response.data.tarifas;
+            });
+        },
+        obtenerHorarios() {
+            axios.get("/horario").then(response => {
+            this.horarios = response.data.horarios;
             });
         },
         validarRegistro(){ //validacion del formulario de registro
@@ -200,7 +231,8 @@ export default {
             if(this.validarRegistro()){
                     axios.post('/colectivo', {
                         tramo: this.colectivo.tramo,
-                        tarifa_id: this.colectivo.tarifa_id
+                        tarifa_id: this.colectivo.tarifa_id,
+                        horarios : this.colectivo.horarios,
                     })
                     .then(response => {
                         this.mensaje="Colectivo creado correctamente";

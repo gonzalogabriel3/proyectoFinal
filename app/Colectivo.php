@@ -18,4 +18,7 @@ class Colectivo extends Model
        
         return $this->belongsTo('App\Tarifa','tarifa_id');
     }
+    public function horarios (){
+        return $this->belongsToMany("App\Horario","colectivo_horario");
+    }
 }

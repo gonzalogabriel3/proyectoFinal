@@ -20,7 +20,8 @@ class HorarioController extends Controller
      */
     public function index()
     {
-        $horarios=Horario::orderBy('id','DESC')->get();;
+
+        $horarios = \DB::select("SELECT *, salida || '/' || llegada as horas from horarios ");
         
         return response()->json([
             'horarios' => $horarios,
