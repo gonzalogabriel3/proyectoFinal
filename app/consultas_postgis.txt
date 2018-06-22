@@ -1,0 +1,23 @@
+ CONSULTAS POSTGIS
+
+    -Obtener tipo de dato de la columna geom('POINT,LINESTRING,etc')
+    "SELECT ST_GeometryType(geom) from recorridos"
+
+    -Obtener latitud y longitud de un punto
+    "SELECT st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas"
+  
+    -Obtener ultimo punto de un LINESTRING
+    "SELECT ST_AsText(ST_EndPoint(geom)) FROM recorridos WHERE id=1"
+    "SELECT ST_EndPoint(geom) FROM recorridos WHERE id=1"
+    
+    -Obtener primer punto de un LINESTRING
+    "SELECT ST_AsText(ST_StartPoint(geom)) FROM recorridos WHERE id=1"
+    "SELECT ST_StartPoint(geom) FROM recorridos WHERE id=1"
+
+    -Obtener la cantidad de puntos que conforman una geometria
+    "SELECT ST_NPoints (geom) FROM recorridos where id=1"
+    "SELECT ST_NumPoints(geom) FROM recorridos where id=1"->otra forma de obtenerlos,solo en linestring
+
+    -Obtener la representacion en texto de una geometria
+    "SELECT ST_AsText(geom) FROM recorridos where id=1"
+
