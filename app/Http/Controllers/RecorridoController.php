@@ -4,31 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Recorrido;
 use Illuminate\Http\Request;
+use Phaza\LaravelPostgis\Geometries\LineString;
+use Phaza\LaravelPostgis\Geometries\Point;
 
 
 class RecorridoController extends Controller
 {
    
-    //Funcion que quita el texto "LINESTRING",y los "{},()" devueltos en la consulta,se le pasa como parametro un linestring
-    public function obtenerPuntos(array $recorrido){
-        $puntos = explode(", [ ]", $recorrido);
-        /*Quito el 'LineString' y los '{()}' devuelto en la consulta, para que unicamente queden los puntos*/
-        //$puntos[0]=substr($puntos[0],23);
-        //$puntos[count($puntos)-1]=substr($puntos[count($puntos)-1],0,-4);
-
-        return $puntos;
-    }
-    
     public function index()
     {
-       //$recorridos=\DB::select("SELECT *,ST_AsText(geom) as puntos FROM recorridos");
        $recorridos=Recorrido::all();
-      
-       /*
-      foreach ($recorridos as $recorrido) {
-            $recorrido->geom->coordinates=obtenerPuntos($recorrido->geom->coordinates);
-        }
-*/
         
         return response()->json([
             'recorridos' => $recorridos,
@@ -54,7 +39,22 @@ class RecorridoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nombre' => 'required',
+            'puntos' => 'required'
+        ]);
+        
+
+        $recorrido=new Recorrido;
+        $recorrido->nombre=$request->nombre;
+        /*
+        $recorrido->geom=[
+            foreach ($request->puntos => $punto) {
+                new Point($punto->latitud,$punto->longitud),
+            }
+        ];
+        */
+
     }
 
     /**

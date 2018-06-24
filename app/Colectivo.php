@@ -11,7 +11,7 @@ class Colectivo extends Model
 
     public $timestamps = false;
     protected $fillable=[
-        'tramo','tarifa_id','horario_id'
+        'tramo','tarifa_id'
     ];
 
     public function tarifa(){

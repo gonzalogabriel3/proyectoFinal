@@ -46653,7 +46653,7 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(
-                                "\n                                " +
+                                "\n                                $" +
                                   _vm._s(tarifa.monto) +
                                   "\n                            "
                               )
@@ -47961,6 +47961,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47990,12 +47996,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         crearPunto: function crearPunto() {
-            this.puntos.push(this.nuevoPunto);
-            this.nuevoPunto = { latitud: '', longitud: '' };
+            if (this.nuevoPunto.latitud.trim().length > 4 && this.nuevoPunto.longitud.trim().length > 4) {
+                this.puntos.push(this.nuevoPunto);
+                this.nuevoPunto = { latitud: '', longitud: '' };
+            }
         },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.parada.nombre.trim().length < 3 || this.parada.latitud.trim().length < 5 || this.parada.longitud.trim().length < 5) {
+            if (this.recorrido.nombre.trim().length < 3 || this.puntos.length > 2) {
                 return false;
             } else {
                 return true;
@@ -48018,23 +48026,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cerrarMensaje: function cerrarMensaje() {
             this.mensaje = '';
         },
-        agregarPunto: function agregarPunto() {
-            var punto = "[" + this.latitud + "," + this.longitud + "]";
-            this.latitud = '';
-            this.longitud = '';
-            this.recorrido.puntos.push(punto);
-        },
         Crear: function Crear() {
             var _this = this;
 
             if (this.validarRegistro()) {
+                this.recorrido.puntos = this.puntos;
                 axios.post('/recorrido', {
                     nombre: this.recorrido.nombre,
-                    latitud: this.recorrido.latitud,
-                    longitud: this.recorrido.longitud
+                    puntos: this.recorrido.puntos
                 }).then(function (response) {
 
-                    _this.mensaje = "Recorrido creada correctamente";
+                    _this.mensaje = "Recorrido creado correctamente";
                     _this.reset();
                     _this.create = false;
                     _this.Leer();
@@ -48335,7 +48337,7 @@ var render = function() {
                       { attrs: { id: "Punto" } },
                       [
                         _c("label", { attrs: { for: "new-todo" } }, [
-                          _vm._v("Add a Punto")
+                          _vm._v("Puntos agregados")
                         ]),
                         _vm._v(" "),
                         _vm._l(_vm.puntos, function(punto) {
@@ -48354,87 +48356,99 @@ var render = function() {
                           ])
                         }),
                         _vm._v(" "),
-                        _c(
-                          "form",
-                          {
-                            staticClass: "form",
-                            on: {
-                              submit: function($event) {
-                                $event.preventDefault()
-                                return _vm.crearPunto($event)
-                              }
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "nuevo punto" } }, [
+                          _vm._v("Latitud")
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nuevoPunto.latitud,
+                              expression: "nuevoPunto.latitud"
                             }
+                          ],
+                          attrs: { type: "number", name: "latitud" },
+                          domProps: { value: _vm.nuevoPunto.latitud },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.nuevoPunto,
+                                "latitud",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.nuevoPunto.latitud.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una latitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(
+                          "\n​                                            "
+                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "nuevo punto" } }, [
+                          _vm._v("Longitud")
+                        ]),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nuevoPunto.longitud,
+                              expression: "nuevoPunto.longitud"
+                            }
+                          ],
+                          attrs: { type: "number", name: "longitud" },
+                          domProps: { value: _vm.nuevoPunto.longitud },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.nuevoPunto,
+                                "longitud",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.nuevoPunto.longitud.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una latitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "submit" },
+                            on: { click: _vm.crearPunto }
                           },
-                          [
-                            _c("label", { attrs: { for: "nuevo punto" } }, [
-                              _vm._v("Latitud")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.nuevoPunto.latitud,
-                                  expression: "nuevoPunto.latitud"
-                                }
-                              ],
-                              attrs: { type: "text", name: "latitud" },
-                              domProps: { value: _vm.nuevoPunto.latitud },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.nuevoPunto,
-                                    "latitud",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(
-                              "\n​\n                                            "
-                            ),
-                            _c("label", { attrs: { for: "nuevo punto" } }, [
-                              _vm._v("Longitud")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.nuevoPunto.longitud,
-                                  expression: "nuevoPunto.longitud"
-                                }
-                              ],
-                              attrs: { type: "text", name: "longitud" },
-                              domProps: { value: _vm.nuevoPunto.longitud },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.nuevoPunto,
-                                    "longitud",
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: { type: "submit" }
-                              },
-                              [_vm._v("agregar punto")]
-                            )
-                          ]
+                          [_vm._v("agregar punto")]
                         )
                       ],
                       2
@@ -48450,7 +48464,13 @@ var render = function() {
                         on: { click: _vm.closeCreate }
                       },
                       [_vm._v("Cerrar")]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.puntos.length > 2
+                      ? _c("button", { staticClass: "btn btn-success" }, [
+                          _vm._v("Crear recorrido")
+                        ])
+                      : _vm._e()
                   ])
                 ])
               ]

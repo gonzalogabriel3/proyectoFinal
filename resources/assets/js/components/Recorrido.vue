@@ -73,26 +73,32 @@
                                    v-model="recorrido.nombre">
                         </div>
                         <div id="Punto">
-                                        <label for="new-todo">Add a Punto</label>
+                                        <label for="new-todo">Puntos agregados</label>
                                         <ul v-for="punto in puntos" :key="punto.id">
                                             <li>
                                                 {{punto.id}}: {{punto.latitud}} // {{punto.longitud}}
                                             </li>
                                         </ul>
-                                        <form @submit.prevent="crearPunto" class="form">
-                                            
-                                            <label for="nuevo punto">Latitud</label>
-                                            <input v-model="nuevoPunto.latitud" type="text" name="latitud">
-​
-                                            <label for="nuevo punto">Longitud</label>
-                                            <input v-model="nuevoPunto.longitud" type="text" name="longitud">
-                                            
-                                            <button type="submit" class="btn btn-primary">agregar punto</button>
-                                        </form>
-                                    </div>
+                                        <br>
+                                           
+                                            <label for="nuevo punto">Latitud</label><br>   
+                                            <input v-model="nuevoPunto.latitud" type="number" name="latitud">
+                                            <span v-if="nuevoPunto.latitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                                            <span v-else class="label label-success">Correcto!</span>
+​                                            <br>
+                                            <label for="nuevo punto">Longitud</label><br>                 
+                                            <input v-model="nuevoPunto.longitud" type="number" name="longitud">
+                                            <span v-if="nuevoPunto.longitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                                            <span v-else class="label label-success">Correcto!</span>
+                                            <br><br>
+
+                                            <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
+                                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
+                        <button class="btn btn-success" v-if="puntos.length>2">Crear recorrido</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -170,12 +176,14 @@ export default {
         this.Leer();
     },
     methods: {
-        crearPunto() {
-                        this.puntos.push(this.nuevoPunto);
-                        this.nuevoPunto = {latitud:'',longitud:''};
-                },
+        crearPunto(){
+                    if(this.nuevoPunto.latitud.trim().length>4 && this.nuevoPunto.longitud.trim().length>4){
+                            this.puntos.push(this.nuevoPunto);
+                            this.nuevoPunto = {latitud:'',longitud:''};
+                    }    
+        },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.parada.nombre.trim().length<3 || this.parada.latitud.trim().length<5 ||this.parada.longitud.trim().length<5){
+            if(this.recorrido.nombre.trim().length<3 ||this.puntos.length>2){
                 return false;
             }else{
                 return true;
@@ -198,22 +206,16 @@ export default {
         cerrarMensaje(){
                 this.mensaje='';
         },
-        agregarPunto(){
-                var punto="["+this.latitud+","+this.longitud+"]";
-                this.latitud='';
-                this.longitud='';
-                this.recorrido.puntos.push(punto);
-        },
         Crear() {
-            if(this.validarRegistro()){            
+            if(this.validarRegistro()){
+                this.recorrido.puntos=this.puntos;            
                 axios.post('/recorrido', {
                     nombre: this.recorrido.nombre,
-                    latitud: this.recorrido.latitud,
-                    longitud: this.recorrido.longitud
+                    puntos: this.recorrido.puntos
                 })
                 .then(response => {
                     
-                    this.mensaje="Recorrido creada correctamente";
+                    this.mensaje="Recorrido creado correctamente";
                     this.reset();
                     this.create = false;
                     this.Leer();

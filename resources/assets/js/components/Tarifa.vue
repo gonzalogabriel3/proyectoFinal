@@ -35,7 +35,7 @@
                             <tr v-for="tarifa in tarifas" :key="tarifa.id">
                                 <td>{{ tarifa.id }}</td>
                                 <td>
-                                    {{ tarifa.monto }}
+                                    ${{ tarifa.monto }}
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(tarifa)" class="btn btn-success btn-xs">Editar</button>
