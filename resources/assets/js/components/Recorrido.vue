@@ -63,7 +63,7 @@
                             aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Registrar Recorrido</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" >
                         <div class="form-group">
                             <label for="name">Nombre del recorrido:</label>
                             <br>
@@ -72,7 +72,7 @@
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre del recorrido" class="form-control"
                                    v-model="recorrido.nombre">
                         </div>
-                        <div id="Punto">
+                        <div id="Punto" style="overflow: scroll; width: 550px; height: 250px;">
                                         <label for="new-todo">Puntos agregados</label>
                                         <ul v-for="punto in puntos" :key="punto.id">
                                             <li>
@@ -155,6 +155,7 @@ export default {
             recorrido: {
                 nombre: '',
                 puntos:[]
+                
             },
             puntos:[],
             mensaje:'',

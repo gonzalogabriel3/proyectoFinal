@@ -48,12 +48,16 @@ class RecorridoController extends Controller
         $recorrido=new Recorrido;
         $recorrido->nombre=$request->nombre;
         
-        dd($request->puntos);
+       
+       $max = sizeof($request->puntos);
+       for($i = 0 ; $i <= $max; $i++) {
+        dd($request->input('puntos.latitud'));    
+        $puntos = new Point( $request->input('puntos.$i.latitud') , $request->input('puntos.$i.longitud') );
+            
+        }     
 
-        /*foreach ($request->puntos as $punto) {
-            var_dump($punto->latitud);            
-        }
         $recorrido->geom=new Linestring([$request->puntos->latitud,$request]);
+        
         $recorrido->save();
         
         
@@ -61,7 +65,7 @@ class RecorridoController extends Controller
             'recorrido'    => $recorrido,
             'message' => 'Recorrido Creada Correctamente'
         ], 200);
-        */
+
     }
 
     /**

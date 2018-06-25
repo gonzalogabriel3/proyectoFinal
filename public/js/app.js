@@ -47974,6 +47974,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorrido: {
                 nombre: '',
                 puntos: []
+
             },
             puntos: [],
             mensaje: '',
@@ -48334,7 +48335,14 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { attrs: { id: "Punto" } },
+                      {
+                        staticStyle: {
+                          overflow: "scroll",
+                          width: "550px",
+                          height: "250px"
+                        },
+                        attrs: { id: "Punto" }
+                      },
                       [
                         _c("label", { attrs: { for: "new-todo" } }, [
                           _vm._v("Puntos agregados")
