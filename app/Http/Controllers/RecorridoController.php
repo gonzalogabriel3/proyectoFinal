@@ -47,18 +47,20 @@ class RecorridoController extends Controller
 
         $recorrido=new Recorrido;
         $recorrido->nombre=$request->nombre;
-        
+        $puntos=array();
+
+       $cantElementos = sizeof($request->puntos);
        
-       $max = sizeof($request->puntos);
-       for($i = 0 ; $i <= $max; $i++) {
-        dd($request->input('puntos.latitud'));    
-        $puntos = new Point( $request->input('puntos.$i.latitud') , $request->input('puntos.$i.longitud') );
+       for($i = 0 ; $i <$cantElementos; $i++) {
+           //Añado al final del arreglo $puntos,el nuevo punto   
+          array_push($puntos,new Point( $request->input("puntos.".$i.".latitud") , $request->input("puntos.".$i.".longitud")));
             
         }     
-
+        
+        dd($puntos);
         $recorrido->geom=new Linestring([$request->puntos->latitud,$request]);
         
-        $recorrido->save();
+        //$recorrido->save();
         
         
         return response()->json([
