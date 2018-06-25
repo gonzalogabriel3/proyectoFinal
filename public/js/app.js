@@ -48100,7 +48100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/recorrido/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Recorrido eliminada";
+                    _this4.mensaje = "Recorrido eliminado";
                     _this4.Leer();
                 }).catch(function (error) {});
             }

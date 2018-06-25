@@ -275,7 +275,7 @@ export default {
                 url: "/recorrido/" + id
             })
             .then(response => {
-                this.mensaje="Recorrido eliminada";
+                this.mensaje="Recorrido eliminado";
                 this.Leer();
             })
             .catch(error => {});

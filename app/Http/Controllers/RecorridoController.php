@@ -13,7 +13,7 @@ class RecorridoController extends Controller
    
     public function index()
     {
-       $recorridos=Recorrido::all();
+       $recorridos=Recorrido::orderBy('id','DESC')->get();
         
         return response()->json([
             'recorridos' => $recorridos,
@@ -56,12 +56,9 @@ class RecorridoController extends Controller
           array_push($puntos,new Point( $request->input("puntos.".$i.".latitud") , $request->input("puntos.".$i.".longitud")));
             
         }     
-        
-        dd($puntos);
-        $recorrido->geom=new Linestring([$request->puntos->latitud,$request]);
-        
-        //$recorrido->save();
-        
+            
+        $recorrido->geom=new Linestring($puntos);        
+        $recorrido->save();
         
         return response()->json([
             'recorrido'    => $recorrido,
@@ -110,8 +107,11 @@ class RecorridoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Recorrido $recorrido)
     {
-        //
+        $recorrido->delete();
+        return response()->json([
+            'message' => 'Recorrido eliminado Correctamente'
+        ], 200);
     }
 }
