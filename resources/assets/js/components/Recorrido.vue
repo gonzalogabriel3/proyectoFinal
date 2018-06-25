@@ -98,7 +98,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
-                        <button class="btn btn-success" v-if="puntos.length>2">Crear recorrido</button>
+                        <button class="btn btn-success" @click="Crear" v-if="puntos.length>2">Crear recorrido</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -183,7 +183,7 @@ export default {
                     }    
         },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.recorrido.nombre.trim().length<3 ||this.puntos.length>2){
+            if(this.recorrido.nombre.trim().length<3 ||this.puntos.length<2){
                 return false;
             }else{
                 return true;

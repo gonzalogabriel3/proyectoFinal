@@ -48003,7 +48003,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.recorrido.nombre.trim().length < 3 || this.puntos.length > 2) {
+            if (this.recorrido.nombre.trim().length < 3 || this.puntos.length < 2) {
                 return false;
             } else {
                 return true;
@@ -48467,9 +48467,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm.puntos.length > 2
-                      ? _c("button", { staticClass: "btn btn-success" }, [
-                          _vm._v("Crear recorrido")
-                        ])
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: { click: _vm.Crear }
+                          },
+                          [_vm._v("Crear recorrido")]
+                        )
                       : _vm._e()
                   ])
                 ])

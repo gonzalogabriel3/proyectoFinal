@@ -47,14 +47,21 @@ class RecorridoController extends Controller
 
         $recorrido=new Recorrido;
         $recorrido->nombre=$request->nombre;
-        /*
-        $recorrido->geom=[
-            foreach ($request->puntos => $punto) {
-                new Point($punto->latitud,$punto->longitud),
-            }
-        ];
-        */
+        
+        dd($request->puntos);
 
+        /*foreach ($request->puntos as $punto) {
+            var_dump($punto->latitud);            
+        }
+        $recorrido->geom=new Linestring([$request->puntos->latitud,$request]);
+        $recorrido->save();
+        
+        
+        return response()->json([
+            'recorrido'    => $recorrido,
+            'message' => 'Recorrido Creada Correctamente'
+        ], 200);
+        */
     }
 
     /**
