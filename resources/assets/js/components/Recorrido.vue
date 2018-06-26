@@ -81,18 +81,18 @@
                                         </ul>
                                         <br>
                                            
-                                            <label for="nuevo punto">Latitud</label><br>   
-                                            <input v-model="nuevoPunto.latitud" type="number" name="latitud">
-                                            <span v-if="nuevoPunto.latitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
-                                            <span v-else class="label label-success">Correcto!</span>
+                                        <label for="nuevo punto">Latitud</label><br>   
+                                        <input v-model="nuevoPunto.latitud" type="number" name="latitud">
+                                        <span v-if="nuevoPunto.latitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                                        <span v-else class="label label-success">Correcto!</span>
 ​                                            <br>
-                                            <label for="nuevo punto">Longitud</label><br>                 
-                                            <input v-model="nuevoPunto.longitud" type="number" name="longitud">
-                                            <span v-if="nuevoPunto.longitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
-                                            <span v-else class="label label-success">Correcto!</span>
-                                            <br><br>
+                                        <label for="nuevo punto">Longitud</label><br>                 
+                                        <input v-model="nuevoPunto.longitud" type="number" name="longitud">
+                                        <span v-if="nuevoPunto.longitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                                        <span v-else class="label label-success">Correcto!</span>
+                                        <br><br>
 
-                                            <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
+                                        <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
                                         
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                             aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Actualizar recorrido</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="overflow: scroll; width: 550; height: 400px;">
                         <div class="form-group">
                             <label for="name">Nombre del recorrido:</label>
                             <br>
@@ -121,21 +121,33 @@
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre del recorrido" class="form-control"
                                    v-model="actualizar.nombre">
                         </div>
-                        <div class="form-group">
-                            <label for="name">Latitud de la parada:</label>
+                        <div class="form-group" >
+                            <label for="puntosCargados">Puntos Cargados:</label>
                             <br>
-                            <span v-if="actualizar.latitud.trim().length<5" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
-                            <span v-else class="label label-success">Correcto!</span>
-                            <input type="number" name="latitud" id="latitud" placeholder="Latitud de la Parada" class="form-control"
-                                   v-model="actualizar.latitud">
+                            <p>{{actualizar.coordinates}}</p>                                
+                            <br>
                         </div>
-                        <div class="form-group">
-                            <label for="name">Longitud de la parada:</label>
+                        <div id="Punto" style="overflow: scroll; width: 550px; height: 250px;">
+                            <label for="new-todo">Puntos agregados</label>
+                            <ul v-for="punto in puntos" :key="punto.id">
+                                <li>
+                                    {{punto.id}}: {{punto.latitud}} // {{punto.longitud}}
+                                </li>
+                            </ul>
                             <br>
-                            <span v-if="actualizar.longitud.trim().length<5" class="label label-danger" >El nombre de la parada debe contener al menos 3 caracteres</span>
+                                
+                            <label for="nuevo punto">Latitud</label><br>   
+                            <input v-model="nuevoPunto.latitud" type="number" name="latitud">
+                            <span v-if="nuevoPunto.latitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
                             <span v-else class="label label-success">Correcto!</span>
-                            <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
-                                   v-model="actualizar.longitud">
+    ​                                            <br>
+                            <label for="nuevo punto">Longitud</label><br>                 
+                            <input v-model="nuevoPunto.longitud" type="number" name="longitud">
+                            <span v-if="nuevoPunto.longitud.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br><br>
+
+                            <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
                         </div>
 
                     </div>
@@ -168,6 +180,7 @@ export default {
             recorridos: [],
             actualizar: {
                 nombre: '',
+                coordinates:'',
                 puntos:[]
             },
         }
@@ -191,7 +204,7 @@ export default {
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.nombre.trim().length<3 || this.actualizar.latitud.trim().length<5 ||this.actualizar.longitud.trim().length<5){
+            if(this.actualizar.nombre.trim().length<3 || this.puntos.length<2){
                 return false;
             }else{
                 return true;
@@ -217,6 +230,7 @@ export default {
                 .then(response => {
                     
                     this.mensaje="Recorrido creado correctamente";
+                    this.puntos = [];
                     this.reset();
                     this.create = false;
                     this.Leer();
@@ -227,13 +241,11 @@ export default {
         },
         reset() {
             this.recorrido.nombre = '';
-            this.recorrido.latitud = '';
-            this.recorrido.longitud = '';
+            this.recorrido.puntos = [];
         },
         resetActualizar() {
             this.actualizar.nombre = '';
-            this.actualizar.latitud = '';
-            this.actualizar.longitud = '';
+            this.actualizar.puntos = [];
         },
         Leer() {
             axios.get("/recorrido").then(response => {
@@ -243,8 +255,7 @@ export default {
         IniciarActualizacion(recorrido) {
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
-            this.actualizar.latitud = recorrido.latitud;
-            this.actualizar.longitud = recorrido.longitud;
+            this.actualizar.coordinates = recorrido.geom.coordinates; 
             this.update = true;
         },
         closeUpdate(){
@@ -252,13 +263,14 @@ export default {
         },
         Actualizar() {
             if(this.validarActualizacion()){
+                this.actualizar.puntos=this.puntos;
                 axios.patch("/recorrido/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
-                    latitud: this.actualizar.latitud,
-                    longitud: this.actualizar.longitud
+                    puntos: this.actualizar.puntos
                 })
                 .then(response => {
                     this.mensaje="Datos de recorrido actualizados";
+                    this.puntos = [];
                     this.resetActualizar();
                     this.update = false;
                     this.Leer();

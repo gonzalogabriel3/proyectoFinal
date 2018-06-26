@@ -96,9 +96,34 @@ class RecorridoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Recorrido $recorrido)
     {
-        //
+        $this->validate($request, [
+            'nombre' => 'required|min:3|max:100',
+            'puntos' => 'required'
+        ]);
+        
+
+        $recorrido->nombre=$request->nombre;
+        if($request->puntos) {
+        $puntos=array();
+
+        $cantElementos = sizeof($request->puntos);
+       
+        for($i = 0 ; $i <$cantElementos; $i++) {
+            //Añado al final del arreglo $puntos,el nuevo punto   
+            array_push($puntos,new Point( $request->input("puntos.".$i.".latitud") , $request->input("puntos.".$i.".longitud")));
+                
+        }     
+            
+        $recorrido->geom=new Linestring($puntos);        
+        }
+        $recorrido->save();
+        
+        return response()->json([
+            'recorrido'    => $recorrido,
+            'message' => 'Recorrido Creada Correctamente'
+        ], 200);
     }
 
     /**

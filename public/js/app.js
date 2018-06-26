@@ -47967,6 +47967,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47987,6 +47999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorridos: [],
             actualizar: {
                 nombre: '',
+                coordinates: '',
                 puntos: []
             }
         };
@@ -48012,7 +48025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.nombre.trim().length < 3 || this.actualizar.latitud.trim().length < 5 || this.actualizar.longitud.trim().length < 5) {
+            if (this.actualizar.nombre.trim().length < 3 || this.puntos.length < 2) {
                 return false;
             } else {
                 return true;
@@ -48038,6 +48051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }).then(function (response) {
 
                     _this.mensaje = "Recorrido creado correctamente";
+                    _this.puntos = [];
                     _this.reset();
                     _this.create = false;
                     _this.Leer();
@@ -48048,13 +48062,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         reset: function reset() {
             this.recorrido.nombre = '';
-            this.recorrido.latitud = '';
-            this.recorrido.longitud = '';
+            this.recorrido.puntos = [];
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.nombre = '';
-            this.actualizar.latitud = '';
-            this.actualizar.longitud = '';
+            this.actualizar.puntos = [];
         },
         Leer: function Leer() {
             var _this2 = this;
@@ -48066,8 +48078,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         IniciarActualizacion: function IniciarActualizacion(recorrido) {
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
-            this.actualizar.latitud = recorrido.latitud;
-            this.actualizar.longitud = recorrido.longitud;
+            this.actualizar.coordinates = recorrido.geom.coordinates;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
@@ -48077,12 +48088,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             if (this.validarActualizacion()) {
+                this.actualizar.puntos = this.puntos;
                 axios.patch("/recorrido/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
-                    latitud: this.actualizar.latitud,
-                    longitud: this.actualizar.longitud
+                    puntos: this.actualizar.puntos
                 }).then(function (response) {
                     _this3.mensaje = "Datos de recorrido actualizados";
+                    _this3.puntos = [];
                     _this3.resetActualizar();
                     _this3.update = false;
                     _this3.Leer();
@@ -48530,154 +48542,216 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Nombre del recorrido:")
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-body",
+                      staticStyle: {
+                        overflow: "scroll",
+                        width: "550",
+                        height: "400px"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Nombre del recorrido:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualizar.nombre.trim().length < 3
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v(
+                                "El nombre del recorrido debe contener al menos 3 caracteres"
+                              )
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.nombre,
+                              expression: "actualizar.nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            name: "nombre",
+                            id: "nombre",
+                            placeholder: "Nombre del recorrido"
+                          },
+                          domProps: { value: _vm.actualizar.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.actualizar,
+                                "nombre",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
                       ]),
                       _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _vm.actualizar.nombre.trim().length < 3
-                        ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v(
-                              "El nombre del recorrido debe contener al menos 3 caracteres"
-                            )
-                          ])
-                        : _c("span", { staticClass: "label label-success" }, [
-                            _vm._v("Correcto!")
-                          ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.actualizar.nombre,
-                            expression: "actualizar.nombre"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "nombre",
-                          id: "nombre",
-                          placeholder: "Nombre del recorrido"
-                        },
-                        domProps: { value: _vm.actualizar.nombre },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.actualizar,
-                              "nombre",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Latitud de la parada:")
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "puntosCargados" } }, [
+                          _vm._v("Puntos Cargados:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("p", [_vm._v(_vm._s(_vm.actualizar.coordinates))]),
+                        _vm._v(" "),
+                        _c("br")
                       ]),
                       _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _vm.actualizar.latitud.trim().length < 5
-                        ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v(
-                              "El nombre de la parada debe contener al menos 3 caracteres"
-                            )
-                          ])
-                        : _c("span", { staticClass: "label label-success" }, [
-                            _vm._v("Correcto!")
-                          ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.actualizar.latitud,
-                            expression: "actualizar.latitud"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "number",
-                          name: "latitud",
-                          id: "latitud",
-                          placeholder: "Latitud de la Parada"
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            overflow: "scroll",
+                            width: "550px",
+                            height: "250px"
+                          },
+                          attrs: { id: "Punto" }
                         },
-                        domProps: { value: _vm.actualizar.latitud },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.actualizar,
-                              "latitud",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Longitud de la parada:")
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _vm.actualizar.longitud.trim().length < 5
-                        ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v(
-                              "El nombre de la parada debe contener al menos 3 caracteres"
-                            )
-                          ])
-                        : _c("span", { staticClass: "label label-success" }, [
-                            _vm._v("Correcto!")
+                        [
+                          _c("label", { attrs: { for: "new-todo" } }, [
+                            _vm._v("Puntos agregados")
                           ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.actualizar.longitud,
-                            expression: "actualizar.longitud"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "number",
-                          name: "longitud",
-                          id: "longitud",
-                          placeholder: "Longitud de la Parada"
-                        },
-                        domProps: { value: _vm.actualizar.longitud },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                          _vm._v(" "),
+                          _vm._l(_vm.puntos, function(punto) {
+                            return _c("ul", { key: punto.id }, [
+                              _c("li", [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(punto.id) +
+                                    ": " +
+                                    _vm._s(punto.latitud) +
+                                    " // " +
+                                    _vm._s(punto.longitud) +
+                                    "\n                                "
+                                )
+                              ])
+                            ])
+                          }),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "nuevo punto" } }, [
+                            _vm._v("Latitud")
+                          ]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.nuevoPunto.latitud,
+                                expression: "nuevoPunto.latitud"
+                              }
+                            ],
+                            attrs: { type: "number", name: "latitud" },
+                            domProps: { value: _vm.nuevoPunto.latitud },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.nuevoPunto,
+                                  "latitud",
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              _vm.actualizar,
-                              "longitud",
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    ])
-                  ]),
+                          }),
+                          _vm._v(" "),
+                          _vm.nuevoPunto.latitud.trim().length < 5
+                            ? _c(
+                                "span",
+                                { staticClass: "label label-danger" },
+                                [_vm._v("Debe ingresar una latitud valida")]
+                              )
+                            : _c(
+                                "span",
+                                { staticClass: "label label-success" },
+                                [_vm._v("Correcto!")]
+                              ),
+                          _vm._v(
+                            "\n    ​                                            "
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("label", { attrs: { for: "nuevo punto" } }, [
+                            _vm._v("Longitud")
+                          ]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.nuevoPunto.longitud,
+                                expression: "nuevoPunto.longitud"
+                              }
+                            ],
+                            attrs: { type: "number", name: "longitud" },
+                            domProps: { value: _vm.nuevoPunto.longitud },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.nuevoPunto,
+                                  "longitud",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.nuevoPunto.longitud.trim().length < 5
+                            ? _c(
+                                "span",
+                                { staticClass: "label label-danger" },
+                                [_vm._v("Debe ingresar una latitud valida")]
+                              )
+                            : _c(
+                                "span",
+                                { staticClass: "label label-success" },
+                                [_vm._v("Correcto!")]
+                              ),
+                          _vm._v(" "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "submit" },
+                              on: { click: _vm.crearPunto }
+                            },
+                            [_vm._v("agregar punto")]
+                          )
+                        ],
+                        2
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-footer" }, [
                     _c(
