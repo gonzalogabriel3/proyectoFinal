@@ -117,8 +117,10 @@ class ColectivoController extends Controller
         $colectivo->tramo = $request->get('tramo');
         $colectivo->tarifa_id = $request->tarifa_id;
         $colectivo->save();
+        
         if(isset($request->horarios)){
-            $colectivo->horarios()->sync($request->horarios);
+            $colectivo->horarios()->detach();
+            $colectivo->horarios()->attach($request->horarios);
         }
     
         return response()->json([

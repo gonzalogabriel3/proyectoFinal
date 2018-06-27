@@ -15,7 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Pagina de inicio para administrar usuarios
+Route::middleware(['auth'])->group(function () {
+
+    //Pagina de inicio para administrar usuarios
 Route::get('/inicioUsuario',function(){
     return view('usuario/index');
 });
@@ -41,8 +43,10 @@ Route::get('/inicioHorarios',function(){
 Route::get('/inicioRecorridos',function(){
     return view('recorrido/index');
 });
+});
 
 Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 

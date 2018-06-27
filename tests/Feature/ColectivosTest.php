@@ -36,7 +36,10 @@ class ColectivosTest extends TestCase
     	$user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
-    	$response = $this->json('POST', '/colectivo', ['tramo' => 'asd']);
+        $response = $this->json('POST', '/colectivo',[
+         'tramo' => 'asd',
+         'tarifa_id' => '2',
+         'horarios' => ['1','2','3','4','5','6']]);
 
         $response
             ->assertStatus(200);
@@ -47,8 +50,7 @@ class ColectivosTest extends TestCase
         			'colectivo' => [
             			'id',
             			'tramo',
-            			'tarifa_id',
-            			'horario_id'
+            			'tarifa_id'
         		],
     		]);
     }
@@ -63,7 +65,11 @@ class ColectivosTest extends TestCase
         $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
-        $response = $this->json('PATCH', '/colectivo/17', ['tramo' => 'asda']);
+        $response = $this->json('PATCH', '/colectivo/17', [
+         'tramo' => 'asd',
+         'tarifa_id' => '2',
+         'horarios' => ['1','2','3','4','5','6']
+        ]);
 
         $response
             ->assertStatus(200);

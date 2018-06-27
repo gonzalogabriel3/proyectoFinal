@@ -10,6 +10,10 @@ use Phaza\LaravelPostgis\Geometries\Point;
 
 class RecorridoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
    
     public function index()
     {
