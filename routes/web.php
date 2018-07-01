@@ -18,35 +18,36 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
 
     //Pagina de inicio para administrar usuarios
-Route::get('/inicioUsuario',function(){
-    return view('usuario/index');
-});
-//Pagina de inicio para administrar colectivos
-Route::get('/inicioColectivos',function(){
-    return view('colectivo/index');
-});
-//Pagina de inicio para administrar paradas
-Route::get('/inicioParadas',function(){
-    return view('parada/index');
+    Route::get('/inicioUsuario',function(){
+        return view('usuario/index');
+    });
+    //Pagina de inicio para administrar colectivos
+    Route::get('/inicioColectivos',function(){
+        return view('colectivo/index');
+    });
+    //Pagina de inicio para administrar paradas
+    Route::get('/inicioParadas',function(){
+        return view('parada/index');
+    });
+
+    //Pagina de inicio para administrar tarifas
+    Route::get('/inicioTarifas',function(){
+        return view('tarifa/index');
+    });
+
+    //Pagina de inicio para administrar horarios
+    Route::get('/inicioHorarios',function(){
+        return view('horario/index');
+    });
+
+    Route::get('/inicioRecorridos',function(){
+        return view('recorrido/index');
+    });
+
 });
 
-//Pagina de inicio para administrar tarifas
-Route::get('/inicioTarifas',function(){
-    return view('tarifa/index');
-});
-
-//Pagina de inicio para administrar horarios
-Route::get('/inicioHorarios',function(){
-    return view('horario/index');
-});
-
-Route::get('/inicioRecorridos',function(){
-    return view('recorrido/index');
-});
-});
 
 Auth::routes();
-
 
 Route::get('/home', 'HomeController@index')->name('home');
 

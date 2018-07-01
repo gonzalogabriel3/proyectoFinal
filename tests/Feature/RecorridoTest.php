@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -35,7 +36,7 @@ class RecorridoTest extends TestCase
         \Auth::loginUsingId($user->id);
 
     	$response = $this->json('POST', '/recorrido', [
-            'nombre' => 'Directo Rawson - Playa Union vuelta', 
+            'nombre' => 'RECORRIDO EJEMPLO', 
             'puntos' => ['-123123,-1123123','-1212331,-1231231','-123123,-123123'],
             ]);
 

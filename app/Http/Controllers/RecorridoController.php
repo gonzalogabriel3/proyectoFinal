@@ -61,7 +61,8 @@ class RecorridoController extends Controller
             
         }     
             
-        $recorrido->geom=new Linestring($puntos);        
+        $recorrido->geom=new Linestring($puntos);
+               
         $recorrido->save();
         
         return response()->json([
