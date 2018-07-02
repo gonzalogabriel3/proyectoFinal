@@ -18,9 +18,9 @@ class RecorridoController extends Controller
     public function index()
     {
        $recorridos=Recorrido::orderBy('id','DESC')->get();
-        
+
         return response()->json([
-            'recorridos' => $recorridos,
+            'recorridos' => $recorridos
         ], 200);
         
     }
@@ -64,6 +64,9 @@ class RecorridoController extends Controller
         $recorrido->geom=new Linestring($puntos);
                
         $recorrido->save();
+
+        //Inserto el registro en la tabla intermedia
+        $recorrido->paradas()->attach($request->paradas);
         
         return response()->json([
             'recorrido'    => $recorrido,
@@ -126,7 +129,7 @@ class RecorridoController extends Controller
         $recorrido->save();
         
         return response()->json([
-            'recorrido'    => $recorrido,
+            'recorrido' => $recorrido,
             'message' => 'Recorrido Creada Correctamente'
         ], 200);
     }
@@ -140,8 +143,10 @@ class RecorridoController extends Controller
     public function destroy(Recorrido $recorrido)
     {
         $recorrido->delete();
+        $recorrido->paradas()->detach();
         return response()->json([
             'message' => 'Recorrido eliminado Correctamente'
         ], 200);
     }
+
 }

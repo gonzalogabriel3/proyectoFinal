@@ -30,7 +30,7 @@
                                 </th>
                                 <th>
                                     Puntos
-                                </th> 
+                                </th>
                                 <th>
                                     Acciones
                                 </th>
@@ -94,6 +94,12 @@
 
                                         <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
                                         
+                        </div>
+                        <div>
+                            <p>Eliga las paradas que contiene el recorrido</p>
+                             <select v-model="recorrido.paradas" multiple>
+                                <option v-for="parada in paradas" :key="parada.id" v-bind:value="parada.id">{{parada.nombre}}</option>
+                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -166,9 +172,11 @@ export default {
         return {
             recorrido: {
                 nombre: '',
-                puntos:[]
+                puntos:[],
+                paradas:[],
                 
             },
+            paradas:[],
             puntos:[],
             mensaje:'',
             nuevoPunto:{
@@ -188,8 +196,14 @@ export default {
     mounted()
     {
         this.Leer();
+        this.obtenerParadas();
     },
     methods: {
+        obtenerParadas(){
+            axios.get("/parada").then(response => {
+            this.paradas = response.data.paradas;
+            });
+        },
         crearPunto(){
                     if(this.nuevoPunto.latitud.trim().length>4 && this.nuevoPunto.longitud.trim().length>4){
                             this.puntos.push(this.nuevoPunto);
@@ -225,7 +239,8 @@ export default {
                 this.recorrido.puntos=this.puntos;            
                 axios.post('/recorrido', {
                     nombre: this.recorrido.nombre,
-                    puntos: this.recorrido.puntos
+                    puntos: this.recorrido.puntos,
+                    paradas: this.recorrido.paradas,
                 })
                 .then(response => {
                     

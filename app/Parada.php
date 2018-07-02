@@ -28,5 +28,9 @@ class Parada extends Model
         ],
     ];
 
+    public function recorridos(){
+
+        return $this->belongsToMany('App\Recorrido','parada_recorrido');
+    }
     
 }

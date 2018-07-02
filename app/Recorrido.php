@@ -29,6 +29,10 @@ class Recorrido extends Model
         ],
     ];
 
+    public function paradas(){
+        
+        return $this->belongsToMany('App\Parada','parada_recorrido');
+    }
 
 
 }

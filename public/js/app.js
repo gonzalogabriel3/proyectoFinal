@@ -47979,15 +47979,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             recorrido: {
                 nombre: '',
-                puntos: []
+                puntos: [],
+                paradas: []
 
             },
+            paradas: [],
             puntos: [],
             mensaje: '',
             nuevoPunto: {
@@ -48006,9 +48014,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.Leer();
+        this.obtenerParadas();
     },
 
     methods: {
+        obtenerParadas: function obtenerParadas() {
+            var _this = this;
+
+            axios.get("/parada").then(function (response) {
+                _this.paradas = response.data.paradas;
+            });
+        },
         crearPunto: function crearPunto() {
             if (this.nuevoPunto.latitud.trim().length > 4 && this.nuevoPunto.longitud.trim().length > 4) {
                 this.puntos.push(this.nuevoPunto);
@@ -48041,20 +48057,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         Crear: function Crear() {
-            var _this = this;
+            var _this2 = this;
 
             if (this.validarRegistro()) {
                 this.recorrido.puntos = this.puntos;
                 axios.post('/recorrido', {
                     nombre: this.recorrido.nombre,
-                    puntos: this.recorrido.puntos
+                    puntos: this.recorrido.puntos,
+                    paradas: this.recorrido.paradas
                 }).then(function (response) {
 
-                    _this.mensaje = "Recorrido creado correctamente";
-                    _this.puntos = [];
-                    _this.reset();
-                    _this.create = false;
-                    _this.Leer();
+                    _this2.mensaje = "Recorrido creado correctamente";
+                    _this2.puntos = [];
+                    _this2.reset();
+                    _this2.create = false;
+                    _this2.Leer();
                 });
             } else {
                 return;
@@ -48069,10 +48086,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.puntos = [];
         },
         Leer: function Leer() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("/recorrido").then(function (response) {
-                _this2.recorridos = response.data.recorridos;
+                _this3.recorridos = response.data.recorridos;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(recorrido) {
@@ -48085,7 +48102,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.update = false;
         },
         Actualizar: function Actualizar() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.validarActualizacion()) {
                 this.actualizar.puntos = this.puntos;
@@ -48093,18 +48110,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     nombre: this.actualizar.nombre,
                     puntos: this.actualizar.puntos
                 }).then(function (response) {
-                    _this3.mensaje = "Datos de recorrido actualizados";
-                    _this3.puntos = [];
-                    _this3.resetActualizar();
-                    _this3.update = false;
-                    _this3.Leer();
+                    _this4.mensaje = "Datos de recorrido actualizados";
+                    _this4.puntos = [];
+                    _this4.resetActualizar();
+                    _this4.update = false;
+                    _this4.Leer();
                 });
             } else {
                 return;
             }
         },
         Eliminar: function Eliminar(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             var conf = confirm("De verdad quiere borrar esta Recorrido?");
             if (conf) {
@@ -48112,8 +48129,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/recorrido/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Recorrido eliminado";
-                    _this4.Leer();
+                    _this5.mensaje = "Recorrido eliminado";
+                    _this5.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -48472,7 +48489,54 @@ var render = function() {
                         )
                       ],
                       2
-                    )
+                    ),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("p", [
+                        _vm._v("Eliga las paradas que contiene el recorrido")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.recorrido.paradas,
+                              expression: "recorrido.paradas"
+                            }
+                          ],
+                          attrs: { multiple: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.recorrido,
+                                "paradas",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c(
+                            "option",
+                            { key: parada.id, domProps: { value: parada.id } },
+                            [_vm._v(_vm._s(parada.nombre))]
+                          )
+                        })
+                      )
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-footer" }, [
