@@ -1078,7 +1078,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(60);
+module.exports = __webpack_require__(63);
 
 
 /***/ }),
@@ -1116,6 +1116,7 @@ Vue.component('parada', __webpack_require__(48));
 Vue.component('tarifa', __webpack_require__(51));
 Vue.component('horario', __webpack_require__(54));
 Vue.component('recorrido', __webpack_require__(57));
+Vue.component('tramo', __webpack_require__(60));
 
 var app = new Vue({
   el: '#app'
@@ -48626,6 +48627,1362 @@ if (false) {
 
 /***/ }),
 /* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(61)
+/* template */
+var __vue_template__ = __webpack_require__(62)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Tramo.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b5a9e9c4", Component.options)
+  } else {
+    hotAPI.reload("data-v-b5a9e9c4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            tramo: {
+                recorrido_id: '',
+                inicio: '',
+                fin: '',
+                nombre: '',
+                colectivos: []
+            },
+            mensaje: '',
+            create: false,
+            update: false,
+            tramos: [],
+            paradas: [],
+            recorridos: [],
+            actualizar: {
+                recorrido_id: '',
+                inicio: '',
+                fin: '',
+                nombre: '',
+                colectivos: []
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.Leer();
+        this.Paradas();
+        this.Recorridos();
+        this.Colectivos();
+    },
+
+    methods: {
+        Paradas: function Paradas() {
+            var _this = this;
+
+            axios.get("/parada").then(function (response) {
+                _this.paradas = response.data.paradas;
+            });
+        },
+        Recorridos: function Recorridos() {
+            var _this2 = this;
+
+            axios.get("/recorrido").then(function (response) {
+                _this2.recorridos = response.data.recorridos;
+            });
+        },
+        Colectivos: function Colectivos() {
+            var _this3 = this;
+
+            axios.get("/colectivo").then(function (response) {
+                _this3.colectivos = response.data.colectivos;
+            });
+        },
+        validarRegistro: function validarRegistro() {
+            //validacion del formulario de registro
+            if (this.tramo.nombre.trim().length < 4 || !this.tramo.recorrido_id || !this.tramo.inicio || !this.tramo.fin || !this.tramo.colectivos) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario de actualizacion
+            if (this.actualizar.nombre.trim().length < 4 || !this.actualizar.recorrido_id || !this.actualizar.inicio || !this.actualizar.fin || !this.tramo.colectivos) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        iniciarRegistro: function iniciarRegistro() {
+            this.create = true;
+        },
+        closeCreate: function closeCreate() {
+            this.create = false;
+        },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
+        Crear: function Crear() {
+            var _this4 = this;
+
+            if (this.validarRegistro()) {
+                axios.post('/tramo', {
+                    nombre: this.tramo.nombre,
+                    inicio: this.tramo.inicio,
+                    fin: this.tramo.fin,
+                    recorrido_id: this.tramo.recorrido_id,
+                    colectivos: this.tramo.colectivos
+                }).then(function (response) {
+
+                    _this4.mensaje = "Tramo creado correctamente";
+                    _this4.reset();
+                    _this4.create = false;
+                    _this4.Leer();
+                });
+            } else {
+                return;
+            }
+        },
+        reset: function reset() {
+            this.tramo.nombre = '';
+            this.tramo.inicio = '';
+            this.tramo.fin = '';
+            this.tramo.recorrido_id = '';
+            this.tramo.colectivos = [];
+        },
+        resetActualizar: function resetActualizar() {
+            this.actualizar.nombre = '';
+            this.actualizar.inicio = '';
+            this.actualizar.fin = '';
+            this.actualizar.recorrido_id = '';
+            this.actualizar.colectivos = [];
+        },
+        Leer: function Leer() {
+            var _this5 = this;
+
+            axios.get("/tramo").then(function (response) {
+                _this5.tramos = response.data.tramos;
+            });
+        },
+        IniciarActualizacion: function IniciarActualizacion(tramo) {
+            this.actualizar.id = tramo.id;
+            this.actualizar.nombre = tramo.nombre;
+            this.actualizar.inicio = tramo.inicio;
+            this.actualizar.fin = tramo.fin;
+            this.actualizar.recorrido_id = tramo.recorrido_id;
+            this.actualizar.colectivos = tramo.colectivos;
+            this.update = true;
+        },
+        closeUpdate: function closeUpdate() {
+            this.update = false;
+        },
+        Actualizar: function Actualizar() {
+            var _this6 = this;
+
+            if (this.validarActualizacion()) {
+                axios.patch("/tramo/" + this.actualizar.id, {
+                    nombre: this.actualizar.nombre,
+                    inicio: this.actualizar.inicio,
+                    fin: this.actualizar.fin,
+                    recorrido_id: this.actualizar.recorrido_id,
+                    colectivos: this.actualizar.colectivos
+                }).then(function (response) {
+                    _this6.mensaje = "Datos de Tramo actualizados";
+                    _this6.resetActualizar();
+                    _this6.update = false;
+                    _this6.Leer();
+                });
+            } else {
+                return;
+            }
+        },
+        Eliminar: function Eliminar(id) {
+            var _this7 = this;
+
+            var conf = confirm("De verdad quiere borrar este Tramo?");
+            if (conf) {
+                axios({
+                    method: "delete",
+                    url: "/tramo/" + id
+                }).then(function (response) {
+                    _this7.mensaje = "Tramo eliminado correctamente";
+                    _this7.Leer();
+                }).catch(function (error) {});
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-heading" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-xs pull-right",
+                on: {
+                  click: function($event) {
+                    _vm.iniciarRegistro()
+                  }
+                }
+              },
+              [
+                _vm._v(
+                  "\n                        + Crear Nuevo Tramo\n                    "
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+              _vm._v("Tramos Registrados")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _vm.tramos.length > 0
+              ? _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-bordered table-striped table-responsive"
+                  },
+                  [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c("tr", { key: tramo.id }, [
+                            _c("td", [_vm._v(_vm._s(tramo.id))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tramo.nombre) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tramo.iniciola) +
+                                  " / " +
+                                  _vm._s(tramo.iniciolo) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tramo.finla) +
+                                  " / " +
+                                  _vm._s(tramo.finlo) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tramo.recorrido_id) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.IniciarActualizacion(tramo)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Editar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Eliminar(tramo.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.create
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Registrar Tramo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre del Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.tramo.nombre.trim().length < 4
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre del tramo debe contener al menos 4 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tramo.nombre,
+                            expression: "tramo.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre del Tramo"
+                        },
+                        domProps: { value: _vm.tramo.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.tramo, "nombre", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Lugar de Incio del Recorrido:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.tramo.inicio
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Lugar de Inicio")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tramo.inicio,
+                              expression: "tramo.inicio"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tramo,
+                                "inicio",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c(
+                            "option",
+                            { key: parada.id, domProps: { value: parada.id } },
+                            [_vm._v(_vm._s(parada.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Lugar de Fin del Recorrido:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.tramo.fin
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Lugar de Fin")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tramo.fin,
+                              expression: "tramo.fin"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tramo,
+                                "fin",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c(
+                            "option",
+                            { key: parada.id, domProps: { value: parada.id } },
+                            [_vm._v(_vm._s(parada.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Recorrido al que Pertenece el Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.tramo.recorrido_id
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Recorrido")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tramo.recorrido_id,
+                              expression: "tramo.recorrido_id"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tramo,
+                                "recorrido_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.recorridos, function(recorrido) {
+                          return _c(
+                            "option",
+                            {
+                              key: recorrido.id,
+                              domProps: { value: recorrido.id }
+                            },
+                            [_vm._v(_vm._s(recorrido.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Colectivos que Recorren este Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.tramo.colectivos.length > 0
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Colectivo Por lo menos")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tramo.colectivos,
+                              expression: "tramo.colectivos"
+                            }
+                          ],
+                          attrs: { multiple: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tramo,
+                                "colectivos",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.colectivos, function(colectivo) {
+                          return _c(
+                            "option",
+                            {
+                              key: colectivo.id,
+                              domProps: { value: colectivo.id }
+                            },
+                            [
+                              _vm._v(
+                                "Empresa: " +
+                                  _vm._s(colectivo.empresa) +
+                                  " / Nro: " +
+                                  _vm._s(colectivo.num_coche) +
+                                  " "
+                              )
+                            ]
+                          )
+                        })
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeCreate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Crear }
+                      },
+                      [_vm._v("Registrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.update
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "actualizar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "actualizar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Actualizar Tramo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre del Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.nombre.trim().length < 4
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre del tramo debe contener al menos 4 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.nombre,
+                            expression: "actualizar.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre del tramo"
+                        },
+                        domProps: { value: _vm.actualizar.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "nombre",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Lugar de Incio del Recorrido:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.inicio
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Lugar de Inicio")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.inicio,
+                              expression: "actualizar.inicio"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "inicio",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c(
+                            "option",
+                            {
+                              key: parada.id,
+                              domProps: { value: parada.geom }
+                            },
+                            [_vm._v(_vm._s(parada.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Lugar de Fin del Recorrido:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.fin
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Lugar de Fin")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.fin,
+                              expression: "actualizar.fin"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "fin",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.paradas, function(parada) {
+                          return _c(
+                            "option",
+                            {
+                              key: parada.id,
+                              domProps: { value: parada.geom }
+                            },
+                            [_vm._v(_vm._s(parada.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Recorrido al que Pertenece el Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.recorrido_id
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un Recorrido")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.recorrido_id,
+                              expression: "actualizar.recorrido_id"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "recorrido_id",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.recorridos, function(recorrido) {
+                          return _c(
+                            "option",
+                            {
+                              key: recorrido.id,
+                              domProps: { value: recorrido.id }
+                            },
+                            [_vm._v(_vm._s(recorrido.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Colectivos que Recorren este Tramo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.colectivos
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "Debe Seleccionar un Colectectivo Por lo menos"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.colectivos,
+                              expression: "actualizar.colectivos"
+                            }
+                          ],
+                          attrs: { multiple: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "colectivos",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.colectivos, function(colectivo) {
+                          return _c(
+                            "option",
+                            {
+                              key: colectivo.id,
+                              domProps: { value: colectivo.id }
+                            },
+                            [
+                              _vm._v(
+                                "Empresa: " +
+                                  _vm._s(colectivo.empresa) +
+                                  " / Nro: " +
+                                  _vm._s(colectivo.num_coche) +
+                                  " "
+                              )
+                            ]
+                          )
+                        })
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeUpdate }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.Actualizar }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [
+        _vm._v(
+          "\n                                No.\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Nombre\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Lugar de Inicio\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Lugar de Fin\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Nro de Recorrido    \n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Acciones\n                            "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b5a9e9c4", module.exports)
+  }
+}
+
+/***/ }),
+/* 63 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -33,6 +33,9 @@
                         <li>
                             <a href="{{url('/inicioRecorridos')}}" >Adm.Recorridos</a>
                         </li>
+                        <li>
+                            <a href="{{url('/inicioTramos')}}" >Adm.Tramos</a>
+                        </li>
                     </ul>
                 </div>
             </div>

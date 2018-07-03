@@ -25,6 +25,7 @@ Vue.component('parada', require('./components/Parada.vue'));
 Vue.component('tarifa', require('./components/Tarifa.vue'));
 Vue.component('horario', require('./components/Horario.vue'));
 Vue.component('recorrido', require('./components/Recorrido.vue'));
+Vue.component('tramo', require('./components/Tramo.vue'));
 
 const app = new Vue({
     el: '#app'

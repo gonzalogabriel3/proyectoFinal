@@ -17,7 +17,7 @@ class Colectivo extends Model
 
     public function tramos (){
     
-        return $this->belongsToMany("App\Tramos","colectivo_tramo");
+        return $this->belongsToMany("App\Tramo","colectivo_tramo");
     
     }
 }

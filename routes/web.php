@@ -40,10 +40,15 @@ Route::middleware(['auth'])->group(function () {
         return view('horario/index');
     });
 
+    //pagina de inicio para administrar Recorridos
     Route::get('/inicioRecorridos',function(){
         return view('recorrido/index');
     });
 
+    //pagina de inicio para administrar Tramos
+    Route::get('/inicioTramos',function(){
+        return view('tramo/index');
+    });
 });
 
 
@@ -62,3 +67,5 @@ Route::resource('/tarifa', 'TarifaController');
 Route::resource('/horario', 'HorarioController');
 
 Route::resource('/recorrido', 'RecorridoController');
+
+Route::resource('/tramo', 'TramoController');
