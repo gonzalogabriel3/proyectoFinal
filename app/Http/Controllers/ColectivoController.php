@@ -20,22 +20,10 @@ class ColectivoController extends Controller
      */
     public function index()
     {
-    $colectivos=\DB::select("SELECT colectivos.id,colectivos.tramo,colectivos.tarifa_id, tarifas.monto,
-    horarios.salida || '/' || horarios.llegada as horas FROM colectivos 
-    INNER JOIN tarifas ON colectivos.tarifa_id=tarifas.id 
-    INNER JOIN colectivo_horario ON colectivos.id = colectivo_horario.colectivo_id
-    INNER JOIN horarios ON colectivo_horario.horario_id = horarios.id 
-    ORDER BY colectivos.tramo DESC");
 
-    /*$horarios = \DB::select("SELECT horarios.salida || '/' || horarios.llegada as horas FROM colectivos 
-    INNER JOIN colectivo_horario ON colectivos.id = colectivo_horario.colectivo_id
-    INNER JOIN horarios ON colectivo_horario.horario_id = horarios.id 
-    WHERE colectivos.id = colectivo_horario.colectivo_id");
-        */
-
-        /*muestra el monto de la tarifa
-        dd(Colectivo::find(2)->tarifa->monto);
-        */
+        
+        $colectivos = Colectivo::all();
+       
         return response()->json([
             'colectivos' => $colectivos,
         ], 200);
@@ -62,14 +50,14 @@ class ColectivoController extends Controller
     {
         //
         $this->validate($request, [
-            'tramo' => 'required',
+            'empresa' => 'required|min:3|max:100',
+            'numero' => 'required'
         ]);
 
         $colectivo = new Colectivo;
-        $colectivo->tramo = $request->tramo;
-        $colectivo->tarifa_id = $request->tarifa_id;
+        $colectivo->empresa = $request->empresa;
+        $colectivo->num_coche = $request->numero;
         $colectivo->save();
-        $colectivo->horarios()->attach($request->horarios);
 
         return response()->json([
             'colectivo'    => $colectivo,
@@ -109,19 +97,15 @@ class ColectivoController extends Controller
     public function update(Request $request, Colectivo $colectivo)
     {
         //
-        //
         $this->validate($request, [
-            'tramo' => 'required|max:255',
+            'empresa' => 'required|min:3|max:100',
+            'numero' => 'required'
         ]);
- 
-        $colectivo->tramo = $request->get('tramo');
-        $colectivo->tarifa_id = $request->tarifa_id;
+
+        $colectivo->empresa = $request->empresa;
+        $colectivo->num_coche = $request->numero;
         $colectivo->save();
-        
-        if(isset($request->horarios)){
-            $colectivo->horarios()->detach();
-            $colectivo->horarios()->attach($request->horarios);
-        }
+
     
         return response()->json([
             'message' => 'Colectivo Actualizado Correctamente'
@@ -137,9 +121,8 @@ class ColectivoController extends Controller
     public function destroy(Colectivo $colectivo)
     {
         //
-        if($colectivo->delete()){
-        $colectivo->horarios()->detach();
-        }
+        $colectivo->delete();
+
         return response()->json([
             'message' => 'Colectivo eliminado Correctamente'
         ], 200);

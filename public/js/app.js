@@ -44454,90 +44454,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             colectivo: {
-                tramo: '',
-                tarifa_id: '',
-                horarios: []
+                empresa: '',
+                numero: ''
             },
             mensaje: '',
             create: false,
             update: false,
             colectivos: [],
-            tarifas: [],
-            horarios: [],
             actualizar: {
-                tramo: '',
-                tarifa_id: '',
-                horarios: ''
+                empresa: '',
+                numero: ''
             }
         };
     },
     mounted: function mounted() {
         this.LeerColectivos();
-        this.obtenerTarifas();
-        this.obtenerHorarios();
     },
 
     methods: {
-        obtenerTarifas: function obtenerTarifas() {
-            var _this = this;
-
-            axios.get("/tarifa").then(function (response) {
-                _this.tarifas = response.data.tarifas;
-            });
-        },
-        obtenerHorarios: function obtenerHorarios() {
-            var _this2 = this;
-
-            axios.get("/horario").then(function (response) {
-                _this2.horarios = response.data.horarios;
-            });
-        },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.colectivo.tramo.trim().length < 3 || !this.colectivo.tarifa_id) {
+            if (this.colectivo.empresa.trim().length < 3 || !this.colectivo.numero) {
                 return false;
             } else {
                 return true;
@@ -44545,7 +44487,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.tramo.trim().length < 3 || !this.actualizar.tarifa_id) {
+            if (this.actualizar.empresa.trim().length < 3 || !this.actualizar.numero) {
                 return false;
             } else {
                 return true;
@@ -44561,66 +44503,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         crearColectivo: function crearColectivo() {
-            var _this3 = this;
+            var _this = this;
 
             if (this.validarRegistro()) {
                 axios.post('/colectivo', {
-                    tramo: this.colectivo.tramo,
-                    tarifa_id: this.colectivo.tarifa_id,
-                    horarios: this.colectivo.horarios
+                    empresa: this.colectivo.empresa,
+                    numero: this.colectivo.numero
                 }).then(function (response) {
-                    _this3.mensaje = "Colectivo creado correctamente";
-                    _this3.reset();
-                    _this3.create = false;
-                    _this3.LeerColectivos();
+                    _this.mensaje = "Colectivo creado correctamente";
+                    _this.reset();
+                    _this.create = false;
+                    _this.LeerColectivos();
                 });
             } else {
                 return;
             }
         },
         reset: function reset() {
-            this.colectivo.tramo = '';
-            this.colectivo.tarifa_id = '';
+            this.colectivo.empresa = '';
+            this.colectivo.numero = '';
         },
         resetActualizar: function resetActualizar() {
-            this.actualizar.tramo = '';
-            this.actualizar.tarifa_id = '';
+            this.actualizar.empresa = '';
+            this.actualizar.numero = '';
         },
         LeerColectivos: function LeerColectivos() {
-            var _this4 = this;
+            var _this2 = this;
 
             axios.get("/colectivo").then(function (response) {
-                _this4.colectivos = response.data.colectivos;
+                _this2.colectivos = response.data.colectivos;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(colectivo) {
             this.actualizar.id = colectivo.id;
-            this.actualizar.tramo = colectivo.tramo;
-            this.actualizar.tarifa_id = colectivo.tarifa_id;
+            this.actualizar.empresa = colectivo.empresa;
+            this.actualizar.numero = colectivo.numero;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
             this.update = false;
         },
         ActualizarColectivo: function ActualizarColectivo() {
-            var _this5 = this;
+            var _this3 = this;
 
             if (this.validarActualizacion()) {
                 axios.patch("/colectivo/" + this.actualizar.id, {
-                    tramo: this.actualizar.tramo,
-                    tarifa_id: this.actualizar.tarifa_id
+                    empresa: this.actualizar.empresa,
+                    numero: this.actualizar.numero
                 }).then(function (response) {
-                    _this5.mensaje = "Datos de colectivo actualizados";
-                    _this5.resetActualizar();
-                    _this5.update = false;
-                    _this5.LeerColectivos();
+                    _this3.mensaje = "Datos de colectivo actualizados";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.LeerColectivos();
                 });
             } else {
                 return;
             }
         },
         EliminarColectivo: function EliminarColectivo(id) {
-            var _this6 = this;
+            var _this4 = this;
 
             var conf = confirm("De verdad quiere borrar este Colectivo?");
             if (conf) {
@@ -44628,8 +44569,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/colectivo/" + id
                 }).then(function (response) {
-                    _this6.mensaje = "Colectivo eliminado";
-                    _this6.LeerColectivos();
+                    _this4.mensaje = "Colectivo eliminado";
+                    _this4.LeerColectivos();
                 }).catch(function (error) {});
             }
         }
@@ -44720,15 +44661,7 @@ var render = function() {
                             _c("td", [
                               _vm._v(
                                 "\n                                " +
-                                  _vm._s(colectivo.tramo) +
-                                  "\n                            "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                               $" +
-                                  _vm._s(colectivo.monto) +
+                                  _vm._s(colectivo.empresa) +
                                   "\n                            "
                               )
                             ]),
@@ -44736,15 +44669,7 @@ var render = function() {
                             _c("td", [
                               _vm._v(
                                 "\n                               " +
-                                  _vm._s(colectivo.tarifa_id) +
-                                  "\n                            "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(colectivo.horas) +
+                                  _vm._s(colectivo.num_coche) +
                                   "\n                            "
                               )
                             ]),
@@ -44830,15 +44755,15 @@ var render = function() {
                   _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Nombre del Tramo:")
+                        _vm._v("Nombre de la Empresa:")
                       ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      _vm.colectivo.tramo.trim().length < 3
+                      _vm.colectivo.empresa.trim().length < 3
                         ? _c("span", { staticClass: "label label-danger" }, [
                             _vm._v(
-                              "El tramo debe contener al menos 3 caracteres"
+                              "El nombre de la Empresa debe contener al menos 3 caracteres"
                             )
                           ])
                         : _c("span", { staticClass: "label label-success" }, [
@@ -44850,18 +44775,18 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.colectivo.tramo,
-                            expression: "colectivo.tramo"
+                            value: _vm.colectivo.empresa,
+                            expression: "colectivo.empresa"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          name: "tramo",
-                          id: "tramo",
-                          placeholder: "Nombre del Tramo"
+                          name: "empresa",
+                          id: "empresa",
+                          placeholder: "Nombre de la Empresa"
                         },
-                        domProps: { value: _vm.colectivo.tramo },
+                        domProps: { value: _vm.colectivo.empresa },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -44869,7 +44794,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.colectivo,
-                              "tramo",
+                              "empresa",
                               $event.target.value
                             )
                           }
@@ -44879,14 +44804,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Tarifa:")
+                        _vm._v("Numero de Coche:")
                       ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      !_vm.colectivo.tarifa_id
+                      !_vm.colectivo.numero
                         ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v("Debe ingresar una tarifa valida")
+                            _vm._v("Debe ingresar un Numero de Coche Valido")
                           ])
                         : _c("span", { staticClass: "label label-success" }, [
                             _vm._v("Correcto!")
@@ -44894,124 +44819,36 @@ var render = function() {
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.colectivo.tarifa_id,
-                              expression: "colectivo.tarifa_id"
-                            }
-                          ],
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.colectivo,
-                                "tarifa_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.colectivo.numero,
+                            expression: "colectivo.numero"
                           }
-                        },
-                        [
-                          _c("option", { attrs: { disabled: "", value: "" } }, [
-                            _vm._v("Eliga una tarifa")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.tarifas, function(tarifa) {
-                            return _c(
-                              "option",
-                              {
-                                key: tarifa.id,
-                                domProps: { value: tarifa.id }
-                              },
-                              [_vm._v("$" + _vm._s(tarifa.monto))]
-                            )
-                          })
                         ],
-                        2
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Horarios:")
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      !_vm.colectivo.horarios
-                        ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v("Debe ingresar un horario valido")
-                          ])
-                        : _c("span", { staticClass: "label label-success" }, [
-                            _vm._v("Correcto!")
-                          ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.colectivo.horarios,
-                              expression: "colectivo.horarios"
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          name: "numero",
+                          id: "numero",
+                          placeholder: "Numero de la empresa"
+                        },
+                        domProps: { value: _vm.colectivo.numero },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          ],
-                          attrs: { multiple: "" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.colectivo,
-                                "horarios",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                            _vm.$set(
+                              _vm.colectivo,
+                              "numero",
+                              $event.target.value
+                            )
                           }
-                        },
-                        [
-                          _c("option", { attrs: { disabled: "", value: "" } }, [
-                            _vm._v("Elija los horarios")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.horarios, function(horario) {
-                            return _c(
-                              "option",
-                              {
-                                key: horario.id,
-                                domProps: { value: horario.id }
-                              },
-                              [_vm._v(_vm._s(horario.horas))]
-                            )
-                          })
-                        ],
-                        2
-                      )
+                        }
+                      })
                     ])
                   ]),
                   _vm._v(" "),
@@ -45084,12 +44921,12 @@ var render = function() {
                   _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Nombre del Tramo:")
+                        _vm._v("Nombre de la Empresa:")
                       ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      _vm.actualizar.tramo.trim().length < 3
+                      _vm.actualizar.empresa.trim().length < 3
                         ? _c("span", { staticClass: "label label-danger" }, [
                             _vm._v(
                               "El tramo debe contener al menos 3 caracteres"
@@ -45104,18 +44941,18 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.actualizar.tramo,
-                            expression: "actualizar.tramo"
+                            value: _vm.actualizar.empresa,
+                            expression: "actualizar.empresa"
                           }
                         ],
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          name: "tramo",
-                          id: "tramo",
-                          placeholder: "Nombre del Tramo"
+                          name: "empresa",
+                          id: "empresa",
+                          placeholder: "Nombre de la Empresa"
                         },
-                        domProps: { value: _vm.actualizar.tramo },
+                        domProps: { value: _vm.actualizar.empresa },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
@@ -45123,7 +44960,7 @@ var render = function() {
                             }
                             _vm.$set(
                               _vm.actualizar,
-                              "tramo",
+                              "empresa",
                               $event.target.value
                             )
                           }
@@ -45133,14 +44970,14 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Tarifa:")
+                        _vm._v("Numero de Coche:")
                       ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      !_vm.actualizar.tarifa_id
+                      !_vm.actualizar.numero
                         ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v("Debe ingresar una tarifa valida")
+                            _vm._v("Debe ingresar un Numero Valido")
                           ])
                         : _c("span", { staticClass: "label label-success" }, [
                             _vm._v("Correcto!")
@@ -45148,124 +44985,36 @@ var render = function() {
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.actualizar.tarifa_id,
-                              expression: "actualizar.tarifa_id"
-                            }
-                          ],
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.actualizar,
-                                "tarifa_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.numero,
+                            expression: "actualizar.numero"
                           }
-                        },
-                        [
-                          _c("option", { attrs: { disabled: "", value: "" } }, [
-                            _vm._v("Eliga una tarifa")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.tarifas, function(tarifa) {
-                            return _c(
-                              "option",
-                              {
-                                key: tarifa.id,
-                                domProps: { value: tarifa.id }
-                              },
-                              [_vm._v("$" + _vm._s(tarifa.monto))]
-                            )
-                          })
                         ],
-                        2
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Horarios:")
-                      ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      !_vm.actualizar.horarios
-                        ? _c("span", { staticClass: "label label-danger" }, [
-                            _vm._v("Debe ingresar un horario valido")
-                          ])
-                        : _c("span", { staticClass: "label label-success" }, [
-                            _vm._v("Correcto!")
-                          ]),
-                      _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.actualizar.horarios,
-                              expression: "actualizar.horarios"
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          name: "numero",
+                          id: "numero",
+                          placeholder: "Numero de la empresa"
+                        },
+                        domProps: { value: _vm.actualizar.numero },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          ],
-                          attrs: { multiple: "" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.actualizar,
-                                "horarios",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "numero",
+                              $event.target.value
+                            )
                           }
-                        },
-                        [
-                          _c("option", { attrs: { disabled: "", value: "" } }, [
-                            _vm._v("Elija los horarios")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.horarios, function(horario) {
-                            return _c(
-                              "option",
-                              {
-                                key: horario.id,
-                                domProps: { value: horario.id }
-                              },
-                              [_vm._v(_vm._s(horario.horas))]
-                            )
-                          })
-                        ],
-                        2
-                      )
+                        }
+                      })
                     ])
                   ]),
                   _vm._v(" "),
@@ -45312,25 +45061,13 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [
         _vm._v(
-          "\n                                Tramo\n                            "
+          "\n                                Empresa\n                            "
         )
       ]),
       _vm._v(" "),
       _c("th", [
         _vm._v(
-          "\n                                Tarifa\n                            "
-        )
-      ]),
-      _vm._v(" "),
-      _c("th", [
-        _vm._v(
-          "\n                                Tarifa_id\n                            "
-        )
-      ]),
-      _vm._v(" "),
-      _c("th", [
-        _vm._v(
-          "\n                                Horario\n                            "
+          "\n                                Numero de Coche\n                            "
         )
       ]),
       _vm._v(" "),

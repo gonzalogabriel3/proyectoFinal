@@ -21,3 +21,8 @@
     -Obtener la representacion en texto de una geometria
     "SELECT ST_AsText(geom) FROM recorridos where id=1"
 
+CAMBIAR TIPO DE DATO GEOGRAPHY A GEOMETRY
+
+ALTER TABLE recorridos
+ALTER COLUMN  geom TYPE geometry 
+USING geom::geometry; 

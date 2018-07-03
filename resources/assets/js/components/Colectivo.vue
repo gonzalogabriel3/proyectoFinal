@@ -26,16 +26,10 @@
                                     No.
                                 </th>
                                 <th>
-                                    Tramo
+                                    Empresa
                                 </th>
                                 <th>
-                                    Tarifa
-                                </th>
-                                <th>
-                                    Tarifa_id
-                                </th>
-                                <th>
-                                    Horario
+                                    Numero de Coche
                                 </th>    
                                 <th>
                                     Acciones
@@ -44,16 +38,10 @@
                             <tr v-for="colectivo in colectivos" :key="colectivo.id">
                                 <td>{{ colectivo.id }}</td>
                                 <td>
-                                    {{ colectivo.tramo }}
+                                    {{ colectivo.empresa }}
                                 </td>
                                 <td>
-                                   ${{ colectivo.monto }}
-                                </td>
-                                <td>
-                                   {{ colectivo.tarifa_id }}
-                                </td>
-                                <td>
-                                    {{ colectivo.horas}}
+                                   {{ colectivo.num_coche }}
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(colectivo)" class="btn btn-success btn-xs">Editar</button>
@@ -77,34 +65,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Nombre del Tramo:</label>
+                            <label for="name">Nombre de la Empresa:</label>
                             <br>
-                            <span v-if="colectivo.tramo.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-if="colectivo.empresa.trim().length<3" class="label label-danger" >El nombre de la Empresa debe contener al menos 3 caracteres</span>
                             <span v-else class="label label-success">Correcto!</span>
-                            <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
-                                   v-model="colectivo.tramo">
+                            <input type="text" name="empresa" id="empresa" placeholder="Nombre de la Empresa" class="form-control"
+                                   v-model="colectivo.empresa">
                         </div>
                         <div class="form-group">
-                            <label for="name">Tarifa:</label>
+                            <label for="name">Numero de Coche:</label>
                             <br>
-                            <span v-if="!colectivo.tarifa_id" class="label label-danger" >Debe ingresar una tarifa valida</span>
+                            <span v-if="!colectivo.numero" class="label label-danger" >Debe ingresar un Numero de Coche Valido</span>
                             <span v-else class="label label-success">Correcto!</span>
                             <br>
-                            <select v-model="colectivo.tarifa_id">
-                                <option disabled value="">Eliga una tarifa</option>
-                                <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
-                            </select>       
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Horarios:</label>
-                            <br>
-                            <span v-if="!colectivo.horarios" class="label label-danger" >Debe ingresar un horario valido</span>
-                            <span v-else class="label label-success">Correcto!</span>
-                            <br>
-                            <select v-model="colectivo.horarios" multiple>
-                                <option disabled value="">Elija los horarios</option>
-                                <option v-for="horario in horarios" :key="horario.id" v-bind:value="horario.id">{{horario.horas}}</option>
-                            </select>       
+                            <input type="number" name="numero" id="numero" placeholder="Numero de la empresa" class="form-control"
+                                   v-model="colectivo.numero">       
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -125,34 +100,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="name">Nombre del Tramo:</label>
+                            <label for="name">Nombre de la Empresa:</label>
                             <br>
-                            <span v-if="actualizar.tramo.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-if="actualizar.empresa.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
                             <span v-else class="label label-success">Correcto!</span>
-                            <input type="text" name="tramo" id="tramo" placeholder="Nombre del Tramo" class="form-control"
-                                   v-model="actualizar.tramo">
+                            <input type="text" name="empresa" id="empresa" placeholder="Nombre de la Empresa" class="form-control"
+                                   v-model="actualizar.empresa">
                         </div>
                         <div class="form-group">
-                            <label for="name">Tarifa:</label>
+                            <label for="name">Numero de Coche:</label>
                             <br>
-                            <span v-if="!actualizar.tarifa_id" class="label label-danger" >Debe ingresar una tarifa valida</span>
+                            <span v-if="!actualizar.numero" class="label label-danger" >Debe ingresar un Numero Valido</span>
                             <span v-else class="label label-success">Correcto!</span>
                             <br>
-                            <select v-model="actualizar.tarifa_id">
-                                <option disabled value="">Eliga una tarifa</option>
-                                <option v-for="tarifa in tarifas" :key="tarifa.id" v-bind:value="tarifa.id">${{tarifa.monto}}</option>
-                            </select>       
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Horarios:</label>
-                            <br>
-                            <span v-if="!actualizar.horarios" class="label label-danger" >Debe ingresar un horario valido</span>
-                            <span v-else class="label label-success">Correcto!</span>
-                            <br>
-                            <select v-model="actualizar.horarios" multiple>
-                                <option disabled value="">Elija los horarios</option>
-                                <option v-for="horario in horarios" :key="horario.id" v-bind:value="horario.id">{{horario.horas}}</option>
-                            </select>       
+                            <input type="number" name="numero" id="numero" placeholder="Numero de la empresa" class="form-control"
+                                   v-model="actualizar.numero">       
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -169,49 +131,33 @@ export default {
   data(){
         return {
             colectivo: {
-                tramo: '',
-                tarifa_id:'',
-                horarios: [],
+                empresa: '',
+                numero:'',
             },
             mensaje:'',
             create: false,
             update: false,
             colectivos: [],
-            tarifas: [],
-            horarios: [],
             actualizar: {
-                tramo: '',
-                tarifa_id:'',
-                horarios: '',
+                empresa: '',
+                numero:'',
             },
         }
     },
     mounted()
     {
         this.LeerColectivos();
-        this.obtenerTarifas();
-        this.obtenerHorarios();
     },
     methods: {
-        obtenerTarifas() {
-            axios.get("/tarifa").then(response => {
-            this.tarifas = response.data.tarifas;
-            });
-        },
-        obtenerHorarios() {
-            axios.get("/horario").then(response => {
-            this.horarios = response.data.horarios;
-            });
-        },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.colectivo.tramo.trim().length<3 || !this.colectivo.tarifa_id){
+            if(this.colectivo.empresa.trim().length<3 || !this.colectivo.numero){
                 return false;
             }else{
                 return true;
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.tramo.trim().length<3 || !this.actualizar.tarifa_id){
+            if(this.actualizar.empresa.trim().length<3 || !this.actualizar.numero){
                 return false;
             }else{
                 return true;
@@ -230,9 +176,8 @@ export default {
         crearColectivo() {
             if(this.validarRegistro()){
                     axios.post('/colectivo', {
-                        tramo: this.colectivo.tramo,
-                        tarifa_id: this.colectivo.tarifa_id,
-                        horarios : this.colectivo.horarios,
+                        empresa: this.colectivo.empresa,
+                        numero: this.colectivo.numero
                     })
                     .then(response => {
                         this.mensaje="Colectivo creado correctamente";
@@ -245,12 +190,12 @@ export default {
             }
     },
     reset() {
-      this.colectivo.tramo = '';
-      this.colectivo.tarifa_id='';
+      this.colectivo.empresa = '';
+      this.colectivo.numero='';
     },
     resetActualizar() {
-      this.actualizar.tramo = '';
-      this.actualizar.tarifa_id = '';
+      this.actualizar.empresa = '';
+      this.actualizar.numero = '';
     },
     LeerColectivos() {
       axios.get("/colectivo").then(response => {
@@ -259,8 +204,8 @@ export default {
     },
     IniciarActualizacion(colectivo) {
         this.actualizar.id = colectivo.id;
-        this.actualizar.tramo = colectivo.tramo;
-        this.actualizar.tarifa_id=colectivo.tarifa_id;
+        this.actualizar.empresa = colectivo.empresa;
+        this.actualizar.numero = colectivo.numero;
         this.update = true;
     },
     closeUpdate(){
@@ -270,8 +215,8 @@ export default {
         
         if(this.validarActualizacion()){
             axios.patch("/colectivo/" + this.actualizar.id, {
-            tramo: this.actualizar.tramo,
-            tarifa_id:this.actualizar.tarifa_id
+            empresa: this.actualizar.empresa,
+            numero: this.actualizar.numero
             })
             .then(response => {
                 this.mensaje="Datos de colectivo actualizados";

@@ -11,14 +11,13 @@ class Colectivo extends Model
 
     public $timestamps = false;
     protected $fillable=[
-        'tramo','tarifa_id'
+        'empresa','num_coche'
     ];
 
-    public function tarifa(){
-       
-        return $this->belongsTo('App\Tarifa','tarifa_id');
-    }
-    public function horarios (){
-        return $this->belongsToMany("App\Horario","colectivo_horario");
+
+    public function tramos (){
+    
+        return $this->belongsToMany("App\Tramos","colectivo_tramo");
+    
     }
 }
