@@ -10,12 +10,12 @@ class tarifa extends Model
 
     public $timestamps = false;
     protected $fillable=[
-        'monto'
+        'monto','tramo_id'
     ];
 
-    public function colectivo(){
+    public function tramos(){
         
-        return $this->hasMany('App\Colectivo','tarifa_id');
+        return $this->hasMany('App\Tramo','tramo_id');
     }
 }
 

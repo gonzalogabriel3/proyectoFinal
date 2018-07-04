@@ -46470,30 +46470,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             tarifa: {
-                monto: ''
+                monto: '',
+                tramos: []
             },
             mensaje: '',
             create: false,
             update: false,
+            tramos: [],
             tarifas: [],
             actualizar: {
-                monto: ''
+                monto: '',
+                tramos: []
             }
         };
     },
     mounted: function mounted() {
         this.Leer();
+        this.obtenerTramos();
     },
 
     methods: {
+        obtenerTramos: function obtenerTramos() {
+            var _this = this;
+
+            axios.get("/tramo").then(function (response) {
+                _this.tramos = response.data.tramos;
+            });
+        },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.tarifa.monto.trim().length < 2) {
+            if (this.tarifa.monto.trim().length < 2 || this.tarifa.tramos.length > 0) {
                 return false;
             } else {
                 return true;
@@ -46517,17 +46539,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         Crear: function Crear() {
-            var _this = this;
+            var _this2 = this;
 
             if (this.validarRegistro()) {
                 axios.post('/tarifa', {
-                    monto: this.tarifa.monto
+                    monto: this.tarifa.monto,
+                    tramos: this.tarifa.tramos
                 }).then(function (response) {
 
-                    _this.mensaje = "Tarifa creada correctamente";
-                    _this.reset();
-                    _this.create = false;
-                    _this.Leer();
+                    _this2.mensaje = "Tarifa creada correctamente";
+                    _this2.reset();
+                    _this2.create = false;
+                    _this2.Leer();
                 });
             } else {
                 return;
@@ -46535,15 +46558,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         reset: function reset() {
             this.tarifa.monto = '';
+            this.tarifa.tramos = [];
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.monto = '';
         },
         Leer: function Leer() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("/tarifa").then(function (response) {
-                _this2.tarifas = response.data.tarifas;
+                _this3.tarifas = response.data.tarifas;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(tarifa) {
@@ -46555,23 +46579,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.update = false;
         },
         Actualizar: function Actualizar() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.validarActualizacion()) {
                 axios.patch("/tarifa/" + this.actualizar.id, {
                     monto: this.actualizar.monto
                 }).then(function (response) {
-                    _this3.mensaje = "Datos de tarifa actualizados";
-                    _this3.resetActualizar();
-                    _this3.update = false;
-                    _this3.Leer();
+                    _this4.mensaje = "Datos de tarifa actualizados";
+                    _this4.resetActualizar();
+                    _this4.update = false;
+                    _this4.Leer();
                 });
             } else {
                 return;
             }
         },
         Eliminar: function Eliminar(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             var conf = confirm("De verdad quiere borrar esta Tarifa?");
             if (conf) {
@@ -46579,8 +46603,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/tarifa/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Tarifa eliminada";
-                    _this4.Leer();
+                    _this5.mensaje = "Tarifa eliminada";
+                    _this5.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -46796,6 +46820,65 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Seleccione tramos que tienen esta tarifa")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.tarifa.tramos.length > 0
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un tramo")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tarifa.tramos,
+                              expression: "tarifa.tramos"
+                            }
+                          ],
+                          attrs: { multiple: "" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.tarifa,
+                                "tramos",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c(
+                            "option",
+                            { key: tramo.id, domProps: { value: tramo.id } },
+                            [_vm._v(_vm._s(tramo.nombre))]
+                          )
+                        })
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -48032,6 +48115,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -48057,7 +48149,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             actualizar: {
                 nombre: '',
                 coordinates: '',
-                puntos: []
+                puntos: [],
+                paradas: []
             }
         };
     },
@@ -48097,7 +48190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.nombre.trim().length < 3 || this.puntos.length < 2) {
+            if (this.actualizar.nombre.trim().length < 3 || this.puntos.length < 2 || !this.recorrido.paradas) {
                 return false;
             } else {
                 return true;
@@ -48147,6 +48240,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         resetActualizar: function resetActualizar() {
             this.actualizar.nombre = '';
             this.actualizar.puntos = [];
+            this.actualizar.paradas = [];
         },
         Leer: function Leer() {
             var _this4 = this;
@@ -48159,6 +48253,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
             this.actualizar.coordinates = recorrido.geom.coordinates;
+            this.actualizar.paradas = recorrido.paradas;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
@@ -48171,7 +48266,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.actualizar.puntos = this.puntos;
                 axios.patch("/recorrido/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
-                    puntos: this.actualizar.puntos
+                    puntos: this.actualizar.puntos,
+                    paradas: this.actualizar.paradas
                 }).then(function (response) {
                     _this5.mensaje = "Datos de recorrido actualizados";
                     _this5.puntos = [];
@@ -48901,7 +48997,67 @@ var render = function() {
                           )
                         ],
                         2
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("p", [
+                          _vm._v("Eliga las paradas que contiene el recorrido")
+                        ]),
+                        _vm._v(" "),
+                        !_vm.actualizar.paradas
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe Seleccionar una parada Por lo menos")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.actualizar.paradas,
+                                expression: "actualizar.paradas"
+                              }
+                            ],
+                            attrs: { multiple: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.actualizar,
+                                  "paradas",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.paradas, function(parada) {
+                            return _c(
+                              "option",
+                              {
+                                key: parada.id,
+                                domProps: { value: parada.id }
+                              },
+                              [_vm._v(_vm._s(parada.nombre))]
+                            )
+                          })
+                        )
+                      ])
                     ]
                   ),
                   _vm._v(" "),
