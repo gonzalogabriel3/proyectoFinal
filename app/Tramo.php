@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
+use Phaza\LaravelPostgis\Geometries\Point;
+use Phaza\LaravelPostgis\Geometries\Geometry;
 
 class Tramo extends Model
 {
@@ -11,8 +14,22 @@ class Tramo extends Model
 
     public $timestamps = false;
     protected $fillable=[
-        'nombre','inicio','fin','recorrido_id'
+        'nombre','recorrido_id'
     ];
+    protected $postgisFields = [
+        'inicio','fin'
+    ];
+    protected $postgisTypes = [
+        'inicio' => [
+            'geomtype' => 'geography',
+            'srid' => 4326
+        ],
+        'fin' => [
+            'geomtype' => 'geography',
+            'srid' => 4326
+        ],
+    ];
+
 
 
     public function colectivos (){

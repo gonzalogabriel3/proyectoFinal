@@ -49700,10 +49700,7 @@ var render = function() {
                         _vm._l(_vm.paradas, function(parada) {
                           return _c(
                             "option",
-                            {
-                              key: parada.id,
-                              domProps: { value: parada.geom }
-                            },
+                            { key: parada.id, domProps: { value: parada.id } },
                             [_vm._v(_vm._s(parada.nombre))]
                           )
                         })
@@ -49759,10 +49756,7 @@ var render = function() {
                         _vm._l(_vm.paradas, function(parada) {
                           return _c(
                             "option",
-                            {
-                              key: parada.id,
-                              domProps: { value: parada.geom }
-                            },
+                            { key: parada.id, domProps: { value: parada.id } },
                             [_vm._v(_vm._s(parada.nombre))]
                           )
                         })

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Tramo;
-use App\Parada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
@@ -59,23 +58,25 @@ class TramoController extends Controller
             'colectivos' => 'required'
         ]);
 
-        $tramo = new tramo;
+        $tramo = new Tramo();
         
         $tramo->nombre = $request->nombre;
         
-        $ini = Parada::find($request->inicio)->first();
-        $tramo->inicio = $ini->geom;
+
+        $ini = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->inicio");
+        $tramo->inicio = new Point($ini[0]->latitud , $ini[0]->longitud);
         
-        $fin = Parada::find($request->fin)->first();
-        $tramo->fin = $fin->geom;
+        $fin = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->fin");
+        $tramo->fin = new Point ($fin[0]->latitud , $fin[0]->longitud);
         
         $tramo->recorrido_id = $request->recorrido_id;
-        
-        if($tramo->save()){
+
+        $tramo->save();
+
         $tramo->colectivos()->attach($request->colectivos);
-        }
+        
         return response()->json([
-            'colectivo'    => $colectivo,
+            'tramo'    => $tramo,
             'message' => 'Colectivo Creado Correctamente'
         ], 200);
     }
@@ -83,10 +84,10 @@ class TramoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Colectivo  $colectivo
+     * @param  \App\Tramo $tramo
      * @return \Illuminate\Http\Response
      */
-    public function show(Colectivo $colectivo)
+    public function show(Tramo $tramo)
     {
         //
     }
@@ -94,10 +95,10 @@ class TramoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Colectivo  $colectivo
+     * @param  \App\Tramo $tramo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Colectivo $colectivo)
+    public function edit(Tramo $tramo)
     {
         //
     }
@@ -106,7 +107,7 @@ class TramoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Colectivo  $colectivo
+     * @param  \App\Tramo $tramo
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Tramo $tramo)
@@ -135,7 +136,7 @@ class TramoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Colectivo  $colectivo
+     * @param  \App\Tramo $tramo
      * @return \Illuminate\Http\Response
      */
     public function destroy(Tramo $tramo)
