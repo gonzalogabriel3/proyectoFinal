@@ -10,9 +10,12 @@ use Phaza\LaravelPostgis\Geometries\Geometry;
 class Tramo extends Model
 {
     //
+    use PostgisTrait;
+
     protected $table="tramos";
 
     public $timestamps = false;
+    
     protected $fillable=[
         'nombre','recorrido_id'
     ];
@@ -27,7 +30,7 @@ class Tramo extends Model
         'fin' => [
             'geomtype' => 'geography',
             'srid' => 4326
-        ],
+        ]
     ];
 
 

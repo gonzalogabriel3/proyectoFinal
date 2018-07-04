@@ -42,7 +42,9 @@
                                 </th>
                             </tr>
                             <tr v-for="tramo in tramos" :key="tramo.id">
-                                <td>{{ tramo.id }}</td>
+                                <td>
+                                    {{ tramo.id }}
+                                </td>
                                 <td>
                                     {{ tramo.nombre }}
                                 </td>

@@ -23,7 +23,7 @@ class TramoController extends Controller
     public function index()
     {
 
-        $tramos = \DB::select("SELECT nombre,recorrido_id, st_x(inicio::geometry) as iniciola, st_y(inicio::geometry) as iniciolo , st_x(fin::geometry) as finla, st_y(fin::geometry) as finlo FROM tramos ORDER BY id DESC");
+        $tramos = \DB::select("SELECT id,nombre,recorrido_id, st_x(inicio::geometry) as iniciola, st_y(inicio::geometry) as iniciolo , st_x(fin::geometry) as finla, st_y(fin::geometry) as finlo FROM tramos ORDER BY id DESC");
        
         return response()->json([
             'tramos' => $tramos,
@@ -61,16 +61,15 @@ class TramoController extends Controller
         $tramo = new Tramo();
         
         $tramo->nombre = $request->nombre;
-        
 
+        $tramo->recorrido_id = $request->recorrido_id;
+        
         $ini = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->inicio");
-        $tramo->inicio = new Point($ini[0]->latitud , $ini[0]->longitud);
+        $tramo->inicio = new Point( $ini[0]->latitud , $ini[0]->longitud );
         
         $fin = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->fin");
-        $tramo->fin = new Point ($fin[0]->latitud , $fin[0]->longitud);
+        $tramo->fin = new Point ( $fin[0]->latitud , $fin[0]->longitud );
         
-        $tramo->recorrido_id = $request->recorrido_id;
-
         $tramo->save();
 
         $tramo->colectivos()->attach($request->colectivos);
@@ -114,15 +113,22 @@ class TramoController extends Controller
     {
         //
         $this->validate($request, [
-            'empresa' => 'required|min:3|max:100',
-            'numero' => 'required'
+            'nombre' => 'required|min:3|max:100',
+            'inicio' => 'required',
+            'fin' => 'required',
+            'recorrido_id' => 'required',
+            'colectivos' => 'required'
         ]);
 
         $tramo->nombre = $request->nombre;
-        $ini = \Parada::find($request->inicio)->first();
-        $tramo->inicio = $ini->geom;
-        $fin = \Parada::find($request->fin)->first();
+
         $tramo->recorrido_id = $request->recorrido_id;
+        
+        $ini = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->inicio");
+        $tramo->inicio = new Point( $ini[0]->latitud , $ini[0]->longitud );
+        
+        $fin = \DB::select("SELECT st_x(geom::geometry) as longitud, st_y(geom::geometry) as latitud FROM paradas WHERE id = $request->fin");
+        $tramo->fin = new Point ( $fin[0]->latitud , $fin[0]->longitud );
         
         if($tramo->save()){
         $tramo->colectivos()->sync($request->colectivos);
@@ -143,7 +149,7 @@ class TramoController extends Controller
     {
         //
         if($tramo->delete()){
-            $tramo->colectivos()->dettach();
+            $tramo->colectivos()->detach();
         }
 
         return response()->json([
