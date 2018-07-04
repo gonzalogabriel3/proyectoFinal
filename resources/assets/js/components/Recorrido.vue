@@ -97,6 +97,9 @@
                         </div>
                         <div>
                             <p>Eliga las paradas que contiene el recorrido</p>
+                            <span v-if="recorrido.paradas.length<2" class="label label-danger" >El recorrido debe contener al menos 2 paradas</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
                              <select v-model="recorrido.paradas" multiple>
                                 <option v-for="parada in paradas" :key="parada.id" v-bind:value="parada.id">{{parada.nombre}}</option>
                              </select>
@@ -211,7 +214,7 @@ export default {
                     }    
         },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.recorrido.nombre.trim().length<3 ||this.puntos.length<2){
+            if(this.recorrido.nombre.trim().length<3 ||this.puntos.length<2 || this.recorrido.paradas.length<2){
                 return false;
             }else{
                 return true;

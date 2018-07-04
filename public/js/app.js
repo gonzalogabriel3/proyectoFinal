@@ -45292,6 +45292,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -45299,7 +45324,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             parada: {
                 nombre: '',
                 latitud: '',
-                longitud: ''
+                longitud: '',
+                iluminada: '',
+                cubierta: ''
             },
             mensaje: '',
             create: false,
@@ -45308,7 +45335,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             actualizar: {
                 nombre: '',
                 latitud: '',
-                longitud: ''
+                longitud: '',
+                iluminada: '',
+                cubierta: ''
             }
         };
     },
@@ -45349,7 +45378,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.post('/parada', {
                     nombre: this.parada.nombre,
                     latitud: this.parada.latitud,
-                    longitud: this.parada.longitud
+                    longitud: this.parada.longitud,
+                    cubierta: this.parada.cubierta,
+                    iluminada: this.parada.iluminada
                 }).then(function (response) {
 
                     _this.mensaje = "Parada creada correctamente";
@@ -45365,11 +45396,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.parada.nombre = '';
             this.parada.latitud = '';
             this.parada.longitud = '';
+            this.parada.iluminada = '';
+            this.parada.cubierta = '';
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.nombre = '';
             this.actualizar.latitud = '';
             this.actualizar.longitud = '';
+            this.actualizar.iluminada = '';
+            this.actualizar.cubierta = '';
         },
         Leer: function Leer() {
             var _this2 = this;
@@ -45383,6 +45418,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.nombre = parada.nombre;
             this.actualizar.latitud = parada.latitud;
             this.actualizar.longitud = parada.longitud;
+            this.actualizar.iluminada = parada.iluminada;
+            this.actualizar.cubierta = parada.cubierta;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
@@ -45395,7 +45432,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.patch("/parada/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
                     latitud: this.actualizar.latitud,
-                    longitud: this.actualizar.longitud
+                    longitud: this.actualizar.longitud,
+                    iluminada: this.actualizar.iluminada,
+                    cubierta: this.actualizar.cubierta
                 }).then(function (response) {
                     _this3.mensaje = "Datos de parada actualizados";
                     _this3.resetActualizar();
@@ -45526,6 +45565,18 @@ var render = function() {
                                   _vm._s(parada.longitud) +
                                   "\n                            "
                               )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              parada.iluminada
+                                ? _c("p", [_vm._v("Si")])
+                                : _c("p", [_vm._v("No")])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              parada.cubierta
+                                ? _c("p", [_vm._v("Si")])
+                                : _c("p", [_vm._v("No")])
                             ]),
                             _vm._v(" "),
                             _c("td", [
@@ -45740,6 +45791,114 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parada.iluminada,
+                            expression: "parada.iluminada"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "iluminada",
+                          value: "true"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.parada.iluminada)
+                            ? _vm._i(_vm.parada.iluminada, "true") > -1
+                            : _vm.parada.iluminada
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.parada.iluminada,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "true",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.parada,
+                                    "iluminada",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.parada,
+                                    "iluminada",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.parada, "iluminada", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "iluminada" } }, [
+                        _vm._v("Iluminada")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parada.cubierta,
+                            expression: "parada.cubierta"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "cubierta",
+                          value: "true"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.parada.cubierta)
+                            ? _vm._i(_vm.parada.cubierta, "true") > -1
+                            : _vm.parada.cubierta
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.parada.cubierta,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "true",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.parada,
+                                    "cubierta",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.parada,
+                                    "cubierta",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.parada, "cubierta", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "cubierta" } }, [
+                        _vm._v("Cubierta")
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
@@ -45955,6 +46114,114 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.iluminada,
+                            expression: "actualizar.iluminada"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "iluminada",
+                          value: "true"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.actualizar.iluminada)
+                            ? _vm._i(_vm.actualizar.iluminada, "true") > -1
+                            : _vm.actualizar.iluminada
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.actualizar.iluminada,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "true",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.actualizar,
+                                    "iluminada",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.actualizar,
+                                    "iluminada",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.actualizar, "iluminada", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "iluminada" } }, [
+                        _vm._v("Iluminada")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.cubierta,
+                            expression: "actualizar.cubierta"
+                          }
+                        ],
+                        attrs: {
+                          type: "checkbox",
+                          id: "cubierta",
+                          value: "true"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.actualizar.cubierta)
+                            ? _vm._i(_vm.actualizar.cubierta, "true") > -1
+                            : _vm.actualizar.cubierta
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.actualizar.cubierta,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "true",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.actualizar,
+                                    "cubierta",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.actualizar,
+                                    "cubierta",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
+                            } else {
+                              _vm.$set(_vm.actualizar, "cubierta", $$c)
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "cubierta" } }, [
+                        _vm._v("Cubierta")
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
@@ -46014,6 +46281,18 @@ var staticRenderFns = [
       _c("th", [
         _vm._v(
           "\n                                Longitud\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Iluminada\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Cubierta\n                            "
         )
       ]),
       _vm._v(" "),
@@ -47723,6 +48002,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47771,7 +48053,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.recorrido.nombre.trim().length < 3 || this.puntos.length < 2) {
+            if (this.recorrido.nombre.trim().length < 3 || this.puntos.length < 2 || this.recorrido.paradas.length < 2) {
                 return false;
             } else {
                 return true;
@@ -48233,6 +48515,18 @@ var render = function() {
                       _c("p", [
                         _vm._v("Eliga las paradas que contiene el recorrido")
                       ]),
+                      _vm._v(" "),
+                      _vm.recorrido.paradas.length < 2
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El recorrido debe contener al menos 2 paradas"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
                       _vm._v(" "),
                       _c(
                         "select",

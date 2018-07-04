@@ -55,6 +55,8 @@ class ParadaController extends Controller
 
         $parada = new Parada();
         $parada->nombre = $request->nombre;
+        $parada->cubierta=$request->cubierta;
+        $parada->iluminada=$request->iluminada;
 
         $parada->geom = new Point( $request->latitud , $request ->longitud );
 
@@ -107,6 +109,8 @@ class ParadaController extends Controller
 
 
         $parada->nombre = $request->nombre;
+        $parada->cubierta=$request->cubierta;
+        $parada->iluminada=$request->iluminada;
         $parada->geom = new Point( $request->latitud , $request ->longitud );
 
 

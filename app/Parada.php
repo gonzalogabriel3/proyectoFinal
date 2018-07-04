@@ -16,7 +16,7 @@ class Parada extends Model
     public $timestamps = false;
     
     protected $fillable=[
-        'nombre',
+        'nombre','cubierta','iluminada'
     ];
     protected $postgisFields = [
         'geom',

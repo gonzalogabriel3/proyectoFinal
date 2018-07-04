@@ -33,6 +33,12 @@
                                 </th>
                                 <th>
                                     Longitud
+                                </th>
+                                <th>
+                                    Iluminada
+                                </th>
+                                <th>
+                                    Cubierta
                                 </th>    
                                 <th>
                                     Acciones
@@ -48,6 +54,14 @@
                                 </td>
                                 <td>
                                     {{ parada.longitud}}
+                                </td>
+                                <td>
+                                    <p v-if="parada.iluminada">Si</p>
+                                    <p v-else>No</p>
+                                </td>
+                                <td>
+                                    <p v-if="parada.cubierta">Si</p>
+                                    <p v-else>No</p>
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(parada)" class="btn btn-success btn-xs">Editar</button>
@@ -95,6 +109,12 @@
                             <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
                                    v-model="parada.longitud">
                         </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="iluminada" value="true" v-model="parada.iluminada">
+                            <label for="iluminada">Iluminada</label>
+                            <input type="checkbox" id="cubierta" value="true" v-model="parada.cubierta">
+                            <label for="cubierta">Cubierta</label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
@@ -137,7 +157,12 @@
                             <input type="number" name="longitud" id="longitud" placeholder="Longitud de la Parada" class="form-control"
                                    v-model="actualizar.longitud">
                         </div>
-
+                        <div class="form-group">
+                            <input type="checkbox" id="iluminada" value="true" v-model="actualizar.iluminada">
+                            <label for="iluminada">Iluminada</label>
+                            <input type="checkbox" id="cubierta" value="true" v-model="actualizar.cubierta">
+                            <label for="cubierta">Cubierta</label>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -156,6 +181,8 @@ export default {
                 nombre: '',
                 latitud: '',
                 longitud: '',
+                iluminada:'',
+                cubierta:''
             },
             mensaje:'',
             create: false,
@@ -165,6 +192,8 @@ export default {
                 nombre: '',
                 latitud: '',
                 longitud: '',
+                iluminada:'',
+                cubierta:''
             },
         }
     },
@@ -202,7 +231,9 @@ export default {
                 axios.post('/parada', {
                     nombre: this.parada.nombre,
                     latitud: this.parada.latitud,
-                    longitud: this.parada.longitud
+                    longitud: this.parada.longitud,
+                    cubierta: this.parada.cubierta,
+                    iluminada: this.parada.iluminada
                 })
                 .then(response => {
                     
@@ -219,11 +250,15 @@ export default {
             this.parada.nombre = '';
             this.parada.latitud = '';
             this.parada.longitud = '';
+            this.parada.iluminada='';
+            this.parada.cubierta='';
         },
         resetActualizar() {
             this.actualizar.nombre = '';
             this.actualizar.latitud = '';
             this.actualizar.longitud = '';
+            this.actualizar.iluminada='';
+            this.actualizar.cubierta='';
         },
         Leer() {
             axios.get("/parada").then(response => {
@@ -235,6 +270,8 @@ export default {
             this.actualizar.nombre = parada.nombre;
             this.actualizar.latitud = parada.latitud;
             this.actualizar.longitud = parada.longitud;
+            this.actualizar.iluminada=parada.iluminada;
+            this.actualizar.cubierta=parada.cubierta;
             this.update = true;
         },
         closeUpdate(){
@@ -245,7 +282,9 @@ export default {
                 axios.patch("/parada/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
                     latitud: this.actualizar.latitud,
-                    longitud: this.actualizar.longitud
+                    longitud: this.actualizar.longitud,
+                    iluminada: this.actualizar.iluminada,
+                    cubierta: this.actualizar.cubierta
                 })
                 .then(response => {
                     this.mensaje="Datos de parada actualizados";
