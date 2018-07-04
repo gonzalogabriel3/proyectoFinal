@@ -48005,6 +48005,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -48015,6 +48042,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 paradas: []
 
             },
+            paradasr: [],
             paradas: [],
             puntos: [],
             mensaje: '',
@@ -48022,6 +48050,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 latitud: '',
                 longitud: ''
             },
+            mostrar: false,
             create: false,
             update: false,
             recorridos: [],
@@ -48038,11 +48067,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        obtenerParadas: function obtenerParadas() {
+        ParadasRecorrido: function ParadasRecorrido(id) {
             var _this = this;
 
+            axios.get("/recorrido/" + id).then(function (response) {
+                _this.paradasr = response.data.paradas;
+            });
+        },
+        obtenerParadas: function obtenerParadas() {
+            var _this2 = this;
+
             axios.get("/parada").then(function (response) {
-                _this.paradas = response.data.paradas;
+                _this2.paradas = response.data.paradas;
             });
         },
         crearPunto: function crearPunto() {
@@ -48073,11 +48109,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeCreate: function closeCreate() {
             this.create = false;
         },
+        iniciarMostrar: function iniciarMostrar(id) {
+            this.ParadasRecorrido(id);
+            this.mostrar = true;
+        },
+        closeMostrar: function closeMostrar() {
+            this.mostrar = false;
+        },
         cerrarMensaje: function cerrarMensaje() {
             this.mensaje = '';
         },
         Crear: function Crear() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.validarRegistro()) {
                 this.recorrido.puntos = this.puntos;
@@ -48087,11 +48130,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     paradas: this.recorrido.paradas
                 }).then(function (response) {
 
-                    _this2.mensaje = "Recorrido creado correctamente";
-                    _this2.puntos = [];
-                    _this2.reset();
-                    _this2.create = false;
-                    _this2.Leer();
+                    _this3.mensaje = "Recorrido creado correctamente";
+                    _this3.puntos = [];
+                    _this3.reset();
+                    _this3.create = false;
+                    _this3.Leer();
                 });
             } else {
                 return;
@@ -48106,10 +48149,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.puntos = [];
         },
         Leer: function Leer() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get("/recorrido").then(function (response) {
-                _this3.recorridos = response.data.recorridos;
+                _this4.recorridos = response.data.recorridos;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(recorrido) {
@@ -48122,7 +48165,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.update = false;
         },
         Actualizar: function Actualizar() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.validarActualizacion()) {
                 this.actualizar.puntos = this.puntos;
@@ -48130,18 +48173,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     nombre: this.actualizar.nombre,
                     puntos: this.actualizar.puntos
                 }).then(function (response) {
-                    _this4.mensaje = "Datos de recorrido actualizados";
-                    _this4.puntos = [];
-                    _this4.resetActualizar();
-                    _this4.update = false;
-                    _this4.Leer();
+                    _this5.mensaje = "Datos de recorrido actualizados";
+                    _this5.puntos = [];
+                    _this5.resetActualizar();
+                    _this5.update = false;
+                    _this5.Leer();
                 });
             } else {
                 return;
             }
         },
         Eliminar: function Eliminar(id) {
-            var _this5 = this;
+            var _this6 = this;
 
             var conf = confirm("De verdad quiere borrar esta Recorrido?");
             if (conf) {
@@ -48149,8 +48192,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/recorrido/" + id
                 }).then(function (response) {
-                    _this5.mensaje = "Recorrido eliminado";
-                    _this5.Leer();
+                    _this6.mensaje = "Recorrido eliminado";
+                    _this6.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -48279,6 +48322,19 @@ var render = function() {
                                   }
                                 },
                                 [_vm._v("Eliminar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.iniciarMostrar(recorrido.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Mostrar Paradas")]
                               )
                             ])
                           ])
@@ -48875,6 +48931,91 @@ var render = function() {
             )
           ]
         )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.mostrar
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "mostrar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "mostrar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Paradas que Contiene el Recorrido")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "new-todo" } }, [
+                          _vm._v("Paradas")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.paradasr, function(parada) {
+                          return _c("ul", { key: parada.id }, [
+                            _c("li", [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(parada.id) +
+                                  ": " +
+                                  _vm._s(parada.nombre) +
+                                  "\n                                "
+                              )
+                            ])
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("br")
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [_vm._v("Cerrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
       : _vm._e()
   ])
 }
@@ -48972,6 +49113,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -49425,7 +49568,13 @@ var render = function() {
                         _vm._v(" "),
                         _vm._l(_vm.tramos, function(tramo) {
                           return _c("tr", { key: tramo.id }, [
-                            _c("td", [_vm._v(_vm._s(tramo.id))]),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tramo.id) +
+                                  "\n                            "
+                              )
+                            ]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(

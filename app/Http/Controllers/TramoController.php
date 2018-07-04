@@ -24,7 +24,7 @@ class TramoController extends Controller
     {
 
         $tramos = \DB::select("SELECT id,nombre,recorrido_id, st_x(inicio::geometry) as iniciola, st_y(inicio::geometry) as iniciolo , st_x(fin::geometry) as finla, st_y(fin::geometry) as finlo FROM tramos ORDER BY id DESC");
-       
+        
         return response()->json([
             'tramos' => $tramos,
         ], 200);
@@ -89,6 +89,8 @@ class TramoController extends Controller
     public function show(Tramo $tramo)
     {
         //
+
+
     }
 
     /**

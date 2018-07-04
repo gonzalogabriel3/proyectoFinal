@@ -46,6 +46,7 @@
                                 <td>
                                     <button @click="IniciarActualizacion(recorrido)" class="btn btn-success btn-xs">Editar</button>
                                     <button @click="Eliminar(recorrido.id)" class="btn btn-danger btn-xs">Eliminar</button>
+                                    <button @click="iniciarMostrar(recorrido.id)" class="btn btn-info btn-xs">Mostrar Paradas</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -166,6 +167,32 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal show" id="mostrar" v-if="mostrar" tabindex="-1" role="dialog" aria-labelledby="mostrar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeMostrar" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Paradas que Contiene el Recorrido</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="new-todo">Paradas</label>
+                            <ul v-for="parada in paradasr" :key="parada.id">
+                                <li>
+                                    {{parada.id}}: {{parada.nombre}}
+                                </li>
+                            </ul>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="closeMostrar">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->    
     </div></template>
 
@@ -179,6 +206,7 @@ export default {
                 paradas:[],
                 
             },
+            paradasr:[],
             paradas:[],
             puntos:[],
             mensaje:'',
@@ -186,6 +214,7 @@ export default {
                 latitud:'',
                 longitud:''
             },
+            mostrar: false,
             create: false,
             update: false,
             recorridos: [],
@@ -200,8 +229,14 @@ export default {
     {
         this.Leer();
         this.obtenerParadas();
+
     },
     methods: {
+        ParadasRecorrido(id){
+            axios.get("/recorrido/" + id).then(response => {
+            this.paradasr = response.data.paradas;
+            });
+        },
         obtenerParadas(){
             axios.get("/parada").then(response => {
             this.paradas = response.data.paradas;
@@ -233,6 +268,15 @@ export default {
         },
         closeCreate(){
             this.create = false;
+        },
+        iniciarMostrar(id)
+        {
+           this.ParadasRecorrido(id);
+           this.mostrar = true;
+        
+        },
+        closeMostrar(){
+            this.mostrar = false;
         },
         cerrarMensaje(){
                 this.mensaje='';

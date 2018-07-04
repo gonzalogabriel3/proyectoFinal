@@ -84,6 +84,15 @@ class RecorridoController extends Controller
     public function show($id)
     {
         //
+        $paradas = \DB::select("SELECT paradas.nombre,paradas.id FROM paradas 
+        INNER JOIN parada_recorrido ON parada_recorrido.parada_id = paradas.id 
+        INNER JOIN recorridos ON parada_recorrido.recorrido_id = recorridos.id 
+        WHERE recorridos.id = $id ");                
+        
+        return response()->json([
+        'paradas'    => $paradas,
+        ], 200);
+    
     }
 
     /**
