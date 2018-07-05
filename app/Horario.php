@@ -11,10 +11,8 @@ class Horario extends Model
 
     public $timestamps = false;
     protected $fillable=[
-        'salida','llegada'
+        'salida','llegada','dias','tramo_id'
     ];
-    public function colectivos (){
-        return $this->belongsToMany("App\Colectivo","colectivo_horario");
-    }
+
 
 }

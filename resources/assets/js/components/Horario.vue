@@ -32,6 +32,12 @@
                                     Llegada
                                 </th>  
                                 <th>
+                                    Dias
+                                </th>
+                                <th>
+                                    Nro de Tramo
+                                </th>
+                                <th>
                                     Acciones
                                 </th>
                             </tr>
@@ -42,6 +48,12 @@
                                 </td>
                                 <td>
                                     {{ horario.llegada }}
+                                </td>
+                                <td>
+                                    {{ horario.dias }}
+                                </td>
+                                <td>
+                                    {{ horario.tramo_id }}
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(horario)" class="btn btn-success btn-xs">Editar</button>
@@ -80,6 +92,23 @@
                             <input type="text" name="llegada" id="llegada" placeholder="Horario de LLegada" class="form-control"
                                    v-model="horario.llegada">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Tramo que Realiza:</label>
+                            <br>
+                            <span v-if="!horario.tramo" class="label label-danger" >Debe Seleccionar un tramo</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <select v-model="horario.tramo">
+                                <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Dias que Funciona:</label>
+                            <br>
+                            <span v-if="horario.dias.trim().length<=6" class="label label-danger" >Debe ingresar los dias que funciona</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="text" name="dias" id="dias" placeholder="Dias de Funcion" class="form-control"
+                                   v-model="horario.dias">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
@@ -114,6 +143,23 @@
                             <input type="text" name="llegada" id="llegada" placeholder="Horario de Llegada a actualizar" class="form-control"
                                    v-model="actualizar.llegada">
                         </div>
+                                                <div class="form-group">
+                            <label for="name">Tramo que Realiza:</label>
+                            <br>
+                            <span v-if="!actualizar.tramo" class="label label-danger" >Debe Seleccionar un tramo</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <select v-model="actualizar.tramo">
+                                <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Dias que Funciona:</label>
+                            <br>
+                            <span v-if="actualizar.dias.trim().length<=6" class="label label-danger" >Debe ingresar los dias que funciona</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="text" name="dias" id="dias" placeholder="Dias de Funcion" class="form-control"
+                                   v-model="actualizar.dias">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -131,14 +177,19 @@ export default {
             horario: {
                 salida: '',
                 llegada: '',
+                tramo:'',
+                dias:''
             },
             mensaje:'',
             create: false,
             update: false,
             horarios: [],
+            tramos: [],
             actualizar: {
                 llegada: '',
                 salida: '',
+                tramo:'',
+                dias:''
             },
         }
     },
@@ -147,15 +198,20 @@ export default {
         this.Leer();
     },
     methods: {
+        Tramos(){
+            axios.get("/tramo").then(response => {
+            this.tramos = response.data.tramos;
+            });
+        },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.horario.salida.trim().length <= 4 && this.horario.llegada.trim().length <= 4 ){
+            if(this.horario.salida.trim().length <= 4 || this.horario.llegada.trim().length <= 4 || !this.horario.tramo || this.horario.dias.trim().length <= 6){
                 return false;
             }else{
                 return true;
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.salida.trim().length <= 4 && this.actualizar.llegada.trim().length <= 4 ){
+            if(this.actualizar.salida.trim().length <= 4 && this.actualizar.llegada.trim().length <= 4 || this.actualizar.dias.trim().length <= 6 || !this.actualizar.tramo){
                 return false;
             }else{
                 return true;
@@ -163,6 +219,7 @@ export default {
         },
         iniciarRegistro()
         {
+           this.Tramos();
            this.create = true;
         },
         closeCreate(){
@@ -176,7 +233,8 @@ export default {
                 axios.post('/horario', {
                     salida: this.horario.salida,
                     llegada: this.horario.llegada,
-                    
+                    dias: this.horario.dias,
+                    tramo: this.horario.tramo
                 })
                 .then(response => {
                     
@@ -192,10 +250,14 @@ export default {
         reset() {
             this.horario.salida = '';
             this.horario.llegada = '';
+            this.horario.dias = '';
+            this.horario.tramo = '';
         },
         resetActualizar() {
             this.actualizar.salida = '';
             this.actualizar.llegada = '';
+            this.actualizar.dias = '';
+            this.actualizar.tramo = '';
         },
         Leer() {
             axios.get("/horario").then(response => {
@@ -206,6 +268,9 @@ export default {
             this.actualizar.id = horario.id;
             this.actualizar.salida = horario.salida;
             this.actualizar.llegada = horario.llegada;
+            this.actualizar.dias = horario.dias;
+            this.actualizar.tramo = horario.tramo;
+            this.Tramos();
             this.update = true;
         },
         closeUpdate(){
@@ -215,7 +280,9 @@ export default {
             if(this.validarActualizacion()){
                 axios.patch("/horario/" + this.actualizar.id, {
                     salida: this.actualizar.salida,
-                    llegada : this.actualizar.llegada
+                    llegada : this.actualizar.llegada,
+                    dias : this.actualizar.dias,
+                    tramo : this.actualizar.tramo
                 })
                 .then(response => {
                     this.mensaje="Datos de horario actualizados";

@@ -35,7 +35,7 @@ class HorarioTest extends TestCase
     	$user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
-    	$response = $this->json('POST', '/horario', ['salida' => '00:00','llegada' => '00:30']);
+    	$response = $this->json('POST', '/horario', ['salida' => '00:00','llegada' => '00:30','dias'=> 'Todos los Dias','tramo'=> 1 ]);
 
         $response
             ->assertStatus(200);
@@ -46,7 +46,9 @@ class HorarioTest extends TestCase
         			'colectivo' => [
             			'id',
             			'salida',
-            			'llegada',
+                        'llegada',
+                        'dias',
+                        'tramo_id'
         		],
     		]);
     }
@@ -61,7 +63,7 @@ class HorarioTest extends TestCase
         $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
-        $response = $this->json('PATCH', '/horario/36', ['salida' => '00:00','llegada'=>'00:30']);
+        $response = $this->json('PATCH', '/horario/36', [ 'llegada'=>'00:30', 'salida' => '00:00', 'dias'=> 'Lunes a Viernes' ,'tramo'=> 1]);
 
         $response
             ->assertStatus(200);
@@ -81,7 +83,7 @@ class HorarioTest extends TestCase
         $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
-        $response = $this->json('delete', '/colectivo/3');
+        $response = $this->json('delete', '/colectivo/43');
 
         $response
             ->assertStatus(200);

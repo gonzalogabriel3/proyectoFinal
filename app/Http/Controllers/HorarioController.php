@@ -21,7 +21,7 @@ class HorarioController extends Controller
     public function index()
     {
 
-        $horarios = \DB::select("SELECT *, salida || '/' || llegada as horas from horarios ORDER BY id ASC");
+        $horarios = \DB::select("SELECT * from horarios ORDER BY id ASC");
         
         return response()->json([
             'horarios' => $horarios,
@@ -51,11 +51,15 @@ class HorarioController extends Controller
         $this->validate($request, [
             'salida' => 'required|min:3',
             'llegada' => 'required|min:3',
+            'dias' => 'required|min:5',
+            'tramo' => 'required'
         ]);
 
         $horario = new Horario;
         $horario->salida = $request->salida;
         $horario->llegada = $request->llegada;
+        $horario->dias = $request->dias;
+        $horario->tramo_id = $request->tramo;
         $horario->save();
 
 
@@ -104,6 +108,9 @@ class HorarioController extends Controller
  
         $horario->salida = $request->salida;
         $horario->llegada = $request->llegada;
+        $horario->dias = $request->dias;
+        $horario->tramo_id = $request->tramo;
+
         $horario->save();
  
         return response()->json([

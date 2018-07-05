@@ -47157,21 +47157,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             horario: {
                 salida: '',
-                llegada: ''
+                llegada: '',
+                tramo: '',
+                dias: ''
             },
             mensaje: '',
             create: false,
             update: false,
             horarios: [],
+            tramos: [],
             actualizar: {
                 llegada: '',
-                salida: ''
+                salida: '',
+                tramo: '',
+                dias: ''
             }
         };
     },
@@ -47180,9 +47231,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        Tramos: function Tramos() {
+            var _this = this;
+
+            axios.get("/tramo").then(function (response) {
+                _this.tramos = response.data.tramos;
+            });
+        },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.horario.salida.trim().length <= 4 && this.horario.llegada.trim().length <= 4) {
+            if (this.horario.salida.trim().length <= 4 || this.horario.llegada.trim().length <= 4 || !this.horario.tramo || this.horario.dias.trim().length <= 6) {
                 return false;
             } else {
                 return true;
@@ -47190,13 +47248,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.salida.trim().length <= 4 && this.actualizar.llegada.trim().length <= 4) {
+            if (this.actualizar.salida.trim().length <= 4 && this.actualizar.llegada.trim().length <= 4 || this.actualizar.dias.trim().length <= 6 || !this.actualizar.tramo) {
                 return false;
             } else {
                 return true;
             }
         },
         iniciarRegistro: function iniciarRegistro() {
+            this.Tramos();
             this.create = true;
         },
         closeCreate: function closeCreate() {
@@ -47206,19 +47265,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         Crear: function Crear() {
-            var _this = this;
+            var _this2 = this;
 
             if (this.validarRegistro()) {
                 axios.post('/horario', {
                     salida: this.horario.salida,
-                    llegada: this.horario.llegada
-
+                    llegada: this.horario.llegada,
+                    dias: this.horario.dias,
+                    tramo: this.horario.tramo
                 }).then(function (response) {
 
-                    _this.mensaje = "Horario creado correctamente";
-                    _this.reset();
-                    _this.create = false;
-                    _this.Leer();
+                    _this2.mensaje = "Horario creado correctamente";
+                    _this2.reset();
+                    _this2.create = false;
+                    _this2.Leer();
                 });
             } else {
                 return;
@@ -47227,46 +47287,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         reset: function reset() {
             this.horario.salida = '';
             this.horario.llegada = '';
+            this.horario.dias = '';
+            this.horario.tramo = '';
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.salida = '';
             this.actualizar.llegada = '';
+            this.actualizar.dias = '';
+            this.actualizar.tramo = '';
         },
         Leer: function Leer() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("/horario").then(function (response) {
-                _this2.horarios = response.data.horarios;
+                _this3.horarios = response.data.horarios;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(horario) {
             this.actualizar.id = horario.id;
             this.actualizar.salida = horario.salida;
             this.actualizar.llegada = horario.llegada;
+            this.actualizar.dias = horario.dias;
+            this.actualizar.tramo = horario.tramo;
+            this.Tramos();
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
             this.update = false;
         },
         Actualizar: function Actualizar() {
-            var _this3 = this;
+            var _this4 = this;
 
             if (this.validarActualizacion()) {
                 axios.patch("/horario/" + this.actualizar.id, {
                     salida: this.actualizar.salida,
-                    llegada: this.actualizar.llegada
+                    llegada: this.actualizar.llegada,
+                    dias: this.actualizar.dias,
+                    tramo: this.actualizar.tramo
                 }).then(function (response) {
-                    _this3.mensaje = "Datos de horario actualizados";
-                    _this3.resetActualizar();
-                    _this3.update = false;
-                    _this3.Leer();
+                    _this4.mensaje = "Datos de horario actualizados";
+                    _this4.resetActualizar();
+                    _this4.update = false;
+                    _this4.Leer();
                 });
             } else {
                 return;
             }
         },
         Eliminar: function Eliminar(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             var conf = confirm("De verdad quiere borrar este horario?");
             if (conf) {
@@ -47274,8 +47343,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/horario/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Horario Eliminado";
-                    _this4.Leer();
+                    _this5.mensaje = "Horario Eliminado";
+                    _this5.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -47375,6 +47444,22 @@ var render = function() {
                               _vm._v(
                                 "\n                                " +
                                   _vm._s(horario.llegada) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(horario.dias) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(horario.tramo_id) +
                                   "\n                            "
                               )
                             ]),
@@ -47546,6 +47631,105 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Tramo que Realiza:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.horario.tramo
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un tramo")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.horario.tramo,
+                              expression: "horario.tramo"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.horario,
+                                "tramo",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c(
+                            "option",
+                            { key: tramo.id, domProps: { value: tramo.id } },
+                            [_vm._v(_vm._s(tramo.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Dias que Funciona:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.horario.dias.trim().length <= 6
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar los dias que funciona")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.horario.dias,
+                            expression: "horario.dias"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "dias",
+                          id: "dias",
+                          placeholder: "Dias de Funcion"
+                        },
+                        domProps: { value: _vm.horario.dias },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.horario, "dias", $event.target.value)
+                          }
+                        }
+                      })
                     ])
                   ]),
                   _vm._v(" "),
@@ -47708,6 +47892,109 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Tramo que Realiza:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.tramo
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un tramo")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.tramo,
+                              expression: "actualizar.tramo"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "tramo",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c(
+                            "option",
+                            { key: tramo.id, domProps: { value: tramo.id } },
+                            [_vm._v(_vm._s(tramo.nombre))]
+                          )
+                        })
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Dias que Funciona:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.dias.trim().length <= 6
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe ingresar los dias que funciona")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.dias,
+                            expression: "actualizar.dias"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "dias",
+                          id: "dias",
+                          placeholder: "Dias de Funcion"
+                        },
+                        domProps: { value: _vm.actualizar.dias },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "dias",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
                     ])
                   ]),
                   _vm._v(" "),
@@ -47761,6 +48048,18 @@ var staticRenderFns = [
       _c("th", [
         _vm._v(
           "\n                                Llegada\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Dias\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Nro de Tramo\n                            "
         )
       ]),
       _vm._v(" "),
