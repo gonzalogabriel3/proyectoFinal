@@ -21,7 +21,7 @@ class HorarioController extends Controller
     public function index()
     {
 
-        $horarios = \DB::select("SELECT * from horarios ORDER BY id ASC");
+        $horarios = \DB::select("SELECT * from horarios ORDER BY id DESC");
         
         return response()->json([
             'horarios' => $horarios,

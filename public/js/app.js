@@ -46481,13 +46481,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             tarifa: {
                 monto: '',
-                tramos: []
+                tramo: ''
             },
             mensaje: '',
             create: false,
@@ -46496,7 +46513,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tarifas: [],
             actualizar: {
                 monto: '',
-                tramos: []
+                tramo: ''
             }
         };
     },
@@ -46515,7 +46532,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.tarifa.monto.trim().length < 2 || this.tarifa.tramos.length > 0) {
+            if (this.tarifa.monto.trim().length < 2 || !this.tarifa.tramo) {
                 return false;
             } else {
                 return true;
@@ -46523,7 +46540,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.monto.trim().length < 2) {
+            if (this.actualizar.monto.trim().length < 2 || !this.actualizar.tramo) {
                 return false;
             } else {
                 return true;
@@ -46544,7 +46561,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.validarRegistro()) {
                 axios.post('/tarifa', {
                     monto: this.tarifa.monto,
-                    tramos: this.tarifa.tramos
+                    tramo: this.tarifa.tramo
                 }).then(function (response) {
 
                     _this2.mensaje = "Tarifa creada correctamente";
@@ -46558,10 +46575,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         reset: function reset() {
             this.tarifa.monto = '';
-            this.tarifa.tramos = [];
+            this.tarifa.tramo = '';
         },
         resetActualizar: function resetActualizar() {
             this.actualizar.monto = '';
+            this.actualizar.tramo = '';
         },
         Leer: function Leer() {
             var _this3 = this;
@@ -46573,6 +46591,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         IniciarActualizacion: function IniciarActualizacion(tarifa) {
             this.actualizar.id = tarifa.id;
             this.actualizar.monto = tarifa.monto;
+            this.actualizar.tramo = tarifa.tramo;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
@@ -46583,7 +46602,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.validarActualizacion()) {
                 axios.patch("/tarifa/" + this.actualizar.id, {
-                    monto: this.actualizar.monto
+                    monto: this.actualizar.monto,
+                    tramo: this.actualizar.tramo
                 }).then(function (response) {
                     _this4.mensaje = "Datos de tarifa actualizados";
                     _this4.resetActualizar();
@@ -46696,6 +46716,14 @@ var render = function() {
                               _vm._v(
                                 "\n                                $" +
                                   _vm._s(tarifa.monto) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(tarifa.tramo_id) +
                                   "\n                            "
                               )
                             ]),
@@ -46824,12 +46852,12 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
-                        _vm._v("Seleccione tramos que tienen esta tarifa")
+                        _vm._v("Seleccione el tramo que tienen esta tarifa")
                       ]),
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      !_vm.tarifa.tramos.length > 0
+                      !_vm.tarifa.tramo
                         ? _c("span", { staticClass: "label label-danger" }, [
                             _vm._v("Debe Seleccionar un tramo")
                           ])
@@ -46846,11 +46874,10 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.tarifa.tramos,
-                              expression: "tarifa.tramos"
+                              value: _vm.tarifa.tramo,
+                              expression: "tarifa.tramo"
                             }
                           ],
-                          attrs: { multiple: "" },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
@@ -46863,7 +46890,7 @@ var render = function() {
                                 })
                               _vm.$set(
                                 _vm.tarifa,
-                                "tramos",
+                                "tramo",
                                 $event.target.multiple
                                   ? $$selectedVal
                                   : $$selectedVal[0]
@@ -46994,6 +47021,64 @@ var render = function() {
                           }
                         }
                       })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Seleccione el tramo que tienen esta tarifa")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      !_vm.actualizar.tramo
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v("Debe Seleccionar un tramo")
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.tramo,
+                              expression: "actualizar.tramo"
+                            }
+                          ],
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.actualizar,
+                                "tramo",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c(
+                            "option",
+                            { key: tramo.id, domProps: { value: tramo.id } },
+                            [_vm._v(_vm._s(tramo.nombre))]
+                          )
+                        })
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -47041,6 +47126,12 @@ var staticRenderFns = [
       _c("th", [
         _vm._v(
           "\n                                Tarifa\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                N° de tramo\n                            "
         )
       ]),
       _vm._v(" "),

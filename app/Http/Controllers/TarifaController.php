@@ -48,14 +48,12 @@ class TarifaController extends Controller
             'monto' => 'required',
         ]);
         
-        foreach ($request->tramos as $tramo) {
-            var_dump($tramo->id);
-            /*
-            $tarifa = new Tarifa;
-            $tarifa->monto = $request->monto;
-            $tarifa->tramo_id=$tramo->id;
-            $tarifa->save();*/
-        }
+        $tarifa=new Tarifa;
+        $tarifa->monto=$request->monto;
+        $tarifa->tramo_id=$request->tramo;
+        $tarifa->save();
+
+
         return response()->json([
             'tarifa'    => $tarifa,
             'message' => 'Tarifa creada correctamente'
@@ -98,7 +96,8 @@ class TarifaController extends Controller
             'monto' => 'required|max:255',
         ]);
  
-        $tarifa->monto = $request->get('monto');
+        $tarifa->monto = $request->monto;
+        $tarifa->tramo_id=$request->tramo;
         $tarifa->save();
  
         return response()->json([
