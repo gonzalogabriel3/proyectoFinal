@@ -66,6 +66,17 @@
                             <input type="number" name="monto" id="monto" placeholder="Monto de la Tarifa" class="form-control"
                                    v-model="tarifa.monto">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Seleccione tramos que tienen esta tarifa</label>
+                            <br>
+                            <span v-if="!tarifa.tramos.length > 0" class="label label-danger">Debe Seleccionar un tramo</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <!--Se cambio type de text a number-->
+                            <select v-model="tarifa.tramos" multiple>
+                                <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                            </select> 
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeCreate">Cerrar</button>
@@ -108,23 +119,32 @@ export default {
         return {
             tarifa: {
                 monto: '',
+                tramos:[]
             },
             mensaje:'',
             create: false,
             update: false,
+            tramos:[],
             tarifas: [],
             actualizar: {
                 monto: '',
+                tramos:[]
             },
         }
     },
     mounted()
     {
         this.Leer();
+        this.obtenerTramos();
     },
     methods: {
+        obtenerTramos(){
+            axios.get("/tramo").then(response => {
+            this.tramos = response.data.tramos;
+            });
+        },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.tarifa.monto.trim().length<2){
+            if(this.tarifa.monto.trim().length<2 || this.tarifa.tramos.length > 0){
                 return false;
             }else{
                 return true;
@@ -151,6 +171,7 @@ export default {
             if(this.validarRegistro()){            
                 axios.post('/tarifa', {
                     monto: this.tarifa.monto,
+                    tramos:this.tarifa.tramos
                 })
                 .then(response => {
                     
@@ -165,6 +186,7 @@ export default {
         },
         reset() {
             this.tarifa.monto = '';
+            this.tarifa.tramos=[];
         },
         resetActualizar() {
             this.actualizar.monto = '';

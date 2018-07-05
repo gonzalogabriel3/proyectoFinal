@@ -136,6 +136,8 @@ class RecorridoController extends Controller
         $recorrido->geom=new Linestring($puntos);        
         }
         $recorrido->save();
+        $recorrido->paradas()->sync($request->paradas);
+
         
         return response()->json([
             'recorrido' => $recorrido,

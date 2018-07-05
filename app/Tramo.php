@@ -33,11 +33,12 @@ class Tramo extends Model
         ]
     ];
 
-
-
     public function colectivos (){
     
         return $this->belongsToMany("App\Colectivo","colectivo_tramo");
     
     }
+    public function tarifa(){
+        return $this->belongsTo('Tarifa');
+     }
 }

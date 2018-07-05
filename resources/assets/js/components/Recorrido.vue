@@ -159,7 +159,15 @@
 
                             <button type="submit" @click="crearPunto" class="btn btn-primary">agregar punto</button>
                         </div>
-
+                        <div>
+                            <p>Eliga las paradas que contiene el recorrido</p>
+                            <span v-if="!actualizar.paradas" class="label label-danger">Debe Seleccionar una parada Por lo menos</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                             <select v-model="actualizar.paradas" multiple>
+                                <option v-for="parada in paradas" :key="parada.id" v-bind:value="parada.id">{{parada.nombre}}</option>
+                             </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -168,7 +176,8 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
+        
+        <!--MODAL PARA MOSTRAR PARADAS-->
         <div class="modal show" id="mostrar" v-if="mostrar" tabindex="-1" role="dialog" aria-labelledby="mostrar">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -221,7 +230,8 @@ export default {
             actualizar: {
                 nombre: '',
                 coordinates:'',
-                puntos:[]
+                puntos:[],
+                paradas:[],
             },
         }
     },
@@ -256,7 +266,7 @@ export default {
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.nombre.trim().length<3 || this.puntos.length<2){
+            if(this.actualizar.nombre.trim().length<3 || this.puntos.length<2 || !this.recorrido.paradas){
                 return false;
             }else{
                 return true;
@@ -308,6 +318,7 @@ export default {
         resetActualizar() {
             this.actualizar.nombre = '';
             this.actualizar.puntos = [];
+            this.actualizar.paradas=[];
         },
         Leer() {
             axios.get("/recorrido").then(response => {
@@ -318,6 +329,7 @@ export default {
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
             this.actualizar.coordinates = recorrido.geom.coordinates; 
+            this.actualizar.paradas=recorrido.paradas;
             this.update = true;
         },
         closeUpdate(){
@@ -328,7 +340,8 @@ export default {
                 this.actualizar.puntos=this.puntos;
                 axios.patch("/recorrido/" + this.actualizar.id, {
                     nombre: this.actualizar.nombre,
-                    puntos: this.actualizar.puntos
+                    puntos: this.actualizar.puntos,
+                    paradas: this.actualizar.paradas
                 })
                 .then(response => {
                     this.mensaje="Datos de recorrido actualizados";

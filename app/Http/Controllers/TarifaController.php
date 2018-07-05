@@ -48,10 +48,14 @@ class TarifaController extends Controller
             'monto' => 'required',
         ]);
         
-        $tarifa = new Tarifa;
-        $tarifa->monto = $request->monto;
-        $tarifa->save();
-
+        foreach ($request->tramos as $tramo) {
+            var_dump($tramo->id);
+            /*
+            $tarifa = new Tarifa;
+            $tarifa->monto = $request->monto;
+            $tarifa->tramo_id=$tramo->id;
+            $tarifa->save();*/
+        }
         return response()->json([
             'tarifa'    => $tarifa,
             'message' => 'Tarifa creada correctamente'
