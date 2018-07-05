@@ -86,11 +86,18 @@ class TramoController extends Controller
      * @param  \App\Tramo $tramo
      * @return \Illuminate\Http\Response
      */
-    public function show(Tramo $tramo)
-    {
+    public function show($id)
+    {                
         //
-
-
+        $colectivos = \DB::select("SELECT colectivos.empresa,colectivos.num_coche FROM colectivos 
+        INNER JOIN colectivo_tramo ON colectivo_tramo.colectivo_id = colectivos.id 
+        INNER JOIN tramos ON colectivo_tramo.tramo_id = tramos.id 
+        WHERE tramos.id = $id ");                
+        
+        return response()->json([
+            'colectivos'    => $colectivos,
+        ], 200);
+            
     }
 
     /**

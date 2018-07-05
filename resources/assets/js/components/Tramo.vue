@@ -60,6 +60,7 @@
                                 <td>
                                     <button @click="IniciarActualizacion(tramo)" class="btn btn-success btn-xs">Editar</button>
                                     <button @click="Eliminar(tramo.id)" class="btn btn-danger btn-xs">Eliminar</button>
+                                    <button @click="iniciarMostrar(tramo.id)" class="btn btn-info btn-xs">Mostrar Colectivos</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -200,7 +201,34 @@
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->    
+        </div><!-- /.modal -->
+
+        <!--MODAL PARA MOSTRAR COLECTIVOS-->
+        <div class="modal show" id="mostrar" v-if="mostrar" tabindex="-1" role="dialog" aria-labelledby="mostrar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeMostrar" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Colectivos que recorren este tramo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="new-todo">Colectivos</label>
+                            <ul v-for="colectivo in colectivost" :key="colectivo.id">
+                                <li>
+                                    Numero de Coche: {{colectivo.num_coche}} | Empresa: {{colectivo.empresa}} 
+                                </li>
+                            </ul>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="closeMostrar">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --> 
     </div></template>
 
 <script>
@@ -217,9 +245,11 @@ export default {
             mensaje:'',
             create: false,
             update: false,
+            mostrar: false,
             tramos: [],
             paradas:[],
             recorridos:[],
+            colectivost:[],
             actualizar: {
                 recorrido_id: '',
                 inicio: '',
@@ -238,6 +268,19 @@ export default {
 
     },
     methods: {
+        ColectivosTramo(id){
+            axios.get("/tramo/" + id).then(response => {
+            this.colectivost = response.data.colectivos;
+            });
+        },
+        iniciarMostrar(id){
+           this.ColectivosTramo(id);
+           this.mostrar = true;
+        
+        },
+        closeMostrar(){
+            this.mostrar = false;
+        },
         Paradas() {
             axios.get("/parada").then(response => {
             this.paradas = response.data.paradas;

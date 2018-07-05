@@ -49773,6 +49773,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -49787,9 +49815,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             mensaje: '',
             create: false,
             update: false,
+            mostrar: false,
             tramos: [],
             paradas: [],
             recorridos: [],
+            colectivost: [],
             actualizar: {
                 recorrido_id: '',
                 inicio: '',
@@ -49807,25 +49837,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        Paradas: function Paradas() {
+        ColectivosTramo: function ColectivosTramo(id) {
             var _this = this;
 
+            axios.get("/tramo/" + id).then(function (response) {
+                _this.colectivost = response.data.colectivos;
+            });
+        },
+        iniciarMostrar: function iniciarMostrar(id) {
+            this.ColectivosTramo(id);
+            this.mostrar = true;
+        },
+        closeMostrar: function closeMostrar() {
+            this.mostrar = false;
+        },
+        Paradas: function Paradas() {
+            var _this2 = this;
+
             axios.get("/parada").then(function (response) {
-                _this.paradas = response.data.paradas;
+                _this2.paradas = response.data.paradas;
             });
         },
         Recorridos: function Recorridos() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.get("/recorrido").then(function (response) {
-                _this2.recorridos = response.data.recorridos;
+                _this3.recorridos = response.data.recorridos;
             });
         },
         Colectivos: function Colectivos() {
-            var _this3 = this;
+            var _this4 = this;
 
             axios.get("/colectivo").then(function (response) {
-                _this3.colectivos = response.data.colectivos;
+                _this4.colectivos = response.data.colectivos;
             });
         },
         validarRegistro: function validarRegistro() {
@@ -49854,7 +49898,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mensaje = '';
         },
         Crear: function Crear() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.validarRegistro()) {
                 axios.post('/tramo', {
@@ -49865,10 +49909,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     colectivos: this.tramo.colectivos
                 }).then(function (response) {
 
-                    _this4.mensaje = "Tramo creado correctamente";
-                    _this4.reset();
-                    _this4.create = false;
-                    _this4.Leer();
+                    _this5.mensaje = "Tramo creado correctamente";
+                    _this5.reset();
+                    _this5.create = false;
+                    _this5.Leer();
                 });
             } else {
                 return;
@@ -49889,10 +49933,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.colectivos = [];
         },
         Leer: function Leer() {
-            var _this5 = this;
+            var _this6 = this;
 
             axios.get("/tramo").then(function (response) {
-                _this5.tramos = response.data.tramos;
+                _this6.tramos = response.data.tramos;
             });
         },
         IniciarActualizacion: function IniciarActualizacion(tramo) {
@@ -49908,7 +49952,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.update = false;
         },
         Actualizar: function Actualizar() {
-            var _this6 = this;
+            var _this7 = this;
 
             if (this.validarActualizacion()) {
                 axios.patch("/tramo/" + this.actualizar.id, {
@@ -49918,17 +49962,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     recorrido_id: this.actualizar.recorrido_id,
                     colectivos: this.actualizar.colectivos
                 }).then(function (response) {
-                    _this6.mensaje = "Datos de Tramo actualizados";
-                    _this6.resetActualizar();
-                    _this6.update = false;
-                    _this6.Leer();
+                    _this7.mensaje = "Datos de Tramo actualizados";
+                    _this7.resetActualizar();
+                    _this7.update = false;
+                    _this7.Leer();
                 });
             } else {
                 return;
             }
         },
         Eliminar: function Eliminar(id) {
-            var _this7 = this;
+            var _this8 = this;
 
             var conf = confirm("De verdad quiere borrar este Tramo?");
             if (conf) {
@@ -49936,8 +49980,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/tramo/" + id
                 }).then(function (response) {
-                    _this7.mensaje = "Tramo eliminado correctamente";
-                    _this7.Leer();
+                    _this8.mensaje = "Tramo eliminado correctamente";
+                    _this8.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -50092,6 +50136,19 @@ var render = function() {
                                   }
                                 },
                                 [_vm._v("Eliminar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.iniciarMostrar(tramo.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Mostrar Colectivos")]
                               )
                             ])
                           ])
@@ -50810,6 +50867,91 @@ var render = function() {
                         on: { click: _vm.Actualizar }
                       },
                       [_vm._v("Actualizar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.mostrar
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "mostrar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "mostrar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Colectivos que recorren este tramo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "new-todo" } }, [
+                          _vm._v("Colectivos")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.colectivost, function(colectivo) {
+                          return _c("ul", { key: colectivo.id }, [
+                            _c("li", [
+                              _vm._v(
+                                "\n                                Numero de Coche: " +
+                                  _vm._s(colectivo.num_coche) +
+                                  " | Empresa: " +
+                                  _vm._s(colectivo.empresa) +
+                                  " \n                            "
+                              )
+                            ])
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _c("br")
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [_vm._v("Cerrar")]
                     )
                   ])
                 ])
