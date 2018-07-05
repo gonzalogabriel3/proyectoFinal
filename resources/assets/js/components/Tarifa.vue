@@ -27,6 +27,9 @@
                                 </th>
                                 <th>
                                     Tarifa
+                                </th>
+                                <th>
+                                    N° de tramo
                                 </th>  
                                 <th>
                                     Acciones
@@ -36,6 +39,9 @@
                                 <td>{{ tarifa.id }}</td>
                                 <td>
                                     ${{ tarifa.monto }}
+                                </td>
+                                <td>
+                                    {{tarifa.tramo_id}}
                                 </td>
                                 <td>
                                     <button @click="IniciarActualizacion(tarifa)" class="btn btn-success btn-xs">Editar</button>
@@ -67,13 +73,13 @@
                                    v-model="tarifa.monto">
                         </div>
                         <div class="form-group">
-                            <label for="name">Seleccione tramos que tienen esta tarifa</label>
+                            <label for="name">Seleccione el tramo que tienen esta tarifa</label>
                             <br>
-                            <span v-if="!tarifa.tramos.length > 0" class="label label-danger">Debe Seleccionar un tramo</span>
+                            <span v-if="!tarifa.tramo" class="label label-danger">Debe Seleccionar un tramo</span>
                             <span v-else class="label label-success">Correcto!</span>
                             <br>
                             <!--Se cambio type de text a number-->
-                            <select v-model="tarifa.tramos" multiple>
+                            <select v-model="tarifa.tramo">
                                 <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
                             </select> 
                         </div>
@@ -103,6 +109,17 @@
                             <input type="number" name="monto" id="monto" placeholder="Monto a actualizar" class="form-control"
                                    v-model="actualizar.monto">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Seleccione el tramo que tienen esta tarifa</label>
+                            <br>
+                            <span v-if="!actualizar.tramo" class="label label-danger">Debe Seleccionar un tramo</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <br>
+                            <!--Se cambio type de text a number-->
+                            <select v-model="actualizar.tramo">
+                                <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                            </select> 
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" @click="closeUpdate">Cerrar</button>
@@ -119,7 +136,7 @@ export default {
         return {
             tarifa: {
                 monto: '',
-                tramos:[]
+                tramo:''
             },
             mensaje:'',
             create: false,
@@ -128,7 +145,7 @@ export default {
             tarifas: [],
             actualizar: {
                 monto: '',
-                tramos:[]
+                tramo:''
             },
         }
     },
@@ -144,14 +161,14 @@ export default {
             });
         },
         validarRegistro(){ //validacion del formulario de registro
-            if(this.tarifa.monto.trim().length<2 || this.tarifa.tramos.length > 0){
+            if(this.tarifa.monto.trim().length<2 || !this.tarifa.tramo){
                 return false;
             }else{
                 return true;
             }
         },
         validarActualizacion(){ //validacion del formulario de actualizacion
-            if(this.actualizar.monto.trim().length<2){
+            if(this.actualizar.monto.trim().length<2 || !this.actualizar.tramo){
                 return false;
             }else{
                 return true;
@@ -171,7 +188,7 @@ export default {
             if(this.validarRegistro()){            
                 axios.post('/tarifa', {
                     monto: this.tarifa.monto,
-                    tramos:this.tarifa.tramos
+                    tramo:this.tarifa.tramo
                 })
                 .then(response => {
                     
@@ -186,10 +203,11 @@ export default {
         },
         reset() {
             this.tarifa.monto = '';
-            this.tarifa.tramos=[];
+            this.tarifa.tramo='';
         },
         resetActualizar() {
             this.actualizar.monto = '';
+            this.actualizar.tramo='';
         },
         Leer() {
             axios.get("/tarifa").then(response => {
@@ -199,6 +217,7 @@ export default {
         IniciarActualizacion(tarifa) {
             this.actualizar.id = tarifa.id;
             this.actualizar.monto = tarifa.monto;
+            this.actualizar.tramo=tarifa.tramo;
             this.update = true;
         },
         closeUpdate(){
@@ -207,7 +226,8 @@ export default {
         Actualizar() {
             if(this.validarActualizacion()){
                 axios.patch("/tarifa/" + this.actualizar.id, {
-                    monto: this.actualizar.monto
+                    monto: this.actualizar.monto,
+                    tramo: this.actualizar.tramo
                 })
                 .then(response => {
                     this.mensaje="Datos de tarifa actualizados";

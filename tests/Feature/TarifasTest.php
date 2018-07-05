@@ -36,7 +36,7 @@ class TarifasTest extends TestCase
     	$user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
 
-    	$response = $this->json('POST', '/tarifa', ['monto' => '0.50']);
+    	$response = $this->json('POST', '/tarifa', ['monto' => '0.50','tramo_id' => '1']);
 
         $response
             ->assertStatus(200);
@@ -46,7 +46,8 @@ class TarifasTest extends TestCase
     				'message',
         			'tarifa' => [
             			'id',
-            			'monto',
+                        'monto',
+                        'tramo_id'
         		],
     		]);
     }
@@ -61,7 +62,7 @@ class TarifasTest extends TestCase
         $user = User::where('id', 1)->first();
         \Auth::loginUsingId($user->id);
         
-        $response = $this->json('PATCH', '/tarifa/5', ['monto' => '0.90']);
+        $response = $this->json('PATCH', '/tarifa/5', ['monto' => '0.90','tramo_id' => '1']);
 
         $response
             ->assertStatus(200);
