@@ -36,6 +36,9 @@
                         <li>
                             <a href="{{url('/inicioTramos')}}" >Adm.Tramos</a>
                         </li>
+                        <li>
+                            <a href="{{url('/inicioPuntosRecarga')}}" >Adm.Puntos de Recarga</a>
+                        </li>
                     </ul>
                 </div>
             </div>

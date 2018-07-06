@@ -49,6 +49,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inicioTramos',function(){
         return view('tramo/index');
     });
+
+    //pagina de inicio para administrar Puntos de recarga
+    Route::get('/inicioPuntosRecarga',function(){
+        return view('puntosRecarga/index');
+    });
 });
 
 
@@ -69,3 +74,5 @@ Route::resource('/horario', 'HorarioController');
 Route::resource('/recorrido', 'RecorridoController');
 
 Route::resource('/tramo', 'TramoController');
+
+Route::resource('/punto', 'PuntoRecargaController');
