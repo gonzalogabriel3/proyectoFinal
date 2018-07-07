@@ -39,6 +39,9 @@
                         <li>
                             <a href="{{url('/inicioPuntosRecarga')}}" >Adm.Puntos de Recarga</a>
                         </li>
+                        <li>
+                            <a href="{{url('/inicioComentarios')}}" >Adm.Comentarios</a>
+                        </li>
                     </ul>
                 </div>
             </div>

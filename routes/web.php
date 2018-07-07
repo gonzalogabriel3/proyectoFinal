@@ -54,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inicioPuntosRecarga',function(){
         return view('puntosRecarga/index');
     });
+
+    //pagina de inicio para administrar comentarios
+    Route::get('/inicioComentarios',function(){
+        return view('comentario/index');
+    });
 });
 
 
@@ -76,3 +81,5 @@ Route::resource('/recorrido', 'RecorridoController');
 Route::resource('/tramo', 'TramoController');
 
 Route::resource('/punto', 'PuntoRecargaController');
+
+Route::resource('/comentario', 'ComentarioController');
