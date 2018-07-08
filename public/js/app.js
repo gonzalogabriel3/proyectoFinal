@@ -1078,7 +1078,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(69);
+module.exports = __webpack_require__(72);
 
 
 /***/ }),
@@ -1119,6 +1119,7 @@ Vue.component('recorrido', __webpack_require__(57));
 Vue.component('tramo', __webpack_require__(60));
 Vue.component('punto', __webpack_require__(63));
 Vue.component('comentario', __webpack_require__(66));
+Vue.component('sugerencia', __webpack_require__(69));
 
 var app = new Vue({
   el: '#app'
@@ -52894,6 +52895,528 @@ if (false) {
 
 /***/ }),
 /* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(70)
+/* template */
+var __vue_template__ = __webpack_require__(71)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Sugerencia.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-137c63b7", Component.options)
+  } else {
+    hotAPI.reload("data-v-137c63b7", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            sugerencia: {
+                id: '',
+                sugerencia: '',
+                estado: '',
+                usuario_id: ''
+            },
+            sugerencias: [],
+            mensaje: '',
+            mostrar: false
+        };
+    },
+    mounted: function mounted() {
+        this.Leer();
+    },
+
+    methods: {
+        Leer: function Leer() {
+            var _this = this;
+
+            axios.get("/sugerencia").then(function (response) {
+                _this.sugerencias = response.data.sugerencias;
+            });
+        },
+        Mostrar: function Mostrar(sugerencia) {
+            this.sugerencia.id = sugerencia.id;
+            this.sugerencia.usuario_id = sugerencia.usuario_id;
+            this.sugerencia.sugerencia = sugerencia.sugerencia;
+            this.sugerencia.estado = sugerencia.estado;
+            this.mostrar = true;
+        },
+        closeMostrar: function closeMostrar() {
+            this.sugerencia.id = '';
+            this.sugerencia.sugerencia = '';
+            this.sugerencia.estado = '';
+            this.sugerencia.usuario_id = '';
+            this.mostrar = false;
+        },
+        Leida: function Leida(id) {
+            var _this2 = this;
+
+            axios.patch("/sugerencia/" + id, {
+                estado: true
+            }).then(function (response) {
+                _this2.mensaje = "Estado Actualizado";
+                _this2.Leer();
+            });
+        },
+        NoLeida: function NoLeida(id) {
+            var _this3 = this;
+
+            axios.patch("/sugerencia/" + id, {
+                estado: false
+            }).then(function (response) {
+                _this3.mensaje = "Estado Actualizado";
+                _this3.Leer();
+            });
+        },
+        cerrarMensaje: function cerrarMensaje() {
+            this.mensaje = '';
+        },
+        Eliminar: function Eliminar(id) {
+            var _this4 = this;
+
+            var conf = confirm("De verdad quiere borrar esta Sugerencia?");
+            if (conf) {
+                axios({
+                    method: "delete",
+                    url: "/sugerencia/" + id
+                }).then(function (response) {
+                    _this4.mensaje = "Sugerencia Eliminada";
+                    _this4.Leer();
+                }).catch(function (error) {});
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _vm.mensaje != ""
+          ? _c("div", { staticStyle: { "border-bottom": "solid green 2px" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: { type: "button", "aria-label": "Close" },
+                  on: { click: _vm.cerrarMensaje }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("b", [
+                _c("p", { staticStyle: { color: "green" } }, [
+                  _c("small", [_vm._v(_vm._s(_vm.mensaje))]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "glyphicon glyphicon-ok" })
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(" "),
+        _c("div", { staticClass: "panel panel-default" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _vm.sugerencias.length > 0
+              ? _c(
+                  "table",
+                  {
+                    staticClass:
+                      "table table-bordered table-striped table-responsive"
+                  },
+                  [
+                    _c(
+                      "tbody",
+                      [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _vm._l(_vm.sugerencias, function(sugerencia) {
+                          return _c("tr", { key: sugerencia.id }, [
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(sugerencia.id) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(sugerencia.sugerencia) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(sugerencia.usuario_id) +
+                                  "\n                            "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Mostrar(sugerencia)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Mostrar")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-info btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Leida(sugerencia.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Marcar Como Leida")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.NoLeida(sugerencia.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Marcar Como No leida")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.Eliminar(sugerencia.id)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Eliminar")]
+                              )
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    )
+                  ]
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.mostrar
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "mostrar",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "Mostrar"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Sugerencia")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Numero de Sugerencia")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.sugerencia.id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Id del Usuario")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.sugerencia.usuario_id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Sugerencia Completa")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.sugerencia.sugerencia))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Estado de la Sugerencia")
+                      ]),
+                      _vm._v(" "),
+                      _vm.sugerencia.estado
+                        ? _c("p", [_vm._v("Leida")])
+                        : _c("p", [_vm._v("No Leida")])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeMostrar }
+                      },
+                      [_vm._v("Cerrar")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "panel-heading" }, [
+      _c("h4", { staticStyle: { color: "#6DD5B7" } }, [
+        _vm._v(" Sugerencias Recibidas")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [
+        _vm._v(
+          "\n                                No.\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Sugerencia\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Id de Usuario\n                            "
+        )
+      ]),
+      _vm._v(" "),
+      _c("th", [
+        _vm._v(
+          "\n                                Acciones\n                            "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-137c63b7", module.exports)
+  }
+}
+
+/***/ }),
+/* 72 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

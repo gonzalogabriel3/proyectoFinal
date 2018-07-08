@@ -42,6 +42,10 @@
                         <li>
                             <a href="{{url('/inicioComentarios')}}" >Adm.Comentarios</a>
                         </li>
+                        <li>
+                            <a href="{{url('/inicioSugerencia')}}" >Adm.Sugerencias</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>

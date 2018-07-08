@@ -59,6 +59,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inicioComentarios',function(){
         return view('comentario/index');
     });
+
+    //pagina de inicio para administrar Sugerencias
+    Route::get('/inicioSugerencia',function(){
+        return view('sugerencia/index');
+    });
 });
 
 
@@ -83,3 +88,5 @@ Route::resource('/tramo', 'TramoController');
 Route::resource('/punto', 'PuntoRecargaController');
 
 Route::resource('/comentario', 'ComentarioController');
+
+Route::resource('/sugerencia', 'SugerenciaController');
