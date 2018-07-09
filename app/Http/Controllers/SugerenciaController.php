@@ -19,7 +19,7 @@ class SugerenciaController extends Controller
     public function index()
     {
         //
-        $sugerencias = Sugerencia::all();
+        $sugerencias = Sugerencia::orderBy('id','DESC')->get();
 
         return response()->json([
             'sugerencias'    => $sugerencias
@@ -91,26 +91,25 @@ class SugerenciaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        if($request->estado){
+        if($request->estado == false || $request->estado == true){
 
             $this->validate($request, [
                 'estado' => 'required',
             ]);
-            
-            $sugerencia = Sugerencia::find($id)->first();
+            $sugerencia = Sugerencia::find($id);
             $sugerencia->estado = $request->estado;
             $sugerencia->save();
+            
             return response()->json([
                 'message' => 'Estado Actualizado Correctamente'
             ], 200);
+
         } else {
 
             $this->validate($request, [
                 'sugerencia' => 'required',
             ]);
-            
-            $sugerencia = Sugerencia::find($id)->first();
+            $sugerencia = Sugerencia::find($id);       
             $sugerencia->sugerencia = $request->sugerencia;
             $sugerencia->save();
     
@@ -126,10 +125,9 @@ class SugerenciaController extends Controller
      * @param  \App\Sugerencia  $sugerencia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sugerencia $sugerencia)
+    public function destroy($id)
     {
-        //
-        
+        $sugerencia = Sugerencia::find($id);
         $sugerencia->delete();
         
         return response()->json([

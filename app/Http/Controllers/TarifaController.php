@@ -95,7 +95,6 @@ class TarifaController extends Controller
         $this->validate($request, [
             'monto' => 'required|max:255',
         ]);
- 
         $tarifa->monto = $request->monto;
         $tarifa->tramo_id=$request->tramo;
         $tarifa->save();

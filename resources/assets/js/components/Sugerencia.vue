@@ -43,9 +43,9 @@
                                     {{sugerencia.usuario_id}}
                                 </td>
                                 <td>
-                                    <button @click="Mostrar(sugerencia)" class="btn btn-info btn-xs">Mostrar</button>
+                                    <button @click="Mostrar(sugerencia)" class="btn btn-success btn-xs">Mostrar</button>
                                     <button @click="Leida(sugerencia.id)" class="btn btn-info btn-xs">Marcar Como Leida</button>
-                                    <button @click="NoLeida(sugerencia.id)" class="btn btn-success btn-xs">Marcar Como No leida</button>
+                                    <button @click="NoLeida(sugerencia.id)" class="btn btn-warning btn-xs">Marcar Como No leida</button>
                                     <button @click="Eliminar(sugerencia.id)" class="btn btn-danger btn-xs">Eliminar</button>
                                 </td>
                             </tr>
@@ -135,19 +135,22 @@ export default {
 
         },
         Leida(id) {
+
                 axios.patch("/sugerencia/" + id, {
-                    estado: true
+                    estado: true,
                 })
                 .then(response => {
+                    this.closeMostrar();
                     this.mensaje="Estado Actualizado";
                     this.Leer();
                 });    
         },
         NoLeida(id) {
                 axios.patch("/sugerencia/" + id, {
-                    estado: false
+                   estado: false,
                 })
                 .then(response => {
+                    this.closeMostrar();
                     this.mensaje="Estado Actualizado";
                     this.Leer();
                 });    

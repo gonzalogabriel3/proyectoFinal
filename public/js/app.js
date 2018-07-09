@@ -53089,6 +53089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.patch("/sugerencia/" + id, {
                 estado: true
             }).then(function (response) {
+                _this2.closeMostrar();
                 _this2.mensaje = "Estado Actualizado";
                 _this2.Leer();
             });
@@ -53099,6 +53100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.patch("/sugerencia/" + id, {
                 estado: false
             }).then(function (response) {
+                _this3.closeMostrar();
                 _this3.mensaje = "Estado Actualizado";
                 _this3.Leer();
             });
@@ -53209,7 +53211,7 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-info btn-xs",
+                                  staticClass: "btn btn-success btn-xs",
                                   on: {
                                     click: function($event) {
                                       _vm.Mostrar(sugerencia)
@@ -53235,7 +53237,7 @@ var render = function() {
                               _c(
                                 "button",
                                 {
-                                  staticClass: "btn btn-success btn-xs",
+                                  staticClass: "btn btn-warning btn-xs",
                                   on: {
                                     click: function($event) {
                                       _vm.NoLeida(sugerencia.id)
