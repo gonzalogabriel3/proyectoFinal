@@ -66,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -90,3 +89,9 @@ Route::resource('/punto', 'PuntoRecargaController');
 Route::resource('/comentario', 'ComentarioController');
 
 Route::resource('/sugerencia', 'SugerenciaController');
+
+
+//Ruta para el mapa de ejemplo
+Route::get('/mapa',function(){
+    return view('ejemploMapBox');
+});
