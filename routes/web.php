@@ -91,7 +91,7 @@ Route::resource('/comentario', 'ComentarioController');
 Route::resource('/sugerencia', 'SugerenciaController');
 
 
-//Ruta para el mapa de ejemplo
+//Ruta para el mapa
 Route::get('/mapa',function(){
-    return view('ejemploMapBox');
+    return view('mapa');
 });

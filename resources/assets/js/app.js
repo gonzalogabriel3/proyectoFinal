@@ -29,6 +29,7 @@ Vue.component('tramo', require('./components/Tramo.vue'));
 Vue.component('punto', require('./components/PuntoRecarga.vue'));
 Vue.component('comentario', require('./components/Comentario.vue'));
 Vue.component('sugerencia', require('./components/Sugerencia.vue'));
+Vue.component('mapa', require('./components/Mapa.vue'));
 
 const app = new Vue({
     el: '#app'

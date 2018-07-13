@@ -1078,7 +1078,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(72);
+module.exports = __webpack_require__(75);
 
 
 /***/ }),
@@ -1120,6 +1120,7 @@ Vue.component('tramo', __webpack_require__(60));
 Vue.component('punto', __webpack_require__(63));
 Vue.component('comentario', __webpack_require__(66));
 Vue.component('sugerencia', __webpack_require__(69));
+Vue.component('mapa', __webpack_require__(72));
 
 var app = new Vue({
   el: '#app'
@@ -53419,6 +53420,294 @@ if (false) {
 
 /***/ }),
 /* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(73)
+/* template */
+var __vue_template__ = __webpack_require__(74)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Mapa.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3685ac08", Component.options)
+  } else {
+    hotAPI.reload("data-v-3685ac08", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            modalRecorrido: false,
+            recorrido: '',
+            paradas: [],
+            recorridos: []
+        };
+    },
+    mounted: function mounted() {
+        this.Leer();
+        this.GenerarMapa();
+    },
+
+    methods: {
+        Leer: function Leer() {
+            var _this = this;
+
+            //Cargo paradas
+            axios.get("/parada").then(function (response) {
+                _this.paradas = response.data.paradas;
+            });
+            //Cargo recorridos
+            axios.get("/recorrido").then(function (response) {
+                _this.recorridos = response.data.recorridos;
+            });
+        },
+        GenerarMapa: function GenerarMapa() {
+            //Agrego token para que se pueda generar el mapa
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ29uemFsbzAzIiwiYSI6ImNqamhvOWhyZTBiYmozdm44bXA1dXBycmcifQ.n0buLt-Sz-y6YpctafDxTg';
+
+            //indico las coordenada en rawson
+            var coordenadas_rawson = [-65.1056655, -43.2991348];
+
+            //Creo el mapa
+            var mapa = new mapboxgl.Map({
+                container: 'map', //indico el contenedor donde se va a generar el mapa
+                style: 'mapbox://styles/mapbox/streets-v9', //indico el estilo del mapa
+                zoom: 12, //indico el zoom inicial en el mapa
+                center: coordenadas_rawson, //indico en que coordenadas se va a centrar el mapa
+                showZoom: true
+            });
+
+            //Agrego un marcador al mapa
+            var marcador = new mapboxgl.Marker({
+                color: '#312BED'
+            }).setLngLat([-65.044885, -43.3182255]).addTo(mapa);
+        },
+
+        //MODALS funciones
+        showModalRecorrido: function showModalRecorrido() {
+            this.modalRecorrido = true;
+        },
+        closeModalRecorrido: function closeModalRecorrido() {
+            this.modalRecorrido = false;
+        }
+    }
+});
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", {
+      staticStyle: { width: "1100px", height: "500px" },
+      attrs: { id: "map" }
+    }),
+    _vm._v(" "),
+    _c("button", { staticClass: "btn btn-info" }, [_vm._v("Mostrar Paradas")]),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-success", on: { click: _vm.showModalRecorrido } },
+      [_vm._v("Mostrar un Recorrido")]
+    ),
+    _vm._v(" "),
+    _vm.modalRecorrido
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeModalRecorrido }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Eliga un Recorrido")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.recorrido,
+                            expression: "recorrido"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.recorrido = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("--Seleccione un recorrido--")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.recorridos, function(recorrido) {
+                          return _c(
+                            "option",
+                            {
+                              key: recorrido.id,
+                              domProps: { value: recorrido.id }
+                            },
+                            [_vm._v(_vm._s(recorrido.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _vm.recorrido
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: { click: _vm.closeModalRecorrido }
+                          },
+                          [_vm._v("Mostrar recorrido")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3685ac08", module.exports)
+  }
+}
+
+/***/ }),
+/* 75 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
