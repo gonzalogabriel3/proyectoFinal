@@ -64,6 +64,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inicioSugerencia',function(){
         return view('sugerencia/index');
     });
+
+    //Ruta para el mapa
+    Route::get('/inicioMapa',function(){
+    return view('mapa');
+    });
 });
 
 Auth::routes();
@@ -90,8 +95,7 @@ Route::resource('/comentario', 'ComentarioController');
 
 Route::resource('/sugerencia', 'SugerenciaController');
 
+Route::resource('/mapa', 'MapaController');
 
-//Ruta para el mapa
-Route::get('/mapa',function(){
-    return view('mapa');
-});
+
+

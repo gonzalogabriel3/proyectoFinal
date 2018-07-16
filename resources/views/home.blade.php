@@ -45,8 +45,11 @@
                         <li>
                             <a href="{{url('/inicioSugerencia')}}" >Adm.Sugerencias</a>
                         </li>
+                        <li>
+                            <a href="{{url('/inicioMapa')}}" >MAPA</a>
+                        </li>
                     </ul>
-                    <center><button class="btn btn-info"><a href="{{url('/mapa')}}">MAPA</a></button></center>
+
                 </div>
             </div>
         </div>
