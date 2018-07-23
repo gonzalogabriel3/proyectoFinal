@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Recorrido;
 use Illuminate\Http\Request;
+use Phaza\LaravelPostgis\Geometries\LineString;
+use Phaza\LaravelPostgis\Geometries\Point;
 
 class MapaController extends Controller
 {
@@ -14,31 +17,29 @@ class MapaController extends Controller
      */
     public function index()
     {
-        //
-        $recorridos = Recorrido::find(1);
-        //dd($recorridos);
-        $original_data = json_decode($recorridos, true);
+        //Obtengo el recorrido(linestring)
+        $recorrido=Recorrido::find(1);
+        
+        //Creo un array donde se va a contener todos los punto del linestring
+        $puntos=array();
+        
+        foreach ($recorrido->geom as $geom) {
+            //Obtengo la latitud y longitud de un punto
+            $latitud=$geom->getLat();
+            $longitud=$geom->getLng();
+            
+            //Creo un nuevo arreglo y le inserto los valores de la latitud y longitud
+            $punto=array();
+            array_push($punto,$latitud);
+            array_push($punto,$longitud);
 
-        $features = array();
-
-            $features[] = array(
-                    'id' => $recorridos->nombre,
-                    'type' => 'line',
-                    'source' => [
-                        'type' => 'geojson',
-                        'data' => [
-                        'type' => 'feature',
-                        'properties' => [],
-                        'geometry' => array('type' => 'LineString', 'coordinates' => $recorridos->geom),
-                        
-                    ]
-                    ]
-                    );
-                    dd(json_encode($features, JSON_PRETTY_PRINT));
+            //Al arreglo creado,lo agrego al arreglo de puntos
+            array_push($puntos,$punto);
+        }
+        
         return response()->json([
-            'recorridos' => json_encode($features, JSON_PRETTY_PRINT)
+            'puntos' => $puntos
         ], 200);
-    
     }
 
     /**

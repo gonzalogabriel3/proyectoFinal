@@ -53516,12 +53516,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorrido: '',
             paradas: [],
             recorridos: [],
-            playa: []
+            puntosRecorrido: []
         };
     },
     mounted: function mounted() {
         this.Leer();
-        this.GenerarMapa();
+        this.GenerarMapa2();
     },
 
     methods: {
@@ -53535,6 +53535,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Cargo recorridos
             axios.get("/recorrido").then(function (response) {
                 _this.recorridos = response.data.recorridos;
+            });
+        },
+        GenerarMapa2: function GenerarMapa2() {
+            var _this2 = this;
+
+            //Cargo recorrido
+            axios.get("/mapa").then(function (response) {
+                _this2.puntosRecorrido = response.data.puntos;
+            });
+            //Agrego token para que se pueda generar el mapa
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ29uemFsbzAzIiwiYSI6ImNqamhvOWhyZTBiYmozdm44bXA1dXBycmcifQ.n0buLt-Sz-y6YpctafDxTg';
+
+            //indico las coordenada en rawson
+            var coordenadas_rawson = [-65.1056655, -43.2991348];
+
+            //Creo el mapa
+            var mapa = new mapboxgl.Map({
+                container: 'map', //indico el contenedor donde se va a generar el mapa
+                style: 'mapbox://styles/mapbox/streets-v9', //indico el estilo del mapa
+                zoom: 12, //indico el zoom inicial en el mapa
+                center: coordenadas_rawson, //indico en que coordenadas se va a centrar el mapa
+                showZoom: true
+            });
+
+            //Agrego un marcador al mapa
+            var marcador = new mapboxgl.Marker({
+                color: '#312BED'
+            }).setLngLat([-65.044885, -43.3182255]).addTo(mapa);
+
+            mapa.on('load', function () {
+
+                mapa.addLayer({
+                    "id": "route",
+                    "type": "line",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "Feature",
+                            "properties": {},
+                            "geometry": {
+                                "type": "LineString",
+                                "coordinates": this.puntosRecorrido
+                            }
+                        }
+                    },
+                    "layout": {
+                        "line-join": "round",
+                        "line-cap": "round"
+                    },
+                    "paint": {
+                        "line-color": "#888",
+                        "line-width": 8
+                    }
+                });
             });
         },
         GenerarMapa: function GenerarMapa() {
