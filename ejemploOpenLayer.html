@@ -37,23 +37,18 @@
     });
    
 /*---AGREGAR UN MARCADOR AL MAPA---*/
-
 var marcadores=[];//Creo un array donde van a ir todos los marcadores que quiero agregar al mapa
-
 //Creo una nueva geometria donde defino las coordenadas,sistema de coordenadas,etc.
 var iconFeature = new ol.Feature({
   geometry: new ol.geom.Point(ol.proj.transform([-65.0521686,-43.3081713], 'EPSG:4326','EPSG:3857')),
   name: 'Parada entrada 3 de abril',  
 });
-
 //Añado la geometria creada(punto)  al array de marcadores
 marcadores.push(iconFeature);
-
 //Fuentes
 var vectorSource = new ol.source.Vector({
   features: marcadores //add an array of features
 });
-
 //Defino el estilo del marcador
 var iconStyle = new ol.style.Style({
   image: new ol.style.Icon(({
@@ -61,19 +56,31 @@ var iconStyle = new ol.style.Style({
     src: 'http://static.websguru.com.ar/var/m_a/a7/a78/32892/522624-icono-bus.png',
   }))
 });
-
 /*Creo una capa vectorial,indicando la fuente y el estilo para aplicar a dicha capa,
 que posteriormente se agregara al mapa*/
 var vectorLayer = new ol.layer.Vector({
   source: vectorSource,
   style: iconStyle
 });
-
 //Añado la capa vectorial al mapa
 mapa.addLayer(vectorLayer);
-
 /*---FIN AGREGAR MARCADOR---*/
+/*--- INICIO LINESTRING ---*/
+    //Creo un Vector de Tipo LineString y le paso las Coordenadas
+    var layerLines = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [new ol.Feature({
+                geometry: new ol.geom.LineString(this.puntosRecorrido),
+                name: 'Line'
+            })]
+        }),
+    });
 
+//añado la capa del Linestring al mapa
+  mapa.addLayer(layerLines);
+  
+  
+  /*---- FIN DE LINESTRING ----*/
 </script>
 </body>
 </html>
