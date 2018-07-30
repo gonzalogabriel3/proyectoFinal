@@ -43,11 +43,12 @@ export default {
             recorrido:'',
             paradas: [],
             recorridos:[],
-            puntosRecorrido:[],
+            puntosRecorrido:'',
         }
     },
     mounted()
     {
+        this.puntosRecorrido=[[-65.0585075,-43.3397844],[-65.0577351,-43.3398908],[-65.0571293,-43.3397519]];
         this.Leer();
         this.GenerarMapa2();
     },
@@ -64,7 +65,7 @@ export default {
             });
         },
         GenerarMapa2(){
-            //Cargo recorrido
+            //Cargo recorridos
             axios.get("/mapa").then(response => {
                 this.puntosRecorrido = response.data.puntos;
             });
@@ -89,10 +90,10 @@ export default {
             })
             .setLngLat([-65.044885,-43.3182255])
             .addTo(mapa);
-
-            mapa.on('load', function () {
             
-            mapa.addLayer({
+            
+           mapa.on('load', function () {        
+           mapa.addLayer({
                 "id": "route",
                 "type": "line",
                 "source": {
@@ -102,7 +103,7 @@ export default {
                         "properties": {},
                         "geometry": {
                             "type": "LineString",
-                            "coordinates": this.puntosRecorrido
+                            "coordinates": JSON.stringify(this.puntosRecorrido)
                         }
                     }
                 },
@@ -116,7 +117,7 @@ export default {
                 }
             });        
           });  
-       
+        
         },
         GenerarMapa(){
             //Agrego token para que se pueda generar el mapa

@@ -53516,10 +53516,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorrido: '',
             paradas: [],
             recorridos: [],
-            puntosRecorrido: []
+            puntosRecorrido: ''
         };
     },
     mounted: function mounted() {
+        this.puntosRecorrido = [[-65.0585075, -43.3397844], [-65.0577351, -43.3398908], [-65.0571293, -43.3397519]];
         this.Leer();
         this.GenerarMapa2();
     },
@@ -53540,7 +53541,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         GenerarMapa2: function GenerarMapa2() {
             var _this2 = this;
 
-            //Cargo recorrido
+            //Cargo recorridos
             axios.get("/mapa").then(function (response) {
                 _this2.puntosRecorrido = response.data.puntos;
             });
@@ -53554,7 +53555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var mapa = new mapboxgl.Map({
                 container: 'map', //indico el contenedor donde se va a generar el mapa
                 style: 'mapbox://styles/mapbox/streets-v9', //indico el estilo del mapa
-                zoom: 12, //indico el zoom inicial en el mapa
+                zoom: 15, //indico el zoom inicial en el mapa
                 center: coordenadas_rawson, //indico en que coordenadas se va a centrar el mapa
                 showZoom: true
             });
@@ -53566,28 +53567,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             mapa.on('load', function () {
 
+                var geojson = '"id": "route","type": "line","source": {"type": "geojson","data": {"type": "Feature","properties": {},"geometry": {"type": "LineString","coordinates": [-65.0585075,-43.3397844],[-65.0577351,-43.3398908],[-65.0571293,-43.3397519]} }}, "layout": {"line-join": "round", "line-cap": "round"},"paint": {"line-color": "#888","line-width": 8 }';
                 mapa.addLayer({
-                    "id": "route",
-                    "type": "line",
-                    "source": {
-                        "type": "geojson",
-                        "data": {
-                            "type": "Feature",
-                            "properties": {},
-                            "geometry": {
-                                "type": "LineString",
-                                "coordinates": this.puntosRecorrido
-                            }
-                        }
-                    },
-                    "layout": {
-                        "line-join": "round",
-                        "line-cap": "round"
-                    },
-                    "paint": {
-                        "line-color": "#888",
-                        "line-width": 8
-                    }
+                    "source": geojson
+
                 });
             });
         },
