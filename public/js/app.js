@@ -53507,35 +53507,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             modalRecorrido: false,
-            recorrido: '',
+            recorrido_identificador: '',
             paradas: [],
             recorridos: [],
-            puntosRecorrido: []
+            puntosRecorrido: [],
+            mapa: [] //Variable donde se va a contener el mapa principal
         };
     },
     mounted: function mounted() {
         this.Leer();
-        this.GenerarMapa2();
+        this.mapa = this.GenerarMapa();
     },
 
     methods: {
+        GenerarMapa: function GenerarMapa() {
+            /*Genero el mapa*/
+            var coordenadas_rawson = ol.proj.transform([-65.1056655, -43.2991348], 'EPSG:4326', 'EPSG:3857');
+
+            var mapa = new ol.Map({
+                layers: [new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })],
+                target: 'mapa',
+                view: new ol.View({
+                    center: coordenadas_rawson,
+                    zoom: 13
+                })
+            });
+            return mapa;
+        },
         BuscarRecorrido: function BuscarRecorrido(id) {
             var _this = this;
 
             this.puntosRecorrido = [];
-            //Cargo recorridos
-            axios.get("/mapa/{id}").then(function (response) {
+            //Cargo los puntos del recorrido seleccionado
+            axios.get("/mapa/" + this.recorrido_identificador).then(function (response) {
                 _this.puntosRecorrido = response.data.puntos;
             });
             console.log(this.puntosRecorrido);
             this.closeModalRecorrido();
-            this.GenerarMapa2();
+            this.AgregarLineString();
         },
         Leer: function Leer() {
             var _this2 = this;
@@ -53548,33 +53564,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get("/recorrido").then(function (response) {
                 _this2.recorridos = response.data.recorridos;
             });
-            //Cargo recorridos
+            //Cargo un recorrido
             axios.get("/mapa").then(function (response) {
                 _this2.puntosRecorrido = response.data.puntos;
             });
         },
-        GenerarMapa2: function GenerarMapa2() {
-            //Creo un array con las coordenadas de rawson,tambien indico el sistema de coordenadas(EPGS)a usar
-            var coordenadas_rawson = ol.proj.transform([-65.1056655, -43.2991348], 'EPSG:4326', 'EPSG:3857');
 
-            /*
-            La creación de una nueva instancia "ol.Map"(mapa) requiere que el usuario especifique un objeto con las siguientes propiedades:
-                -target el elemento HTML de destino, donde se representará el mapa.
-                -layers una o más referencias de la capa con los datos que se mostrarán(en este caso la fuente es Open Street Map).
-                -view una instancia ol.View es responsable de gestionar la forma de visualizar el mapa.
-            */
-            var mapa = new ol.Map({
-                layers: [new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                })],
-                target: 'mapa',
-                view: new ol.View({
-                    center: coordenadas_rawson,
-                    zoom: 13
-                })
-            });
-
-            /*---AGREGAR UN MARCADOR AL MAPA---*/
+        /*---AGREGAR UN MARCADOR AL MAPA---*/
+        agregarMarcador: function agregarMarcador() {
 
             var marcadores = []; //Creo un array donde van a ir todos los marcadores que quiero agregar al mapa
 
@@ -53608,9 +53605,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             //Añado la capa vectorial al mapa
-            mapa.addLayer(vectorLayer);
+            this.mapa.addLayer(vectorLayer);
 
             /*---FIN AGREGAR MARCADOR---*/
+        },
+        AgregarLineString: function AgregarLineString() {
             /*--- INICIO LINESTRING ---*/
             //Creo un Vector de Tipo LineString y le paso las Coordenadas
             var layerLines = new ol.layer.Vector({
@@ -53623,7 +53622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             //añado la capa del Linestring al mapa
-            mapa.addLayer(layerLines);
+            this.mapa.addLayer(layerLines);
 
             /*---- FIN DE LINESTRING ----*/
         },
@@ -53652,7 +53651,11 @@ var render = function() {
       attrs: { id: "mapa" }
     }),
     _vm._v(" "),
-    _c("button", { staticClass: "btn btn-info" }, [_vm._v("Mostrar Paradas")]),
+    _c(
+      "button",
+      { staticClass: "btn btn-info", on: { click: _vm.agregarMarcador } },
+      [_vm._v("Mostrar Paradas")]
+    ),
     _vm._v(" "),
     _c(
       "button",
@@ -53706,8 +53709,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.recorrido,
-                            expression: "recorrido"
+                            value: _vm.recorrido_identificador,
+                            expression: "recorrido_identificador"
                           }
                         ],
                         on: {
@@ -53720,7 +53723,7 @@ var render = function() {
                                 var val = "_value" in o ? o._value : o.value
                                 return val
                               })
-                            _vm.recorrido = $event.target.multiple
+                            _vm.recorrido_identificador = $event.target.multiple
                               ? $$selectedVal
                               : $$selectedVal[0]
                           }
@@ -53747,14 +53750,14 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-footer" }, [
-                    _vm.recorrido
+                    _vm.recorrido_identificador
                       ? _c(
                           "button",
                           {
                             staticClass: "btn btn-success",
                             on: {
                               click: function($event) {
-                                _vm.BuscarRecorrido(_vm.recorrido)
+                                _vm.BuscarRecorrido()
                               }
                             }
                           },
