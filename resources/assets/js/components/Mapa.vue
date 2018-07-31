@@ -3,7 +3,7 @@
     <!--div donde se va a contener el mapa-->
     <div style="width:80%; height:80%" id="mapa">
 
-        <!-- MAPA -->>
+        <!-- MAPA -->
     </div>
 
     <!--BOTONES PARA LAS ACCIONES-->
@@ -26,7 +26,7 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" @click="closeModalRecorrido" v-if="recorrido">Mostrar recorrido</button>
+                        <button class="btn btn-success" @click="BuscarRecorrido(recorrido)" v-if="recorrido">Mostrar recorrido</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -52,6 +52,16 @@ export default {
         this.GenerarMapa2();
     },
     methods:{
+        BuscarRecorrido(id){
+            this.puntosRecorrido=[];
+            //Cargo recorridos
+            axios.get("/mapa/{id}").then(response => {
+                this.puntosRecorrido = response.data.puntos;
+            });
+            console.log(this.puntosRecorrido);
+            this.closeModalRecorrido();
+            this.GenerarMapa2();
+        },
         Leer(){
 
             //Cargo paradas
@@ -68,82 +78,81 @@ export default {
             });
         },
         GenerarMapa2(){
-                //Creo un array con las coordenadas de rawson,tambien indico el sistema de coordenadas(EPGS)a usar
-    var coordenadas_rawson=ol.proj.transform([-65.1056655,-43.2991348], 'EPSG:4326', 'EPSG:3857');
+        //Creo un array con las coordenadas de rawson,tambien indico el sistema de coordenadas(EPGS)a usar
+            var coordenadas_rawson=ol.proj.transform([-65.1056655,-43.2991348], 'EPSG:4326', 'EPSG:3857');
 
-   
-   /*
-   La creación de una nueva instancia "ol.Map"(mapa) requiere que el usuario especifique un objeto con las siguientes propiedades:
-    -target el elemento HTML de destino, donde se representará el mapa.
-    -layers una o más referencias de la capa con los datos que se mostrarán(en este caso la fuente es Open Street Map).
-    -view una instancia ol.View es responsable de gestionar la forma de visualizar el mapa.
-   */
-   var mapa = new ol.Map({ 
-        layers: [ 
-            new ol.layer.Tile({ 
-                source: new ol.source.OSM()
-            }) 
-        ], 
-        target: 'mapa', 
-        view: new ol.View({ 
-            center:coordenadas_rawson,
-            zoom: 13
-        }) 
-    });
-   
-/*---AGREGAR UN MARCADOR AL MAPA---*/
+        /*
+        La creación de una nueva instancia "ol.Map"(mapa) requiere que el usuario especifique un objeto con las siguientes propiedades:
+            -target el elemento HTML de destino, donde se representará el mapa.
+            -layers una o más referencias de la capa con los datos que se mostrarán(en este caso la fuente es Open Street Map).
+            -view una instancia ol.View es responsable de gestionar la forma de visualizar el mapa.
+        */
+        var mapa = new ol.Map({ 
+                layers: [ 
+                    new ol.layer.Tile({ 
+                        source: new ol.source.OSM()
+                    }) 
+                ], 
+                target: 'mapa', 
+                view: new ol.View({ 
+                    center:coordenadas_rawson,
+                    zoom: 13
+                }) 
+            });
+        
+        /*---AGREGAR UN MARCADOR AL MAPA---*/
 
-var marcadores=[];//Creo un array donde van a ir todos los marcadores que quiero agregar al mapa
+        var marcadores=[];//Creo un array donde van a ir todos los marcadores que quiero agregar al mapa
 
-//Creo una nueva geometria donde defino las coordenadas,sistema de coordenadas,etc.
-var iconFeature = new ol.Feature({
-  geometry: new ol.geom.Point(ol.proj.transform([-65.0521686,-43.3081713], 'EPSG:4326','EPSG:3857')),
-  name: 'Parada entrada 3 de abril',  
-});
+        //Creo una nueva geometria donde defino las coordenadas,sistema de coordenadas,etc.
+        var iconFeature = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.transform([-65.0521686,-43.3081713], 'EPSG:4326','EPSG:3857')),
+            name: 'Parada',  
+        });
 
-//Añado la geometria creada(punto)  al array de marcadores
-marcadores.push(iconFeature);
+        //Añado la geometria creada(punto)  al array de marcadores
+        marcadores.push(iconFeature);
 
-//Fuentes
-var vectorSource = new ol.source.Vector({
-  features: marcadores //add an array of features
-});
+        //Fuentes
+        var vectorSource = new ol.source.Vector({
+            features: marcadores //add an array of features
+        });
 
-//Defino el estilo del marcador
-var iconStyle = new ol.style.Style({
-  image: new ol.style.Icon(({
-    opacity: 0.75,
-    src: 'http://static.websguru.com.ar/var/m_a/a7/a78/32892/522624-icono-bus.png',
-  }))
-});
+        //Defino el estilo del marcador
+        var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon(({
+                opacity: 0.75,
+                src: 'http://static.websguru.com.ar/var/m_a/a7/a78/32892/522624-icono-bus.png',
+            }))
+        });
 
-/*Creo una capa vectorial,indicando la fuente y el estilo para aplicar a dicha capa,
-que posteriormente se agregara al mapa*/
-var vectorLayer = new ol.layer.Vector({
-  source: vectorSource,
-  style: iconStyle
-});
+        /*Creo una capa vectorial,indicando la fuente y el estilo para aplicar a dicha capa,
+        que posteriormente se agregara al mapa*/
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: iconStyle
+        });
 
-//Añado la capa vectorial al mapa
-mapa.addLayer(vectorLayer);
+        //Añado la capa vectorial al mapa
+        mapa.addLayer(vectorLayer);
 
-/*---FIN AGREGAR MARCADOR---*/
-/*--- INICIO LINESTRING ---*/
-    //Creo un Vector de Tipo LineString y le paso las Coordenadas
-    var layerLines = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: [new ol.Feature({
-                geometry: new ol.geom.LineString(this.puntosRecorrido),
-                name: 'Line'
-            })]
-        }),
-    });
+        /*---FIN AGREGAR MARCADOR---*/
+        /*--- INICIO LINESTRING ---*/
+            //Creo un Vector de Tipo LineString y le paso las Coordenadas
+            var layerLines = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [new ol.Feature({
+                        geometry: new ol.geom.LineString(this.puntosRecorrido),
+                        name: 'Line'
+                    })]
+                }),
+            });
 
-//añado la capa del Linestring al mapa
-  mapa.addLayer(layerLines);
-  
-  
-  /*---- FIN DE LINESTRING ----*/
+        //añado la capa del Linestring al mapa
+        mapa.addLayer(layerLines);
+        
+        
+        /*---- FIN DE LINESTRING ----*/
         },
         //MODALS funciones
         showModalRecorrido(){

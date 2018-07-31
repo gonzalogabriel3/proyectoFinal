@@ -53525,20 +53525,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        Leer: function Leer() {
+        BuscarRecorrido: function BuscarRecorrido(id) {
             var _this = this;
+
+            this.puntosRecorrido = [];
+            //Cargo recorridos
+            axios.get("/mapa/{id}").then(function (response) {
+                _this.puntosRecorrido = response.data.puntos;
+            });
+            console.log(this.puntosRecorrido);
+            this.closeModalRecorrido();
+            this.GenerarMapa2();
+        },
+        Leer: function Leer() {
+            var _this2 = this;
 
             //Cargo paradas
             axios.get("/parada").then(function (response) {
-                _this.paradas = response.data.paradas;
+                _this2.paradas = response.data.paradas;
             });
             //Cargo recorridos
             axios.get("/recorrido").then(function (response) {
-                _this.recorridos = response.data.recorridos;
+                _this2.recorridos = response.data.recorridos;
             });
             //Cargo recorridos
             axios.get("/mapa").then(function (response) {
-                _this.puntosRecorrido = response.data.puntos;
+                _this2.puntosRecorrido = response.data.puntos;
             });
         },
         GenerarMapa2: function GenerarMapa2() {
@@ -53547,9 +53559,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             /*
             La creación de una nueva instancia "ol.Map"(mapa) requiere que el usuario especifique un objeto con las siguientes propiedades:
-             -target el elemento HTML de destino, donde se representará el mapa.
-             -layers una o más referencias de la capa con los datos que se mostrarán(en este caso la fuente es Open Street Map).
-             -view una instancia ol.View es responsable de gestionar la forma de visualizar el mapa.
+                -target el elemento HTML de destino, donde se representará el mapa.
+                -layers una o más referencias de la capa con los datos que se mostrarán(en este caso la fuente es Open Street Map).
+                -view una instancia ol.View es responsable de gestionar la forma de visualizar el mapa.
             */
             var mapa = new ol.Map({
                 layers: [new ol.layer.Tile({
@@ -53569,7 +53581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Creo una nueva geometria donde defino las coordenadas,sistema de coordenadas,etc.
             var iconFeature = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.transform([-65.0521686, -43.3081713], 'EPSG:4326', 'EPSG:3857')),
-                name: 'Parada entrada 3 de abril'
+                name: 'Parada'
             });
 
             //Añado la geometria creada(punto)  al array de marcadores
@@ -53600,8 +53612,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             /*---FIN AGREGAR MARCADOR---*/
             /*--- INICIO LINESTRING ---*/
-            var points = [[-65.05923, -43.33551], [-65.05887, -43.33472], [-65.05865, -43.33427]];
-
+            //Creo un Vector de Tipo LineString y le paso las Coordenadas
             var layerLines = new ol.layer.Vector({
                 source: new ol.source.Vector({
                     features: [new ol.Feature({
@@ -53611,7 +53622,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 })
             });
 
+            //añado la capa del Linestring al mapa
             mapa.addLayer(layerLines);
+
             /*---- FIN DE LINESTRING ----*/
         },
 
@@ -53634,11 +53647,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "div",
-      { staticStyle: { width: "80%", height: "80%" }, attrs: { id: "mapa" } },
-      [_vm._v(">\r\n    ")]
-    ),
+    _c("div", {
+      staticStyle: { width: "80%", height: "80%" },
+      attrs: { id: "mapa" }
+    }),
     _vm._v(" "),
     _c("button", { staticClass: "btn btn-info" }, [_vm._v("Mostrar Paradas")]),
     _vm._v(" "),
@@ -53740,7 +53752,11 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-success",
-                            on: { click: _vm.closeModalRecorrido }
+                            on: {
+                              click: function($event) {
+                                _vm.BuscarRecorrido(_vm.recorrido)
+                              }
+                            }
                           },
                           [_vm._v("Mostrar recorrido")]
                         )
