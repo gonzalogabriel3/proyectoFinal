@@ -36,7 +36,6 @@ class MapaController extends Controller
             //Al arreglo creado,lo agrego al arreglo de puntos
             array_push($puntos,$punto);
         }
-        
     
         return response()->json([
             'puntos' => $puntos

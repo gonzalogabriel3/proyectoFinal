@@ -42,7 +42,8 @@ export default {
             recorridos:[],
             paradas:[],
             puntosRecorrido:null,
-            mapa:[]//Variable donde se va a contener el mapa principal
+            mapa:[],//Variable donde se va a contener el mapa principal
+            
         }
     },
     mounted()
@@ -68,22 +69,27 @@ export default {
                 return mymap;
         },
         BuscarRecorrido(id){
-            //this.puntosRecorrido === null;
+            var polyline;
             
-
+            /*if(this.lineString==true){
+                this.mapa.removeLayer(polyline);
+            }*/
             //Cargo los puntos del recorrido seleccionado
              axios.get("/mapa/"+this.recorrido_identificador).then(response => {
                 this.puntosRecorrido = response.data.puntos;
+                polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
+                
+                this.closeModalRecorrido();
             })
             //console.log(this.puntosRecorrido);
-
+            /*
             if(polyline === undefined){
                 var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);                
             } else {
-                this.mapa.removeLayer(polyline);// For hide
+                // For hide
                 var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
             }
-            this.closeModalRecorrido();
+            this.closeModalRecorrido();*/
 
         },
         Leer(){
@@ -91,20 +97,21 @@ export default {
             axios.get("/recorrido").then(response => {
                 this.recorridos = response.data.recorridos;
             });
-            //Cargo un recorrido
+            /*//Cargo un recorrido
             axios.get("/mapa").then(response => {
                 this.puntosRecorrido = response.data.puntos;
-            });
+            });*/
         },
         mostrarParadas(){
             var i;
-            //Cargo un recorrido
+            //Cargo las paradas
             axios.get("/parada").then(response => {
                 this.paradas = response.data.paradas;
-            });
-             for (i = 0; i < this.paradas.length; i++) { 
+                for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud]).addTo(this.mapa);
-            }
+                }
+            });
+            
         },
         //MODALS funciones
         showModalRecorrido(){
