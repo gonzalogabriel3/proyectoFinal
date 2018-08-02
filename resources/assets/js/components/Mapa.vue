@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--div donde se va a contener el mapa-->
-    <div id="mapid" style="width: 600px; height: 400px;">
+    <div id="mapid" style="width: 1000px; height: 400px;">
     <!-- Contenedor del Mapa -->
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
@@ -43,6 +43,7 @@ export default {
             paradas:[],
             puntosRecorrido:null,
             mapa:[],//Variable donde se va a contener el mapa principal
+            polyline:[],//Variable que va a contener el linestring(puntos) de un recorrido
             
         }
     },
@@ -69,49 +70,36 @@ export default {
                 return mymap;
         },
         BuscarRecorrido(id){
-            var polyline;
             
-            /*if(this.lineString==true){
-                this.mapa.removeLayer(polyline);
-            }*/
+            /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/ 
+            if(this.mapa.hasLayer(this.polyline)){
+                this.mapa.removeLayer(this.polyline);
+            }
             //Cargo los puntos del recorrido seleccionado
              axios.get("/mapa/"+this.recorrido_identificador).then(response => {
                 this.puntosRecorrido = response.data.puntos;
-                polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
+                //Genero el linestring a partir de los puntos recibidos
+                this.polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
                 
                 this.closeModalRecorrido();
-            })
-            //console.log(this.puntosRecorrido);
-            /*
-            if(polyline === undefined){
-                var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);                
-            } else {
-                // For hide
-                var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
-            }
-            this.closeModalRecorrido();*/
+            });
 
         },
         Leer(){
-            //Cargo recorridos
+            //Cargo los recorridos para que el usuario pueda seleccionar uno
             axios.get("/recorrido").then(response => {
                 this.recorridos = response.data.recorridos;
             });
-            /*//Cargo un recorrido
-            axios.get("/mapa").then(response => {
-                this.puntosRecorrido = response.data.puntos;
-            });*/
         },
         mostrarParadas(){
             var i;
-            //Cargo las paradas
+            //Cargo las paradas y las muestro en el mapa
             axios.get("/parada").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud]).addTo(this.mapa);
                 }
-            });
-            
+            });         
         },
         //MODALS funciones
         showModalRecorrido(){
