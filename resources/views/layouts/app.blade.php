@@ -10,14 +10,15 @@
 
     <title>{{ config('app.name', 'Proyecto') }}</title>
 
-    <!--CND de mapbox-->
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet'/>
-
-    <!--CND de Openlayers -->
-    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
-    <script src="https://openlayers.org/en/v4.6.4/build/ol.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/4.6.4/ol.js"></script>
+    <!--CND de leaflet-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+   		integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   		crossorigin=""/>
+   	<!-- Make sure you put this AFTER Leaflet's CSS -->
+ 	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+   		integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+   		crossorigin="">		
+   	</script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

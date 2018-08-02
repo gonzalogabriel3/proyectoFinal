@@ -27,6 +27,7 @@ class MapaController extends Controller
             //Obtengo la latitud y longitud de un punto
             $latitud=$geom->getLat();
             $longitud=$geom->getLng();
+           
             
             //Creo un nuevo arreglo y le inserto los valores de la latitud y longitud
             $punto=array();
