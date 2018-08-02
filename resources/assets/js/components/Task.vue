@@ -53,9 +53,9 @@ export default {
     methods:{
         GenerarMapa(){
             /*Genero el mapa*/
-                var mymap = L.map('mapid').setView([-43.2991348,-65.1056655], 13);
+            var mymap = L.map('mapid').setView([-43.2991348,-65.1056655], 13);
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
                 '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -64,10 +64,9 @@ export default {
             updateWhenIdle: true,
             reuseTiles: true
 
-        }).addTo(mymap);
-            return mymap;
+            }).addTo(mymap);
+                return mymap;
         },
-
         BuscarRecorrido(id){
             //this.puntosRecorrido === null;
             
@@ -96,14 +95,6 @@ export default {
             axios.get("/task").then(response => {
                 this.puntosRecorrido = response.data.puntos;
             });
-        },
-        AgregarLineString(){
-
-       
-        // zoom the map to the polyline
-       //this.mapa.fitBounds(polyline.getBounds());
-        
-        /*---- FIN DE LINESTRING ----*/
         },
         //MODALS funciones
         showModalRecorrido(){

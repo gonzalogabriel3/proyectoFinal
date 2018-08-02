@@ -1,10 +1,11 @@
 <template>
 <div>
-    <!--div donde se va a contener el MAPA-->
-    <div id="mapid" style="width: 1200px; height: 500px;"></div>
-
+    <!--div donde se va a contener el mapa-->
+    <div id="mapid" style="width: 600px; height: 400px;">
+    <!-- Contenedor del Mapa -->
+    </div>
     <!--BOTONES PARA LAS ACCIONES-->
-    <button class="btn btn-info" @click="agregarMarcador">Mostrar Paradas</button>
+    <!--<button class="btn btn-info" @click="agregarMarcador">Mostrar Paradas</button>-->
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
 
     <!--MODAL para seleccionar un recorrido-->
@@ -38,44 +39,53 @@ export default {
         return {
             modalRecorrido:false,
             recorrido_identificador:'',
-            paradas: [],
             recorridos:[],
-            puntosRecorrido:[],
-            mapa:null,//Variable donde se va a contener el mapa principal
+            puntosRecorrido:null,
+            mapa:[]//Variable donde se va a contener el mapa principal
         }
     },
     mounted()
     {
         this.Leer();
-        this.GenerarMapa();
+        this.mapa=this.GenerarMapa();
     },
     methods:{
         GenerarMapa(){
             /*Genero el mapa*/
-            var coordenadas_rawson=[-43.2991348,-65.1056655];
-		    this.mapa = L.map('mapid').setView(coordenadas_rawson,12);
+            var mymap = L.map('mapid').setView([-43.2991348,-65.1056655], 13);
 
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                maxZoom: 18,
-                id: 'mapbox.streets'
-            }).addTo(this.mapa);
-            
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox.streets',
+            updateWhenIdle: true,
+            reuseTiles: true
+
+            }).addTo(mymap);
+                return mymap;
         },
         BuscarRecorrido(id){
-            this.puntosRecorrido=[];
+            //this.puntosRecorrido === null;
+            
+
             //Cargo los puntos del recorrido seleccionado
-            axios.get("/mapa/"+this.recorrido_identificador).then(response => {
+             axios.get("/mapa/"+this.recorrido_identificador).then(response => {
                 this.puntosRecorrido = response.data.puntos;
-            });
+            })
+            //console.log(this.puntosRecorrido);
+
+            if(polyline === undefined){
+                var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);                
+            } else {
+                this.mapa.removeLayer(polyline);// For hide
+                var polyline = L.polyline(this.puntosRecorrido, {color: 'red'}).addTo(this.mapa);
+            }
             this.closeModalRecorrido();
-            //this.puntosRecorrido=[[-43.3397844,-65.0585075],[-43.3398908,-65.0577351],[-43.3397519,-65.0571293],[-43.3396336,-65.0568447],[-43.3394532,-65.0565236],[-43.3391457,-65.0560845],[-43.3388914,-65.0557105],[-43.3386519,-65.055369],[-43.3383267,-65.0549136],[-43.3380812,-65.0545843],[-43.337895,-65.0543811],[-43.3378095,-65.0543046],[-43.3376646,-65.0542326],[-43.3375127,-65.0541774],[-43.3372386,-65.0540742],[-43.3370936,-65.0540526],[-43.3368771,-65.0540093],[-43.3367549,-65.0539877],[-43.3365506,-65.0539493],[-43.3363393,-65.0538773],[-43.3361997,-65.0538293],[-43.3360154,-65.0537681],[-43.3359212,-65.0537297],[-43.3357771,-65.0536817],[-43.3356304,-65.0536336],[-43.3354776,-65.0535808],[-43.335379,-65.053546],[-43.3352637,-65.053504],[-43.3351127,-65.0534488],[-43.3349407,-65.053384],[-43.3347853,-65.0533312],[-43.3346299,-65.0532759],[-43.3344789,-65.0532267],[-43.3343357,-65.0531583],[-43.334155,-65.0530923],[-43.3340781,-65.0530563],[-43.3339777,-65.0530215],[-43.3338948,-65.0529795],[-43.3337891,-65.0529603]];
-            this.AgregarLineString();
+
         },
         Leer(){
-            //Cargo paradas
-            axios.get("/parada").then(response => {
-                this.paradas = response.data.paradas;
-            });
             //Cargo recorridos
             axios.get("/recorrido").then(response => {
                 this.recorridos = response.data.recorridos;
@@ -84,13 +94,6 @@ export default {
             axios.get("/mapa").then(response => {
                 this.puntosRecorrido = response.data.puntos;
             });
-        },
-        agregarMarcador(){
-            var marker = L.marker([-43.3081713,-65.0521686]).addTo(this.mapa).bindPopup('<b>Usted esta aqui</b>').openPopup();
-        },
-        AgregarLineString(){
-           var polyline = L.polyline(this.puntosRecorrido, {color: 'blue'}).addTo(this.mapa);
-        
         },
         //MODALS funciones
         showModalRecorrido(){

@@ -19,7 +19,7 @@ class MapaController extends Controller
     {
         //Obtengo el recorrido(linestring)
         $recorrido=Recorrido::find(1);
-        
+
         //Creo un array donde se va a contener todos los punto del linestring
         $puntos=array();
         
@@ -27,7 +27,6 @@ class MapaController extends Controller
             //Obtengo la latitud y longitud de un punto
             $latitud=$geom->getLat();
             $longitud=$geom->getLng();
-           
             
             //Creo un nuevo arreglo y le inserto los valores de la latitud y longitud
             $punto=array();
@@ -37,7 +36,7 @@ class MapaController extends Controller
             //Al arreglo creado,lo agrego al arreglo de puntos
             array_push($puntos,$punto);
         }
-       
+        
     
         return response()->json([
             'puntos' => $puntos
