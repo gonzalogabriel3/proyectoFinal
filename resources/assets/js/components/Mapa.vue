@@ -5,7 +5,7 @@
     <!-- Contenedor del Mapa -->
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
-    <!--<button class="btn btn-info" @click="agregarMarcador">Mostrar Paradas</button>-->
+    <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
 
     <!--MODAL para seleccionar un recorrido-->
@@ -40,6 +40,7 @@ export default {
             modalRecorrido:false,
             recorrido_identificador:'',
             recorridos:[],
+            paradas:[],
             puntosRecorrido:null,
             mapa:[]//Variable donde se va a contener el mapa principal
         }
@@ -94,6 +95,16 @@ export default {
             axios.get("/mapa").then(response => {
                 this.puntosRecorrido = response.data.puntos;
             });
+        },
+        mostrarParadas(){
+            var i;
+            //Cargo un recorrido
+            axios.get("/parada").then(response => {
+                this.paradas = response.data.paradas;
+            });
+             for (i = 0; i < this.paradas.length; i++) { 
+                var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud]).addTo(this.mapa);
+            }
         },
         //MODALS funciones
         showModalRecorrido(){

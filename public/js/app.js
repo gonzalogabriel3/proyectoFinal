@@ -53513,6 +53513,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             modalRecorrido: false,
             recorrido_identificador: '',
             recorridos: [],
+            paradas: [],
             puntosRecorrido: null,
             mapa: [] //Variable donde se va a contener el mapa principal
         };
@@ -53569,6 +53570,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this2.puntosRecorrido = response.data.puntos;
             });
         },
+        mostrarParadas: function mostrarParadas() {
+            var _this3 = this;
+
+            var i;
+            //Cargo un recorrido
+            axios.get("/parada").then(function (response) {
+                _this3.paradas = response.data.paradas;
+            });
+            for (i = 0; i < this.paradas.length; i++) {
+                var marker = L.marker([this.paradas[i].latitud, this.paradas[i].longitud]).addTo(this.mapa);
+            }
+        },
 
         //MODALS funciones
         showModalRecorrido: function showModalRecorrido() {
@@ -53593,6 +53606,12 @@ var render = function() {
       staticStyle: { width: "600px", height: "400px" },
       attrs: { id: "mapid" }
     }),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-info", on: { click: _vm.mostrarParadas } },
+      [_vm._v("Mostrar Paradas")]
+    ),
     _vm._v(" "),
     _c(
       "button",
