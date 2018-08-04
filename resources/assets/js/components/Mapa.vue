@@ -7,6 +7,8 @@
     <!--BOTONES PARA LAS ACCIONES-->
     <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
+    <button class="btn btn-warning" @click="mostrarUsuario">Mostrar un Usuario</button>
+    
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -44,7 +46,9 @@ export default {
             puntosRecorrido:null,
             mapa:[],//Variable donde se va a contener el mapa principal
             polyline:[],//Variable que va a contener el linestring(puntos) de un recorrido
-            
+            usuario:[],//Variable que va a contener el icono(punto) de un usuario
+            usuario_latitud:'',//Variable que va a contener la latitud de un usuario
+            usuario_longitud:'',//Variable que va a contener la longitud de un usuario
         }
     },
     mounted()
@@ -69,7 +73,35 @@ export default {
             }).addTo(mymap);
                 return mymap;
         },
-        BuscarRecorrido(id){
+        mostrarUsuario(){
+            //Si ya hay un icono cargado de un usuario en el mapa lo elimino
+            if(this.mapa.hasLayer(this.usuario)){
+                this.mapa.removeLayer(this.usuario);
+            }
+            //Cargo la latitud y longitud de un usuario
+            this.usuario_latitud=-43.302458;
+            this.usuario_longitud=-65.101850;
+            //this.usuario_latitud=-43.302089; 
+            //this.usuario_longitud=-65.087845;
+
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoUsuario = L.icon({
+                iconUrl: 'usuario.png',
+                iconSize: [50, 50] // size of the icon
+            });
+
+            //Obtengo el arreglo con las coordenadas pasadas
+            axios.get("/posicionUsuario/"+this.usuario_latitud+"/"+this.usuario_longitud).then(response => {
+                var coordenadas=response.data.coordenadas_usuario;
+                
+                //Dibujo las coordenadas del usuario en el mapa
+                this.usuario = L.marker(coordenadas,{icon: iconoUsuario}).addTo(this.mapa).bindPopup('<b>Usted esta aqui</b>').openPopup();
+                //Centro el mapa en la ubicacion del usuario
+                this.mapa.setView(coordenadas,16);
+                
+            });               
+        },
+        BuscarRecorrido(){
             
             /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/ 
             if(this.mapa.hasLayer(this.polyline)){

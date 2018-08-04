@@ -67,8 +67,10 @@ Route::middleware(['auth'])->group(function () {
 
     //Ruta para el mapa
     Route::get('/inicioMapa',function(){
-    return view('mapa');
+        return view('mapa');
     });
+    //Ruta para obtener la posicion de un usuario
+    Route::get('/posicionUsuario/{latitud}/{longitud}','MapaController@posicionUsuario');
 });
 
 Auth::routes();

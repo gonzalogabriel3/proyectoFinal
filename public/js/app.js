@@ -53506,6 +53506,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53516,8 +53518,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             paradas: [],
             puntosRecorrido: null,
             mapa: [], //Variable donde se va a contener el mapa principal
-            polyline: [] //Variable que va a contener el linestring(puntos) de un recorrido
-
+            polyline: [], //Variable que va a contener el linestring(puntos) de un recorrido
+            usuario: [], //Variable que va a contener el icono(punto) de un usuario
+            usuario_latitud: '', //Variable que va a contener la latitud de un usuario
+            usuario_longitud: '' //Variable que va a contener la longitud de un usuario
         };
     },
     mounted: function mounted() {
@@ -53540,8 +53544,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).addTo(mymap);
             return mymap;
         },
-        BuscarRecorrido: function BuscarRecorrido(id) {
+        mostrarUsuario: function mostrarUsuario() {
             var _this = this;
+
+            //Si ya hay un icono cargado de un usuario en el mapa lo elimino
+            if (this.mapa.hasLayer(this.usuario)) {
+                this.mapa.removeLayer(this.usuario);
+            }
+            //Cargo la latitud y longitud de un usuario
+            this.usuario_latitud = -43.302458;
+            this.usuario_longitud = -65.101850;
+            //this.usuario_latitud=-43.302089; 
+            //this.usuario_longitud=-65.087845;
+
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoUsuario = L.icon({
+                iconUrl: 'usuario.png',
+                iconSize: [50, 50] // size of the icon
+            });
+
+            //Obtengo el arreglo con las coordenadas pasadas
+            axios.get("/posicionUsuario/" + this.usuario_latitud + "/" + this.usuario_longitud).then(function (response) {
+                var coordenadas = response.data.coordenadas_usuario;
+
+                //Dibujo las coordenadas del usuario en el mapa
+                _this.usuario = L.marker(coordenadas, { icon: iconoUsuario }).addTo(_this.mapa).bindPopup('<b>Usted esta aqui</b>').openPopup();
+                //Centro el mapa en la ubicacion del usuario
+                _this.mapa.setView(coordenadas, 16);
+            });
+        },
+        BuscarRecorrido: function BuscarRecorrido() {
+            var _this2 = this;
 
             /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/
             if (this.mapa.hasLayer(this.polyline)) {
@@ -53549,30 +53582,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             //Cargo los puntos del recorrido seleccionado
             axios.get("/mapa/" + this.recorrido_identificador).then(function (response) {
-                _this.puntosRecorrido = response.data.puntos;
+                _this2.puntosRecorrido = response.data.puntos;
                 //Genero el linestring a partir de los puntos recibidos
-                _this.polyline = L.polyline(_this.puntosRecorrido, { color: 'red' }).addTo(_this.mapa);
+                _this2.polyline = L.polyline(_this2.puntosRecorrido, { color: 'red' }).addTo(_this2.mapa);
 
-                _this.closeModalRecorrido();
+                _this2.closeModalRecorrido();
             });
         },
         Leer: function Leer() {
-            var _this2 = this;
+            var _this3 = this;
 
             //Cargo los recorridos para que el usuario pueda seleccionar uno
             axios.get("/recorrido").then(function (response) {
-                _this2.recorridos = response.data.recorridos;
+                _this3.recorridos = response.data.recorridos;
             });
         },
         mostrarParadas: function mostrarParadas() {
-            var _this3 = this;
+            var _this4 = this;
 
             var i;
             //Cargo las paradas y las muestro en el mapa
             axios.get("/parada").then(function (response) {
-                _this3.paradas = response.data.paradas;
-                for (i = 0; i < _this3.paradas.length; i++) {
-                    var marker = L.marker([_this3.paradas[i].latitud, _this3.paradas[i].longitud]).addTo(_this3.mapa);
+                _this4.paradas = response.data.paradas;
+                for (i = 0; i < _this4.paradas.length; i++) {
+                    var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud]).addTo(_this4.mapa);
                 }
             });
         },
@@ -53611,6 +53644,12 @@ var render = function() {
       "button",
       { staticClass: "btn btn-success", on: { click: _vm.showModalRecorrido } },
       [_vm._v("Mostrar un Recorrido")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-warning", on: { click: _vm.mostrarUsuario } },
+      [_vm._v("Mostrar un Usuario")]
     ),
     _vm._v(" "),
     _vm.modalRecorrido
