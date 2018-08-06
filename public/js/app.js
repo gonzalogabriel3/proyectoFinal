@@ -53507,7 +53507,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53519,7 +53518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             puntosRecorrido: null,
             mapa: [], //Variable donde se va a contener el mapa principal
             polyline: [], //Variable que va a contener el linestring(puntos) de un recorrido
-            usuario: [], //Variable que va a contener el icono(punto) de un usuario
+            usuario: [], //Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud: '', //Variable que va a contener la latitud de un usuario
             usuario_longitud: '' //Variable que va a contener la longitud de un usuario
         };
@@ -53552,10 +53551,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.mapa.removeLayer(this.usuario);
             }
             //Cargo la latitud y longitud de un usuario
-            this.usuario_latitud = -43.302458;
-            this.usuario_longitud = -65.101850;
-            //this.usuario_latitud=-43.302089; 
-            //this.usuario_longitud=-65.087845;
+            this.usuario_latitud = -43.300806;
+            this.usuario_longitud = -65.090946;
 
             //Creo el icono para dibujar al usuario en el mapa
             var iconoUsuario = L.icon({
@@ -53606,6 +53603,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
                     var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud]).addTo(_this4.mapa);
+                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                    marker.bindPopup(_this4.paradas[i].nombre);
+                    marker.on('mouseover', function (e) {
+                        this.openPopup();
+                    });
+                    marker.on('mouseout', function (e) {
+                        this.closePopup();
+                    });
                 }
             });
         },
