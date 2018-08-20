@@ -21,8 +21,17 @@
     -Obtener la representacion en texto de una geometria
     "SELECT ST_AsText(geom) FROM recorridos where id=1"
 
-CAMBIAR TIPO DE DATO GEOGRAPHY A GEOMETRY
+    -CAMBIAR TIPO DE DATO GEOGRAPHY A GEOMETRY
 
-ALTER TABLE recorridos
-ALTER COLUMN  geom TYPE geometry 
-USING geom::geometry; 
+    "ALTER TABLE recorridos
+    ALTER COLUMN  geom TYPE geometry 
+    USING geom::geometry;"
+
+    -Obtener distancia(en float) entre dos POINTS de una misma tabla
+    "SELECT ST_Distance(punto1.geom, punto2.geom) FROM paradas punto1, paradas punto2 WHERE punto1.id=1386 AND punto2.id=1388;" 
+
+    -Obtener la maxima distancia entre 2 puntos
+    "SELECT ST_MaxDistance(punto1.geom::geometry, punto2.geom::geometry) FROM paradas punto1, paradas punto2 WHERE punto1.id=1386 AND punto2.id=1388;"
+    
+    -Saber si dos geometrias son espacialmente iguales
+    "SELECT ST_Equals(punto1.geom::geometry, punto2.geom::geometry) FROM paradas punto1, paradas punto2 WHERE punto1.id=1386 AND punto2.id=1388;"

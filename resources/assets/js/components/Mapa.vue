@@ -8,6 +8,7 @@
     <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-warning" @click="mostrarUsuario">Mostrar un Usuario</button>
+    <button class="btn btn-danger" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     
 
     <!--MODAL para seleccionar un recorrido-->
@@ -42,6 +43,7 @@ export default {
             recorrido_identificador:'',
             recorridos:[],
             paradas:[],
+            puntosRecarga:[],
             puntosRecorrido:null,
             mapa:[],//Variable donde se va a contener el mapa principal
             polyline:[],//Variable que va a contener el linestring(puntos) de un recorrido
@@ -129,6 +131,29 @@ export default {
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud]).addTo(this.mapa);
                     /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
                     marker.bindPopup(this.paradas[i].nombre);
+                        marker.on('mouseover', function (e) {
+                            this.openPopup();
+                        });
+                        marker.on('mouseout', function (e) {
+                            this.closePopup();
+                        });
+                }
+            });         
+        },
+        mostrarPuntosRecarga(){
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoPuntoRecarga = L.icon({
+                iconUrl: 'sube.png',
+                iconSize: [50, 50] // size of the icon
+            });
+            //Cargo los puntos de recarga y los muestro en el mapa
+            axios.get("/punto").then(response => {
+                this.puntosRecarga = response.data.puntos;
+                for (i = 0; i < this.puntosRecarga.length; i++) { 
+                var marker = L.marker([this.puntosRecarga[i].latitud,this.puntosRecarga[i].longitud],{icon: iconoPuntoRecarga}).addTo(this.mapa);
+                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                    marker.bindPopup(this.puntosRecarga[i].nombre);
                         marker.on('mouseover', function (e) {
                             this.openPopup();
                         });

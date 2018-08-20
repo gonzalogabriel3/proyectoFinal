@@ -31971,7 +31971,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.17
+ * Vue.js v2.5.16
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37060,7 +37060,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.17';
+Vue.version = '2.5.16';
 
 /*  */
 
@@ -53507,6 +53507,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53515,6 +53516,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorrido_identificador: '',
             recorridos: [],
             paradas: [],
+            puntosRecarga: [],
             puntosRecorrido: null,
             mapa: [], //Variable donde se va a contener el mapa principal
             polyline: [], //Variable que va a contener el linestring(puntos) de un recorrido
@@ -53614,6 +53616,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
+        mostrarPuntosRecarga: function mostrarPuntosRecarga() {
+            var _this5 = this;
+
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoPuntoRecarga = L.icon({
+                iconUrl: 'sube.png',
+                iconSize: [50, 50] // size of the icon
+            });
+            //Cargo los puntos de recarga y los muestro en el mapa
+            axios.get("/punto").then(function (response) {
+                _this5.puntosRecarga = response.data.puntos;
+                for (i = 0; i < _this5.puntosRecarga.length; i++) {
+                    var marker = L.marker([_this5.puntosRecarga[i].latitud, _this5.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this5.mapa);
+                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                    marker.bindPopup(_this5.puntosRecarga[i].nombre);
+                    marker.on('mouseover', function (e) {
+                        this.openPopup();
+                    });
+                    marker.on('mouseout', function (e) {
+                        this.closePopup();
+                    });
+                }
+            });
+        },
 
         //MODALS funciones
         showModalRecorrido: function showModalRecorrido() {
@@ -53655,6 +53682,15 @@ var render = function() {
       "button",
       { staticClass: "btn btn-warning", on: { click: _vm.mostrarUsuario } },
       [_vm._v("Mostrar un Usuario")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-danger",
+        on: { click: _vm.mostrarPuntosRecarga }
+      },
+      [_vm._v("Mostrar puntos de recarga")]
     ),
     _vm._v(" "),
     _vm.modalRecorrido
