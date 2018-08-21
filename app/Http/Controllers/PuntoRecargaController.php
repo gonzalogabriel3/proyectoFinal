@@ -10,11 +10,12 @@ use Phaza\LaravelPostgis\Geometries\Point;
 
 class PuntoRecargaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        //Aplico el middleware a todos los metodos del controlador menos al index
+        $this->middleware('auth')->except(['index']);
+    }
+    
     public function index()
     {
         $puntos = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM puntos_recarga ORDER BY id DESC");

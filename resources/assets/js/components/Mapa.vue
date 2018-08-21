@@ -7,8 +7,8 @@
     <!--BOTONES PARA LAS ACCIONES-->
     <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
-    <button class="btn btn-warning" @click="mostrarUsuario">Mostrar un Usuario</button>
     <button class="btn btn-danger" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
+    <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
     
 
     <!--MODAL para seleccionar un recorrido-->
@@ -33,6 +33,29 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un recorrido-->
+    
+    <!--MODAL para seleccionar un usuario-->
+    <div class="modal show" id="anadir" v-if="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeModalUsuario" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Eliga un Usuario</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <select v-model="usuario_id">
+                            <option disabled value="">--Seleccione un usuario--</option>
+                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" @click="MostrarPosicionUsuario()" v-if="usuario_id">Mostrar posicion usuario</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!--FIN DEL MODAL para seleccionar un recorrido-->
 </div>
 </template>
 <script>
@@ -40,11 +63,15 @@ export default {
     data(){
         return {
             modalRecorrido:false,
+            modalUsuario:false,
             recorrido_identificador:'',
             recorridos:[],
+            usuarios:[],
+            usuario_id:'',
             paradas:[],
             puntosRecarga:[],
             puntosRecorrido:null,
+            /**Variables para el dibujado en leaflet**/
             mapa:[],//Variable donde se va a contener el mapa principal
             polyline:[],//Variable que va a contener el linestring(puntos) de un recorrido
             usuario:[],//Variable que va a contener el icono(marker/punto) de un usuario
@@ -74,14 +101,11 @@ export default {
             }).addTo(mymap);
                 return mymap;
         },
-        mostrarUsuario(){
+        MostrarPosicionUsuario(){
             //Si ya hay un icono cargado de un usuario en el mapa lo elimino
             if(this.mapa.hasLayer(this.usuario)){
                 this.mapa.removeLayer(this.usuario);
             }
-            //Cargo la latitud y longitud de un usuario
-            this.usuario_latitud=-43.300806; 
-            this.usuario_longitud=-65.090946;
             
             //Creo el icono para dibujar al usuario en el mapa
             var iconoUsuario = L.icon({
@@ -90,14 +114,15 @@ export default {
             });
 
             //Obtengo el arreglo con las coordenadas pasadas
-            axios.get("/posicionUsuario/"+this.usuario_latitud+"/"+this.usuario_longitud).then(response => {
-                var coordenadas=response.data.coordenadas_usuario;
+            axios.get("/usuario/"+this.usuario_id).then(response => {
+                //Obtengo las coordenadas de la utima posicion de un usuario
+                var coordenadas=[response.data.usuario.latitud,response.data.usuario.longitud];
                 
                 //Dibujo las coordenadas del usuario en el mapa
                 this.usuario = L.marker(coordenadas,{icon: iconoUsuario}).addTo(this.mapa).bindPopup('<b>Usted esta aqui</b>').openPopup();
                 //Centro el mapa en la ubicacion del usuario
                 this.mapa.setView(coordenadas,16);
-                
+                this.closeModalUsuario();
             });               
         },
         BuscarRecorrido(){
@@ -120,6 +145,10 @@ export default {
             //Cargo los recorridos para que el usuario pueda seleccionar uno
             axios.get("/recorrido").then(response => {
                 this.recorridos = response.data.recorridos;
+            });
+            //Cargo los usuarios
+            axios.get("/usuario").then(response => {
+                this.usuarios = response.data.usuarios;
             });
         },
         mostrarParadas(){
@@ -169,6 +198,12 @@ export default {
         },
         closeModalRecorrido(){
             this.modalRecorrido=false;
+        },
+        showModalUsuario(){
+            this.modalUsuario=true;
+        },
+        closeModalUsuario(){
+            this.modalUsuario=false;
         }
     }
 }   

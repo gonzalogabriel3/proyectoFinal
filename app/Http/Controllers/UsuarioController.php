@@ -2,12 +2,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Usuario;
+use Illuminate\Support\Facades\Auth;
+use Phaza\LaravelPostgis\Geometries\Point;
+
 class UsuarioController extends Controller
 {
     
     public function __construct()
     {
-        $this->middleware('auth');
+        //Aplico el middleware a todos los metodos del controlador menos al index
+        $this->middleware('auth')->except(['index','show']);
     }
 
     /**
@@ -70,6 +74,10 @@ class UsuarioController extends Controller
     public function show($id)
     {
         $usuario=Usuario::find($id);
+
+        $usuario->latitud=$usuario->ultima_posicion->getLat();
+        $usuario->longitud=$usuario->ultima_posicion->getLng();
+        
         return response()->json([
             'usuario' => $usuario,
         ], 200);
@@ -121,6 +129,19 @@ class UsuarioController extends Controller
         $usuario->delete();
         return response()->json([
             'message' => 'Colectivo eliminado Correctamente'
+        ], 200);
+    }
+
+    public function guardarPosicion($id,$latitud,$longitud){
+        
+        $usuario=Usuario::find($id);
+       
+        $usuario->ultima_posicion= new Point( $latitud , $longitud );
+
+        $usuario->save();
+        
+        return response()->json([
+            'message' => 'Ultima posicion guardada'
         ], 200);
     }
 }

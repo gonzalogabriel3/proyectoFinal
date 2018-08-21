@@ -107,15 +107,5 @@ class MapaController extends Controller
     {
         //
     }
-    public function posicionUsuario($latitud,$longitud){
-
-        $coordenadasUsuario=array();
-        array_push($coordenadasUsuario,$latitud);
-        array_push($coordenadasUsuario,$longitud);
-
-        return response()->json([
-            'coordenadas_usuario' => $coordenadasUsuario
-        ], 200);
-
-    }
+    
 }

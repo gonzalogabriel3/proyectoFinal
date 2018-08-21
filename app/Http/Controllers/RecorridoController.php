@@ -12,7 +12,8 @@ class RecorridoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        //Aplico el middleware a todos los metodos del controlador menos al index
+        $this->middleware('auth')->except(['index','show']);
     }
    
     public function index()

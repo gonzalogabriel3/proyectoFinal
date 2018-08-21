@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
         return view('mapa');
     });
     //Ruta para obtener la posicion de un usuario
-    Route::get('/posicionUsuario/{latitud}/{longitud}','MapaController@posicionUsuario');
+    Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
 });
 
 Auth::routes();

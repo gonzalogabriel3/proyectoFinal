@@ -53508,16 +53508,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             modalRecorrido: false,
+            modalUsuario: false,
             recorrido_identificador: '',
             recorridos: [],
+            usuarios: [],
+            usuario_id: '',
             paradas: [],
             puntosRecarga: [],
             puntosRecorrido: null,
+            /**Variables para el dibujado en leaflet**/
             mapa: [], //Variable donde se va a contener el mapa principal
             polyline: [], //Variable que va a contener el linestring(puntos) de un recorrido
             usuario: [], //Variable que va a contener el icono(marker/punto) de un usuario
@@ -53545,16 +53572,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).addTo(mymap);
             return mymap;
         },
-        mostrarUsuario: function mostrarUsuario() {
+        MostrarPosicionUsuario: function MostrarPosicionUsuario() {
             var _this = this;
 
             //Si ya hay un icono cargado de un usuario en el mapa lo elimino
             if (this.mapa.hasLayer(this.usuario)) {
                 this.mapa.removeLayer(this.usuario);
             }
-            //Cargo la latitud y longitud de un usuario
-            this.usuario_latitud = -43.300806;
-            this.usuario_longitud = -65.090946;
 
             //Creo el icono para dibujar al usuario en el mapa
             var iconoUsuario = L.icon({
@@ -53563,13 +53587,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             //Obtengo el arreglo con las coordenadas pasadas
-            axios.get("/posicionUsuario/" + this.usuario_latitud + "/" + this.usuario_longitud).then(function (response) {
-                var coordenadas = response.data.coordenadas_usuario;
+            axios.get("/usuario/" + this.usuario_id).then(function (response) {
+                //Obtengo las coordenadas de la utima posicion de un usuario
+                var coordenadas = [response.data.usuario.latitud, response.data.usuario.longitud];
 
                 //Dibujo las coordenadas del usuario en el mapa
                 _this.usuario = L.marker(coordenadas, { icon: iconoUsuario }).addTo(_this.mapa).bindPopup('<b>Usted esta aqui</b>').openPopup();
                 //Centro el mapa en la ubicacion del usuario
                 _this.mapa.setView(coordenadas, 16);
+                _this.closeModalUsuario();
             });
         },
         BuscarRecorrido: function BuscarRecorrido() {
@@ -53594,6 +53620,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Cargo los recorridos para que el usuario pueda seleccionar uno
             axios.get("/recorrido").then(function (response) {
                 _this3.recorridos = response.data.recorridos;
+            });
+            //Cargo los usuarios
+            axios.get("/usuario").then(function (response) {
+                _this3.usuarios = response.data.usuarios;
             });
         },
         mostrarParadas: function mostrarParadas() {
@@ -53648,6 +53678,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeModalRecorrido: function closeModalRecorrido() {
             this.modalRecorrido = false;
+        },
+        showModalUsuario: function showModalUsuario() {
+            this.modalUsuario = true;
+        },
+        closeModalUsuario: function closeModalUsuario() {
+            this.modalUsuario = false;
         }
     }
 });
@@ -53680,17 +53716,17 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-warning", on: { click: _vm.mostrarUsuario } },
-      [_vm._v("Mostrar un Usuario")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
       {
         staticClass: "btn btn-danger",
         on: { click: _vm.mostrarPuntosRecarga }
       },
       [_vm._v("Mostrar puntos de recarga")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-warning", on: { click: _vm.showModalUsuario } },
+      [_vm._v("Mostrar ultima posicion de un usuario")]
     ),
     _vm._v(" "),
     _vm.modalRecorrido
@@ -53792,6 +53828,115 @@ var render = function() {
                             }
                           },
                           [_vm._v("Mostrar recorrido")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalUsuario
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeModalUsuario }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Eliga un Usuario")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.usuario_id,
+                            expression: "usuario_id"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.usuario_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("--Seleccione un usuario--")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.usuarios, function(usuario) {
+                          return _c(
+                            "option",
+                            {
+                              key: usuario.id,
+                              domProps: { value: usuario.id }
+                            },
+                            [_vm._v(_vm._s(usuario.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _vm.usuario_id
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                _vm.MostrarPosicionUsuario()
+                              }
+                            }
+                          },
+                          [_vm._v("Mostrar posicion usuario")]
                         )
                       : _vm._e()
                   ])
