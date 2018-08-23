@@ -146,10 +146,14 @@ class ColectivoController extends Controller
                                     FROM usuarios pos1, usuarios pos2 
                                     WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;")){
                         $colectivo = $usuarios[$i];
-                        return response()->json([
-                            'colectivo'    => $colectivo,
-                            'message' => 'La posicion de Colectivo se encontro correctamente'
-                        ], 200);
+                        if(\DB::select("SELECT ST_Intersects(pos1.ultima_posicion::geometry, pos2.geom::geometry) 
+                                        FROM usuarios pos1, recorridos pos2 
+                                        WHERE pos1.id=$colectivo->id AND pos2.id=1;")){
+                            return response()->json([
+                                'colectivo'    => $colectivo,
+                                'message' => 'La posicion de Colectivo se encontro correctamente'
+                            ], 200);
+                        }
                     }
                 } else {
                     return response()->json([
