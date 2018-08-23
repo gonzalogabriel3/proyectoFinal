@@ -5,7 +5,7 @@
     <!-- Contenedor del Mapa -->
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
-    <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
+    <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas mas cercanas</button>
     <button class="btn btn-danger" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
@@ -160,7 +160,7 @@ export default {
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/parada").then(response => {
+            axios.get("/paradasCercanas/39/41").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);

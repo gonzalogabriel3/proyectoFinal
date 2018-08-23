@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Parada;
+use App\Usuario;
+use App\Colectivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
@@ -135,5 +137,48 @@ class ParadaController extends Controller
         return response()->json([
             'message' => 'Parada eliminada Correctamente'
         ], 200);
+    }
+
+    /*Metodo que calcula las paradas mas cercanas al usuario*/
+    public function obtenerParadasCercanas($idUsuario,$idColectivo){
+        //Busco al usuario para trabajar con su ultima posicion
+        $usuario=Usuario::find($idUsuario);
+        
+        //Busco el colectivo para trabajar con su ultima posicion
+        $colectivo=Usuario::find($idColectivo);
+       
+        //Obtengo la distancia entre esos dos puntos(el usuario y el colectivo)
+        $distanciaColectivo=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)', 'POINT($colectivo->ultima_posicion)') as distancia");
+        $distanciaColectivo=$distanciaColectivo[0]->distancia;
+                
+        //Obtengo todas las paradas
+        $paradas=Parada::all();
+
+        //Creo una variable donde se va a contener todos los id's,de las paradas mas cercanas al usuario
+        $ids_paradas="";
+        
+        //Recorro todas las paradas
+        foreach ($paradas as $parada) {
+            $distanciaParada=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)', 'POINT($parada->geom)')as distancia");
+            $distanciaParada=$distanciaParada[0]->distancia;
+            //Si la distancia entre el usuario y la parada,es menor que la distancia entre el usuario y el colectivo
+            if($distanciaColectivo<$distanciaParada){
+                //Agrego el id de la parada 
+                $ids_paradas=$ids_paradas.$parada->id.",";
+            }
+        }
+
+        //Quito la ultima coma para evitar error al momento de ejecutar la consulta
+        $ids_paradas=trim($ids_paradas,',');
+        
+        //Obtengo todas las paradas
+        $paradasCercanas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id IN($ids_paradas) ORDER BY id DESC");
+        
+        //Las retorno al cliente
+        return response()->json([
+            'paradas' => $paradasCercanas,
+        ], 200);
+        
+
     }
 }

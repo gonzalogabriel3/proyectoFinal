@@ -53637,7 +53637,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/parada").then(function (response) {
+            axios.get("/paradasCercanas/39/41").then(function (response) {
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
                     var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud], { icon: iconoParada }).addTo(_this4.mapa);
@@ -53725,7 +53725,7 @@ var render = function() {
     _c(
       "button",
       { staticClass: "btn btn-info", on: { click: _vm.mostrarParadas } },
-      [_vm._v("Mostrar Paradas")]
+      [_vm._v("Mostrar Paradas mas cercanas")]
     ),
     _vm._v(" "),
     _c(
