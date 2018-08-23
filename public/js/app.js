@@ -31971,7 +31971,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.17
+ * Vue.js v2.5.16
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37060,7 +37060,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.17';
+Vue.version = '2.5.16';
 
 /*  */
 
@@ -53584,7 +53584,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Creo el icono para dibujar al usuario en el mapa
             var iconoUsuario = L.icon({
                 iconUrl: 'usuario.png',
-                iconSize: [50, 50] // size of the icon
+                iconSize: [45, 45] // size of the icon
             });
 
             //Obtengo el arreglo con las coordenadas pasadas
@@ -53631,11 +53631,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this4 = this;
 
             var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoParada = L.icon({
+                iconUrl: 'parada.png',
+                iconSize: [35, 35] // size of the icon
+            });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/parada").then(function (response) {
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
-                    var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud]).addTo(_this4.mapa);
+                    var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud], { icon: iconoParada }).addTo(_this4.mapa);
                     /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
                     marker.bindPopup(_this4.paradas[i].nombre);
                     marker.on('mouseover', function (e) {
@@ -53650,11 +53655,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         mostrarColectivo: function mostrarColectivo() {
             var _this5 = this;
 
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoColectivo = L.icon({
+                iconUrl: 'colectivo.png',
+                iconSize: [55, 55] // size of the icon
+            });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/posicionColectivo").then(function (response) {
                 _this5.colectivo = response.data.colectivo;
-                var marker = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud]).addTo(_this5.mapa);
-                /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                var marker = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud], { icon: iconoColectivo }).addTo(_this5.mapa);
             });
         },
         mostrarPuntosRecarga: function mostrarPuntosRecarga() {
@@ -53721,16 +53730,13 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-success", on: { click: _vm.showModalRecorrido } },
+      { staticClass: "btn btn-danger", on: { click: _vm.showModalRecorrido } },
       [_vm._v("Mostrar un Recorrido")]
     ),
     _vm._v(" "),
     _c(
       "button",
-      {
-        staticClass: "btn btn-danger",
-        on: { click: _vm.mostrarPuntosRecarga }
-      },
+      { staticClass: "btn btn-info", on: { click: _vm.mostrarPuntosRecarga } },
       [_vm._v("Mostrar puntos de recarga")]
     ),
     _vm._v(" "),
@@ -53742,7 +53748,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-info", on: { click: _vm.mostrarColectivo } },
+      { staticClass: "btn btn-success", on: { click: _vm.mostrarColectivo } },
       [_vm._v("Mostrar Colectivo")]
     ),
     _vm._v(" "),

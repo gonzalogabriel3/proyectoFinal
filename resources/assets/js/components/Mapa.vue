@@ -6,10 +6,10 @@
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
     <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas</button>
-    <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
-    <button class="btn btn-danger" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
+    <button class="btn btn-danger" @click="showModalRecorrido">Mostrar un Recorrido</button>
+    <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
-    <button class="btn btn-info" @click="mostrarColectivo">Mostrar Colectivo</button>
+    <button class="btn btn-success" @click="mostrarColectivo">Mostrar Colectivo</button>
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -99,7 +99,7 @@ export default {
             updateWhenIdle: true,
             reuseTiles: true
 
-            }).addTo(mymap);
+            }).addTo(mymap); 
                 return mymap;
         },
         MostrarPosicionUsuario(){
@@ -111,7 +111,7 @@ export default {
             //Creo el icono para dibujar al usuario en el mapa
             var iconoUsuario = L.icon({
                 iconUrl: 'usuario.png',
-                iconSize: [50, 50] // size of the icon
+                iconSize: [45, 45] // size of the icon
             });
 
             //Obtengo el arreglo con las coordenadas pasadas
@@ -154,11 +154,16 @@ export default {
         },
         mostrarParadas(){
             var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoParada = L.icon({
+                iconUrl: 'parada.png',
+                iconSize: [35, 35] // size of the icon
+            });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/parada").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
-                var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud]).addTo(this.mapa);
+                var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);
                     /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
                     marker.bindPopup(this.paradas[i].nombre);
                         marker.on('mouseover', function (e) {
@@ -171,12 +176,16 @@ export default {
             });         
         },
         mostrarColectivo(){
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoColectivo = L.icon({
+                iconUrl: 'colectivo.png',
+                iconSize: [55, 55] // size of the icon
+            });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/posicionColectivo").then(response => {
                 this.colectivo = response.data.colectivo;
-                var marker = L.marker([this.colectivo.latitud,this.colectivo.longitud]).addTo(this.mapa);
-                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
-            
+                var marker = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
+                    
             });         
         },
         mostrarPuntosRecarga(){
