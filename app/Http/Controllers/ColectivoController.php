@@ -11,7 +11,7 @@ class ColectivoController extends Controller
     public function __construct()
     {
          //Aplico el middleware a todos los metodos del controlador menos al index
-         $this->middleware('auth')->except(['index']);
+         $this->middleware('auth')->except(['index','obtenerPosicion']);
     }
 
     /**
@@ -126,5 +126,37 @@ class ColectivoController extends Controller
         return response()->json([
             'message' => 'Colectivo eliminado Correctamente'
         ], 200);
+    }
+    /*
+        Esta funcion es la que permite comparar las posiciones de los usuarios para definir 
+        si al encontrarse dos o mas usuarios en el mismo lugar, se considere que esa es la posicion
+        del colectivo
+
+    */
+    public function obtenerPosicion()
+    {
+        $usuarios = \DB::select("SELECT id, ultima_posicion::geometry ,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios ORDER BY id DESC");
+        for($i = 0 ; $i <= count($usuarios); $i++){
+            $usu1 = $usuarios[$i];
+            for($j = 0 ; $j <= count($usuarios); $j++){
+                if(!($i != $j)){
+                                        
+                    $usu2 = $usuarios[$j];
+                    if(\DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) 
+                                    FROM usuarios pos1, usuarios pos2 
+                                    WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;")){
+                        $colectivo = $usuarios[$i];
+                        return response()->json([
+                            'colectivo'    => $colectivo,
+                            'message' => 'La posicion de Colectivo se encontro correctamente'
+                        ], 200);
+                    }
+                } else {
+                    return response()->json([
+                        'message' => 'La posicion de Colectivo no se encontro'
+                    ], 200);
+                }
+            } 
+        }
     }
 }

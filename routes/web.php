@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
     });
     //Ruta para obtener la posicion de un usuario
     Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
+     
 });
 
 Auth::routes();
@@ -99,5 +100,6 @@ Route::resource('/sugerencia', 'SugerenciaController');
 
 Route::resource('/mapa', 'MapaController');
 
-
+//Ruta para obtener la posicion de un colectivo
+Route::get('/posicionColectivo/','ColectivoController@obtenerPosicion');
 

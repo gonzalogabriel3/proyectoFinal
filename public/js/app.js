@@ -31971,7 +31971,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37060,7 +37060,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -53541,6 +53541,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             recorridos: [],
             usuarios: [],
             usuario_id: '',
+            colectivo: '',
             paradas: [],
             puntosRecarga: [],
             puntosRecorrido: null,
@@ -53646,8 +53647,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        mostrarPuntosRecarga: function mostrarPuntosRecarga() {
+        mostrarColectivo: function mostrarColectivo() {
             var _this5 = this;
+
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/posicionColectivo").then(function (response) {
+                _this5.colectivo = response.data.colectivo;
+                var marker = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud]).addTo(_this5.mapa);
+                /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+            });
+        },
+        mostrarPuntosRecarga: function mostrarPuntosRecarga() {
+            var _this6 = this;
 
             var i;
             //Creo el icono para dibujar al usuario en el mapa
@@ -53657,11 +53668,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             //Cargo los puntos de recarga y los muestro en el mapa
             axios.get("/punto").then(function (response) {
-                _this5.puntosRecarga = response.data.puntos;
-                for (i = 0; i < _this5.puntosRecarga.length; i++) {
-                    var marker = L.marker([_this5.puntosRecarga[i].latitud, _this5.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this5.mapa);
+                _this6.puntosRecarga = response.data.puntos;
+                for (i = 0; i < _this6.puntosRecarga.length; i++) {
+                    var marker = L.marker([_this6.puntosRecarga[i].latitud, _this6.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this6.mapa);
                     /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
-                    marker.bindPopup(_this5.puntosRecarga[i].nombre);
+                    marker.bindPopup(_this6.puntosRecarga[i].nombre);
                     marker.on('mouseover', function (e) {
                         this.openPopup();
                     });
@@ -53727,6 +53738,12 @@ var render = function() {
       "button",
       { staticClass: "btn btn-warning", on: { click: _vm.showModalUsuario } },
       [_vm._v("Mostrar ultima posicion de un usuario")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-info", on: { click: _vm.mostrarColectivo } },
+      [_vm._v("Mostrar Colectivo")]
     ),
     _vm._v(" "),
     _vm.modalRecorrido

@@ -9,7 +9,7 @@
     <button class="btn btn-success" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-danger" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
-    
+    <button class="btn btn-info" @click="mostrarColectivo">Mostrar Colectivo</button>
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -68,6 +68,7 @@ export default {
             recorridos:[],
             usuarios:[],
             usuario_id:'',
+            colectivo:'',
             paradas:[],
             puntosRecarga:[],
             puntosRecorrido:null,
@@ -167,6 +168,15 @@ export default {
                             this.closePopup();
                         });
                 }
+            });         
+        },
+        mostrarColectivo(){
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/posicionColectivo").then(response => {
+                this.colectivo = response.data.colectivo;
+                var marker = L.marker([this.colectivo.latitud,this.colectivo.longitud]).addTo(this.mapa);
+                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+            
             });         
         },
         mostrarPuntosRecarga(){
