@@ -103,5 +103,5 @@ Route::resource('/sugerencia', 'SugerenciaController');
 Route::resource('/mapa', 'MapaController');
 
 //Ruta para obtener la posicion de un colectivo
-Route::get('/posicionColectivo/','ColectivoController@obtenerPosicion');
+Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 

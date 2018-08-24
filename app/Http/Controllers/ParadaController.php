@@ -145,8 +145,8 @@ class ParadaController extends Controller
         $usuario=Usuario::find($idUsuario);
         
         //Busco el colectivo para trabajar con su ultima posicion
-        $colectivo=Usuario::find($idColectivo);
-       
+        $colectivo=Colectivo::find($idColectivo);
+        
         //Obtengo la distancia entre esos dos puntos(el usuario y el colectivo)
         $distanciaColectivo=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)', 'POINT($colectivo->ultima_posicion)') as distancia");
         $distanciaColectivo=$distanciaColectivo[0]->distancia;

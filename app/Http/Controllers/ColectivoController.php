@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Colectivo;
+use App\Tramo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Phaza\LaravelPostgis\Geometries\Point;
 
 class ColectivoController extends Controller
 {
@@ -132,14 +134,19 @@ class ColectivoController extends Controller
         si al encontrarse dos o mas usuarios en el mismo lugar se tiene en cuenta como posicion del colectivo
 
     */
-    public function obtenerPosicion()
+    public function obtenerPosicion($idTramo)
     {
-        $usuarios = \DB::select("SELECT id, ultima_posicion::geometry ,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios");
-        
+
+        $usuarios = \DB::select("SELECT id,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios");
+        $colectivot = \DB::select("SELECT colectivos.id 
+                                   FROM tramos 
+                                   INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
+                                   INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
+                                   WHERE tramos.id = $idTramo");
         for($i = 0 ; $i < count($usuarios); $i++){
             $usu1 = $usuarios[$i];
             for($j = 0 ; $j < count($usuarios); $j++){
-                if(!($i != $j)){                    
+                if($i != $j){                    
                     $usu2 = $usuarios[$j];
                     if(\DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) 
                                     FROM usuarios pos1, usuarios pos2 
@@ -152,12 +159,19 @@ class ColectivoController extends Controller
         }
         if(count($colectivos) > 2){
             $coincidencia = self::obtenerCoincidencia($colectivos);
+            $colectivo = Colectivo::find($colectivot[0]->id);
+            dd($colectivo);
+            $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
+            $colectivo->save();       
             return response()->json([
                 'colectivo'    => $coincidencia,
                 'message' => 'La posicion de Colectivo se encontro correctamente'
             ], 200);
         } else {
             $coincidencia = self::obtenerCoincidencia($colectivos);
+            $colectivo = Colectivo::find($colectivot[0]->id);
+            $colectivo->ultima_posicion = new Point($coincidencia->longitud , $coincidencia->latitud);
+            $colectivo->save();
             return response()->json([
                 'colectivo'    => $coincidencia,
                 'message' => 'La posicion de Colectivo se encontro correctamente'

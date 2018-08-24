@@ -31971,7 +31971,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37060,7 +37060,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -53531,12 +53531,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             modalRecorrido: false,
             modalUsuario: false,
+            modalTramo: false,
             recorrido_identificador: '',
             recorridos: [],
             usuarios: [],
@@ -53544,6 +53568,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             colectivo: '',
             paradas: [],
             puntosRecarga: [],
+            tramos: [],
+            tramo_id: '',
             puntosRecorrido: null,
             /**Variables para el dibujado en leaflet**/
             mapa: [], //Variable donde se va a contener el mapa principal
@@ -53626,6 +53652,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get("/usuario").then(function (response) {
                 _this3.usuarios = response.data.usuarios;
             });
+
+            axios.get("/tramo").then(function (response) {
+                _this3.tramos = response.data.tramos;
+            });
         },
         mostrarParadas: function mostrarParadas() {
             var _this4 = this;
@@ -53637,7 +53667,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/39/41").then(function (response) {
+            axios.get("/paradasCercanas/40/68").then(function (response) {
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
                     var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud], { icon: iconoParada }).addTo(_this4.mapa);
@@ -53661,9 +53691,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [55, 55] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/posicionColectivo").then(function (response) {
+            axios.get("/posicionColectivo/" + this.tramo_id).then(function (response) {
                 _this5.colectivo = response.data.colectivo;
                 var marker = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud], { icon: iconoColectivo }).addTo(_this5.mapa);
+                _this5.closeModalTramo();
             });
         },
         mostrarPuntosRecarga: function mostrarPuntosRecarga() {
@@ -53698,6 +53729,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeModalRecorrido: function closeModalRecorrido() {
             this.modalRecorrido = false;
+        },
+        showModalTramo: function showModalTramo() {
+            this.modalTramo = true;
+        },
+        closeModalTramo: function closeModalTramo() {
+            this.modalTramo = false;
         },
         showModalUsuario: function showModalUsuario() {
             this.modalUsuario = true;
@@ -53748,7 +53785,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-success", on: { click: _vm.mostrarColectivo } },
+      { staticClass: "btn btn-success", on: { click: _vm.showModalTramo } },
       [_vm._v("Mostrar Colectivo")]
     ),
     _vm._v(" "),
@@ -53960,6 +53997,112 @@ var render = function() {
                             }
                           },
                           [_vm._v("Mostrar posicion usuario")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.modalTramo
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeModalTramo }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Eliga un Tramo")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tramo_id,
+                            expression: "tramo_id"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.tramo_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("--Seleccione un Tramo--")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.tramos, function(tramo) {
+                          return _c(
+                            "option",
+                            { key: tramo.id, domProps: { value: tramo.id } },
+                            [_vm._v(_vm._s(tramo.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _vm.tramo_id
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                _vm.mostrarColectivo()
+                              }
+                            }
+                          },
+                          [_vm._v("Mostrar posicion Colectivo")]
                         )
                       : _vm._e()
                   ])

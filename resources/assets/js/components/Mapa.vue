@@ -9,7 +9,7 @@
     <button class="btn btn-danger" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
-    <button class="btn btn-success" @click="mostrarColectivo">Mostrar Colectivo</button>
+    <button class="btn btn-success" @click="showModalTramo">Mostrar Colectivo</button>
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -56,6 +56,29 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un recorrido-->
+    <!--MODAL para seleccionar un tramo-->
+    <div class="modal show" id="anadir" v-if="modalTramo" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeModalTramo" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Eliga un Tramo</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <select v-model="tramo_id">
+                            <option disabled value="">--Seleccione un Tramo--</option>
+                            <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" @click="mostrarColectivo()" v-if="tramo_id">Mostrar posicion Colectivo</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!--FIN DEL MODAL para seleccionar un tramo-->
+
 </div>
 </template>
 <script>
@@ -64,6 +87,7 @@ export default {
         return {
             modalRecorrido:false,
             modalUsuario:false,
+            modalTramo:false,
             recorrido_identificador:'',
             recorridos:[],
             usuarios:[],
@@ -71,6 +95,8 @@ export default {
             colectivo:'',
             paradas:[],
             puntosRecarga:[],
+            tramos:[],
+            tramo_id:'',
             puntosRecorrido:null,
             /**Variables para el dibujado en leaflet**/
             mapa:[],//Variable donde se va a contener el mapa principal
@@ -151,6 +177,10 @@ export default {
             axios.get("/usuario").then(response => {
                 this.usuarios = response.data.usuarios;
             });
+
+            axios.get("/tramo").then(response => {
+                this.tramos = response.data.tramos;
+            });
         },
         mostrarParadas(){
             var i;
@@ -160,7 +190,7 @@ export default {
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/39/41").then(response => {
+            axios.get("/paradasCercanas/40/68").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);
@@ -182,10 +212,10 @@ export default {
                 iconSize: [55, 55] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/posicionColectivo").then(response => {
+            axios.get("/posicionColectivo/" + this.tramo_id).then(response => {
                 this.colectivo = response.data.colectivo;
                 var marker = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
-                    
+                this.closeModalTramo();
             });         
         },
         mostrarPuntosRecarga(){
@@ -217,6 +247,12 @@ export default {
         },
         closeModalRecorrido(){
             this.modalRecorrido=false;
+        },
+        showModalTramo(){
+            this.modalTramo=true;
+        },
+        closeModalTramo(){
+            this.modalTramo=false;
         },
         showModalUsuario(){
             this.modalUsuario=true;
