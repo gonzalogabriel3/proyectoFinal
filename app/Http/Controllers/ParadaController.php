@@ -168,12 +168,18 @@ class ParadaController extends Controller
             }
         }
 
-        //Quito la ultima coma para evitar error al momento de ejecutar la consulta
-        $ids_paradas=trim($ids_paradas,',');
-        
-        //Obtengo todas las paradas
-        $paradasCercanas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id IN($ids_paradas) ORDER BY id DESC");
-        
+        //Si el colectivo esta por detras de la posicion del usuario,retorno las paradas cercanas
+        if($ids_paradas==''){
+            //Quito la ultima coma para evitar error al momento de ejecutar la consulta
+            $ids_paradas=trim($ids_paradas,',');
+            
+            //Obtengo todas las paradas
+            $paradasCercanas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id IN($ids_paradas) ORDER BY id DESC");
+        }
+        //Si el usuario esta por detras de la posicion del colectivo(que lo perdio),se le mostraran todas las paradas
+        else{
+            $paradasCercanas=\DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas ORDER BY id DESC");
+        }
         //Las retorno al cliente
         return response()->json([
             'paradas' => $paradasCercanas,
