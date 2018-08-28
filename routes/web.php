@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
     
     //Ruta para obtener paradas mas cercanas a un usuario
     Route::get('/paradasCercanas/{idUsuario}/{idColectivo}','ParadaController@obtenerParadasCercanas'); 
+ 
 });
 
 Auth::routes();

@@ -190,7 +190,7 @@ export default {
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/41/68").then(response => {
+            axios.get("/paradasCercanas/44/68").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);
@@ -203,6 +203,7 @@ export default {
                             this.closePopup();
                         });
                 }
+                
             });         
         },
         mostrarColectivo(){

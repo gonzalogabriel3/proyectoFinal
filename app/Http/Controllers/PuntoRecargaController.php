@@ -121,4 +121,6 @@ class PuntoRecargaController extends Controller
             'message' => 'Punto eliminado Correctamente'
         ], 200);
     }
+
+
 }
