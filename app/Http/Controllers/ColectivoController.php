@@ -143,59 +143,58 @@ class ColectivoController extends Controller
                                    INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
                                    INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
                                    WHERE tramos.id = $idTramo");
+        $colectivos = array(); 
+        
         for($i = 0 ; $i < count($usuarios); $i++){
             $usu1 = $usuarios[$i];
             for($j = 0 ; $j < count($usuarios); $j++){
                 if($i != $j){                    
                     $usu2 = $usuarios[$j];
-                    if(\DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) 
-                                    FROM usuarios pos1, usuarios pos2 
-                                    WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;")){
-                        $colectivos = array(); 
+                    $validador = \DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) 
+                    FROM usuarios pos1, usuarios pos2 
+                    WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
+                    if($validador == true){
                         array_push($colectivos,$usuarios[$i]);
                     }
                 } 
             } 
         }
-        if(count($colectivos) > 2){
-            $coincidencia = self::obtenerCoincidencia($colectivos);
+        if(count($colectivos) > 1){
+            $coincidencia = self::obtenerCoincidencia($colectivos,$idTramo);
+            if($coincidencia != ""){
             $colectivo = Colectivo::find($colectivot[0]->id);
-            dd($colectivo);
             $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
-            $colectivo->save();       
+            $colectivo->save(); 
+
             return response()->json([
                 'colectivo'    => $coincidencia,
                 'message' => 'La posicion de Colectivo se encontro correctamente'
             ], 200);
-        } else {
-            $coincidencia = self::obtenerCoincidencia($colectivos);
-            $colectivo = Colectivo::find($colectivot[0]->id);
-            $colectivo->ultima_posicion = new Point($coincidencia->longitud , $coincidencia->latitud);
-            $colectivo->save();
-            return response()->json([
-                'colectivo'    => $coincidencia,
-                'message' => 'La posicion de Colectivo se encontro correctamente'
-            ], 200);
-        }
+            }
+        } 
         return response()->json([
             'message' => 'La posicion de Colectivo no se encontro'
         ], 200);
 
     }
     /*
-        Esta funcion recibe un arreglo de posicion que coinciden y las compara con el recorrido para saber si estan 
+        Esta funcion recibe el id del tramo buscado y un arreglo de posiciones que coinciden y las compara con el recorrido para saber si estan 
         dentro del mismo
     */
-    public function obtenerCoincidencia(array $colectivos)
+    public function obtenerCoincidencia(array $colectivos,$idTramo)
     {
+        $tramo = Tramo::find($idTramo);
+        $coincidenciap = "";
         for($i=0;$i < count($colectivos);$i++){
             $colectivo = $colectivos[$i];
-            if(\DB::select("SELECT ST_Intersects(pos1.ultima_posicion::geometry, pos2.geom::geometry) 
-                            FROM usuarios pos1, recorridos pos2 
-                            WHERE pos1.id=$colectivo->id AND pos2.id=1;")){
+            $validador=\DB::select("SELECT ST_Intersects(pos1.ultima_posicion::geometry, pos2.geom::geometry) 
+            FROM usuarios pos1, recorridos pos2 
+            WHERE pos1.id=$colectivo->id AND pos2.id=$tramo->recorrido_id;");
+            if($validador == true){
                 $coincidenciap = $colectivo; 
-            }
+            } 
         }
+
         return $coincidenciap;
     }
 }

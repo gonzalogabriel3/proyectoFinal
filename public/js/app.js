@@ -31971,7 +31971,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37060,7 +37060,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -53667,7 +53667,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/44/68").then(function (response) {
+            axios.get("/paradasCercanas/44/45").then(function (response) {
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
                     var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud], { icon: iconoParada }).addTo(_this4.mapa);
