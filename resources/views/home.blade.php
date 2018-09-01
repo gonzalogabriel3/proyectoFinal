@@ -46,6 +46,9 @@
                             <a href="{{url('/inicioSugerencia')}}" >Adm.Sugerencias</a>
                         </li>
                         <li>
+                            <a href="{{url('/inicioViajeUsuario')}}" >Adm.Viajes de Usuarios</a>
+                        </li>
+                        <li>
                             <a href="{{url('/inicioMapa')}}" >MAPA</a>
                         </li>
                     </ul>

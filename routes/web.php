@@ -65,10 +65,16 @@ Route::middleware(['auth'])->group(function () {
         return view('sugerencia/index');
     });
 
+    //Ruta para el ViajeUsuario
+    Route::get('/inicioViajeUsuario',function(){
+        return view('viajeUsuario/index');
+    });
+
     //Ruta para el mapa
     Route::get('/inicioMapa',function(){
         return view('mapa');
     });
+
     //Ruta para obtener la posicion de un usuario
     Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
     
@@ -102,6 +108,8 @@ Route::resource('/comentario', 'ComentarioController');
 Route::resource('/sugerencia', 'SugerenciaController');
 
 Route::resource('/mapa', 'MapaController');
+
+Route::resource('/viaje', 'ViajeUsuarioController');
 
 //Ruta para obtener la posicion de un colectivo
 Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
