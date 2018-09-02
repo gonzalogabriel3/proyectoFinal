@@ -35,3 +35,13 @@
     
     -Saber si dos geometrias son espacialmente iguales
     "SELECT ST_Equals(punto1.geom::geometry, punto2.geom::geometry) FROM paradas punto1, paradas punto2 WHERE punto1.id=1386 AND punto2.id=1388;"
+
+    -Algoritmo de Dijkstra(500'id nodo inicial'-506'id nodo final')
+    "SELECT * FROM pgr_dijkstra('SELECT gid AS id, source, target, st_length(geom) AS cost FROM calles_rawson',500,506, false);"
+    RESULTADO DE LA CONSULTA Dijkstra:
+        seq: Valor secuencial empezando en 1
+        path_seq: Posición relativa respecto al inicio de la ruta. El valor 1 representa el inicio.
+        node: Número de nodo en la ruta,posicion en la que se esta "parado"
+        edge: Identifica el eje del tramo de la ruta. Toma el valor -1 para el último eje.
+        cost: Coste del tramo.
+        agg_cost: Coste total acumulado desde el tramo inicial

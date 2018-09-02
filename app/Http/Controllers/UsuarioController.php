@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index','show','normalizarPosicion']);
     }
 
     /**
@@ -143,5 +143,30 @@ class UsuarioController extends Controller
         return response()->json([
             'message' => 'Ultima posicion guardada'
         ], 200);
+    }
+
+    //Funcion que normaliza la posicion de un usuario,lo acerca a la esquina mas cercana
+    public function normalizarPosicion($idUsuario){
+        
+        $usuario=Usuario::find($idUsuario);
+        //Obtengo todas las esquinas/vertices
+        $vertices=\DB::select("SELECT *,st_x(the_geom) as latitud ,st_y(the_geom) as longitud FROM public.calles_rawson_vertices_pgr ORDER BY id ASC");
+        
+        $menorDistancia=0.0;
+
+        foreach ($vertices as $vertice) {
+           //Obtengo la distancia entre la posicion del usuario y un vertice
+           $distanciaAvertice=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($vertice->latitud $vertice->longitud)')as distancia ORDER BY distancia DESC");
+           $distanciaAvertice=(float)$distanciaAvertice[0]->distancia;
+           /*Si la distancia es menor a la menor distancia hasta el momento,
+           y esa distancia no es 0(es decir que no se encuentra en el mismo lugar)*/
+           if($distanciaAvertice>$menorDistancia){
+               $menorDistancia=$distanciaAvertice;
+               
+           }
+           var_dump($menorDistancia);
+          
+        }
+        
     }
 }

@@ -77,6 +77,9 @@ Route::middleware(['auth'])->group(function () {
 
     //Ruta para obtener la posicion de un usuario
     Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
+
+    //Ruta para Normalizar la posicion de un usuario
+    Route::get('/normalizarPosicionUsuario/{id}','UsuarioController@normalizarPosicion');
     
     //Ruta para obtener paradas mas cercanas a un usuario
     Route::get('/paradasCercanas/{idUsuario}/{idColectivo}','ParadaController@obtenerParadasCercanas'); 
