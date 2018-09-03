@@ -152,21 +152,41 @@ class UsuarioController extends Controller
         //Obtengo todas las esquinas/vertices
         $vertices=\DB::select("SELECT *,st_x(the_geom) as latitud ,st_y(the_geom) as longitud FROM public.calles_rawson_vertices_pgr ORDER BY id ASC");
         
-        $menorDistancia=0.0;
+        //Defino la menor distancia a 5
+        $menorDistancia=5;
+        $id_vertice=0;
 
         foreach ($vertices as $vertice) {
            //Obtengo la distancia entre la posicion del usuario y un vertice
            $distanciaAvertice=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($vertice->latitud $vertice->longitud)')as distancia ORDER BY distancia DESC");
            $distanciaAvertice=(float)$distanciaAvertice[0]->distancia;
-           /*Si la distancia es menor a la menor distancia hasta el momento,
-           y esa distancia no es 0(es decir que no se encuentra en el mismo lugar)*/
-           if($distanciaAvertice>$menorDistancia){
+           /*Si la distancia es menor a la menor distancia hasta el momento*/
+           if($distanciaAvertice<$menorDistancia){
+               //Guardo la menor distancia a ese vertice,y a su vez guardo el id del vertice
                $menorDistancia=$distanciaAvertice;
-               
-           }
-           var_dump($menorDistancia);
+               $id_vertice=$vertice->id;
+           }           
           
         }
-        
+
+        if($id_vertice!=0){
+            //Obtengo los datos del vertice mas cercano al usuario
+            $verticeCercano=\DB::select("SELECT *,ST_x(the_geom) as latitud,ST_y(the_geom) as longitud FROM calles_rawson_vertices_pgr WHERE id=$id_vertice");
+            
+            //Guardo la nueva posicion del usuario
+            $usuario->ultima_posicion= new Point((float)$verticeCercano[0]->longitud,(float)$verticeCercano[0]->latitud);
+            
+            $usuario->save();
+
+            return response()->json([
+                'message' => 'Posicion normalizada al vertice mas cercano',
+                'id_vertice'=>$id_vertice
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => 'No se encontro un vertice cercano a la posicion del usuario'
+            ], 200);
+        }    
+            
     }
 }
