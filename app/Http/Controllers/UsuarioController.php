@@ -139,6 +139,8 @@ class UsuarioController extends Controller
         $usuario->ultima_posicion= new Point( $latitud , $longitud );
 
         $usuario->save();
+
+        
         
         return response()->json([
             'message' => 'Ultima posicion guardada'

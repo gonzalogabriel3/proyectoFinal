@@ -59,6 +59,7 @@ class ViajeUsuarioController extends Controller
          * se hace un for comparando los puntos con los vertices para buscar el mas cercano
          * se cambia la posicion de los puntos por el de los vertices y se procede a guardar en la bd 
         */
+
     }
 
     /**
@@ -104,5 +105,12 @@ class ViajeUsuarioController extends Controller
     public function destroy(ViajeUsuario $viajeUsuario)
     {
         //
+        $usuario = ViajeUsuario::find($viajeUsuario->id_usuario);
+
+        $usuario->delete();
+        
+        return response()->json([
+            'message' => 'Colectivo eliminado Correctamente'
+        ], 200);
     }
 }
