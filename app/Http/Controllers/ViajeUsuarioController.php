@@ -55,10 +55,45 @@ class ViajeUsuarioController extends Controller
         /*
          * Se validan los datos del request
          * Se traen todos los vertices de las calles
-         * se crea el punto de inicio y fin
+         * si el punto inicio esta en el request se settea ese punto
+         * si el punto fin esta en el request se guarda ese punto
          * se hace un for comparando los puntos con los vertices para buscar el mas cercano
          * se cambia la posicion de los puntos por el de los vertices y se procede a guardar en la bd 
         */
+        $viajeUsuario = new ViajeUsuario();
+        $viajeUsuario->id_usuario = $request->id_usuario;
+        $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
+        $distmascercana = 1000;
+        $puntmascerca = null;
+        if (isset($request->latinicio)) {
+            $punto = new Point($request->latinicio,$request->longinicio);
+            for ($i=0; $i < count($vertices); $i++) { 
+                $vertice = $vertices[$i]->id;
+                $calculo =  \DB::select("SELECT ST_Distance($punto, punto2.the_geom) FROM calles_rawson_vertices_pgr punto2 WHERE punto2.id=$vertice");
+                dd($calculo);
+                if($calculo < $distancia){
+                    $distancia = $calculo;
+                    $puntmascerca = $vertice;
+                }
+            }
+            $viajeUsuario->punto_inicio = new Point($puntmascerca->getLat(),$puntmascerca->getLng());
+        }
+/*        if (isset($request->latfin)){
+            $punto = new Point($request->latfin,$request->longfin);
+            foreach ($vertices as $vertice) {
+                $calculo =  \DB::select("SELECT ST_Distance($punto, $vertice->the_geom) FROM vertices punto1 WHERE punto1.id=$vertice->id");
+                if($calculo < $distancia){
+                    $distancia = $calculo;
+                    $puntmascerca = $vertice;
+                }
+            }
+            $viajeUsuario->punto_fin = new Point($puntmascerca->getLat(),$puntmascerca->getLng());        
+        }
+*/
+        $viajeUsuario->save();
+        return response()->json([
+            'message' => 'Viaje de Usuario Creado Correctamente'
+        ], 200);
 
     }
 
@@ -94,6 +129,24 @@ class ViajeUsuarioController extends Controller
     public function update(Request $request, ViajeUsuario $viajeUsuario)
     {
         //
+        $vertices = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM calles_rawson_vertices ORDER BY id DESC");
+        $distmascercana = 1000;
+        $puntmascerca = null;
+        if (isset($request->punto_fin)){
+            $punto = new Point($request->latitud,$request->longitud);
+            foreach ($vertices as $vertice) {
+                $calculo =  \DB::select("SELECT ST_Distance('POINT($punto)', 'POINT($vertice->geom)')as distancia");
+                if($calculo < $distancia){
+                    $distancia = $calculo;
+                    $puntmascerca = $vertice;
+                }
+            }
+            $viajeUsuario->punto_fin = new Point($puntmascerca->getLat(),$puntmascerca->getLng());        
+        }
+        $viajeUsuario->save();
+        return response()->json([
+            'message' => 'Viaje de Usuario Creado Correctamente'
+        ], 200);
     }
 
     /**
@@ -102,15 +155,14 @@ class ViajeUsuarioController extends Controller
      * @param  \App\ViajeUsuario  $viajeUsuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ViajeUsuario $viajeUsuario)
+    public function destroy($id)
     {
-        //
-        $usuario = ViajeUsuario::find($viajeUsuario->id_usuario);
 
-        $usuario->delete();
+        $viaje = ViajeUsuario::find($id);
+        $viaje->delete();
         
         return response()->json([
-            'message' => 'Colectivo eliminado Correctamente'
+            'message' => 'Viaje de Usuario eliminado Correctamente'
         ], 200);
     }
 }

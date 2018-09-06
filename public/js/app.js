@@ -54314,7 +54314,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 latpunto_inicio: '',
                 lonpunto_inicio: '',
                 latpunto_fin: '',
-                lonpunto_fin: ''
+                lonpunto_fin: '',
+                punto_inicio: '',
+                punto_fin: ''
             },
             mensaje: '',
             create: false,
@@ -54376,7 +54378,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     latinicio: this.viaje.latpunto_inicio,
                     longinicio: this.viaje.lonpunto_inicio,
                     latfin: this.viaje.latpunto_fin,
-                    longfin: this.viaje.lonpunto_fin
+                    longfin: this.viaje.lonpunto_fin,
+                    punto_inicio: 1,
+                    punto_fin: 1
                 }).then(function (response) {
 
                     _this3.mensaje = "Viaje de usuario creado correctamente";
