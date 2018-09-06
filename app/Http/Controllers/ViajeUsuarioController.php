@@ -90,6 +90,7 @@ class ViajeUsuarioController extends Controller
             }
             $viajeUsuario->punto_fin = new Point($puntmascerca->getLat(),$puntmascerca->getLng());        
         }
+        
         $viajeUsuario->save();
         
         return response()->json([

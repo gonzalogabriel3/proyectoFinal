@@ -176,7 +176,7 @@ class ParadaController extends Controller
             
             //Obtengo todas las paradas
             $paradasCercanas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id IN($ids_paradas) ORDER BY id DESC");
-           // dd(count($paradasCercanas),$ids_paradas);
+           
         }
         //Si el usuario esta por detras de la posicion del colectivo(que lo perdio),se le mostraran todas las paradas
         else{

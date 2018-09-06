@@ -31972,7 +31972,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.17
+ * Vue.js v2.5.16
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37061,7 +37061,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.17';
+Vue.version = '2.5.16';
 
 /*  */
 
@@ -43221,7 +43221,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43230,9 +43230,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7168fb6a", Component.options)
+    hotAPI.createRecord("data-v-0ca92eac", Component.options)
   } else {
-    hotAPI.reload("data-v-7168fb6a", Component.options)
+    hotAPI.reload("data-v-0ca92eac", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -43310,7 +43310,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
   }
 }
 
@@ -43340,7 +43340,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/UsuarioComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\UsuarioComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43349,9 +43349,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-02dd1826", Component.options)
+    hotAPI.createRecord("data-v-e9c0f534", Component.options)
   } else {
-    hotAPI.reload("data-v-02dd1826", Component.options)
+    hotAPI.reload("data-v-e9c0f534", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -44275,7 +44275,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-02dd1826", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-e9c0f534", module.exports)
   }
 }
 
@@ -44305,7 +44305,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Colectivo.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Colectivo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -44314,9 +44314,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1072c636", Component.options)
+    hotAPI.createRecord("data-v-511897a5", Component.options)
   } else {
-    hotAPI.reload("data-v-1072c636", Component.options)
+    hotAPI.reload("data-v-511897a5", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -45090,7 +45090,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1072c636", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-511897a5", module.exports)
   }
 }
 
@@ -45120,7 +45120,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Parada.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Parada.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -45129,9 +45129,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9a2dd258", Component.options)
+    hotAPI.createRecord("data-v-9cd1d7d8", Component.options)
   } else {
-    hotAPI.reload("data-v-9a2dd258", Component.options)
+    hotAPI.reload("data-v-9cd1d7d8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -46314,7 +46314,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9a2dd258", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-9cd1d7d8", module.exports)
   }
 }
 
@@ -46344,7 +46344,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Tarifa.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Tarifa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -46353,9 +46353,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2eaa6696", Component.options)
+    hotAPI.createRecord("data-v-2d5863d6", Component.options)
   } else {
-    hotAPI.reload("data-v-2eaa6696", Component.options)
+    hotAPI.reload("data-v-2d5863d6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47153,7 +47153,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2eaa6696", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2d5863d6", module.exports)
   }
 }
 
@@ -47183,7 +47183,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Horario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Horario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47192,9 +47192,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-54c9a2fb", Component.options)
+    hotAPI.createRecord("data-v-2bdb4dbb", Component.options)
   } else {
-    hotAPI.reload("data-v-54c9a2fb", Component.options)
+    hotAPI.reload("data-v-2bdb4dbb", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48255,7 +48255,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-54c9a2fb", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2bdb4dbb", module.exports)
   }
 }
 
@@ -48285,7 +48285,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Recorrido.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Recorrido.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -48294,9 +48294,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-963ed164", Component.options)
+    hotAPI.createRecord("data-v-0e32920e", Component.options)
   } else {
-    hotAPI.reload("data-v-963ed164", Component.options)
+    hotAPI.reload("data-v-0e32920e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49607,7 +49607,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-963ed164", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0e32920e", module.exports)
   }
 }
 
@@ -49637,7 +49637,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Tramo.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Tramo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49646,9 +49646,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f7a49f44", Component.options)
+    hotAPI.createRecord("data-v-b5a9e9c4", Component.options)
   } else {
-    hotAPI.reload("data-v-f7a49f44", Component.options)
+    hotAPI.reload("data-v-b5a9e9c4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -51107,7 +51107,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f7a49f44", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-b5a9e9c4", module.exports)
   }
 }
 
@@ -51137,7 +51137,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/PuntoRecarga.vue"
+Component.options.__file = "resources\\assets\\js\\components\\PuntoRecarga.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -51146,9 +51146,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-46893fae", Component.options)
+    hotAPI.createRecord("data-v-dcd76624", Component.options)
   } else {
-    hotAPI.reload("data-v-46893fae", Component.options)
+    hotAPI.reload("data-v-dcd76624", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52048,7 +52048,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-46893fae", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-dcd76624", module.exports)
   }
 }
 
@@ -52078,7 +52078,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Comentario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Comentario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52087,9 +52087,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6e7a5cd8", Component.options)
+    hotAPI.createRecord("data-v-3f67ba18", Component.options)
   } else {
-    hotAPI.reload("data-v-6e7a5cd8", Component.options)
+    hotAPI.reload("data-v-3f67ba18", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52891,7 +52891,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6e7a5cd8", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3f67ba18", module.exports)
   }
 }
 
@@ -52921,7 +52921,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Sugerencia.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Sugerencia.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52930,9 +52930,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-428f0677", Component.options)
+    hotAPI.createRecord("data-v-137c63b7", Component.options)
   } else {
-    hotAPI.reload("data-v-428f0677", Component.options)
+    hotAPI.reload("data-v-137c63b7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53415,7 +53415,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-428f0677", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-137c63b7", module.exports)
   }
 }
 
@@ -53445,7 +53445,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Mapa.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Mapa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -53454,9 +53454,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-179e4688", Component.options)
+    hotAPI.createRecord("data-v-3685ac08", Component.options)
   } else {
-    hotAPI.reload("data-v-179e4688", Component.options)
+    hotAPI.reload("data-v-3685ac08", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -54121,7 +54121,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-179e4688", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3685ac08", module.exports)
   }
 }
 
@@ -54151,7 +54151,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ViajeUsuario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ViajeUsuario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -54160,9 +54160,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-61ead748", Component.options)
+    hotAPI.createRecord("data-v-1a15a19c", Component.options)
   } else {
-    hotAPI.reload("data-v-61ead748", Component.options)
+    hotAPI.reload("data-v-1a15a19c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -54305,11 +54305,84 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             viaje: {
+                id_usuario: '',
+                latpunto_inicio: '',
+                lonpunto_inicio: '',
+                latpunto_fin: '',
+                lonpunto_fin: '',
+                punto_inicio: '',
+                punto_fin: ''
+            },
+            actualizar: {
+                id: '',
                 id_usuario: '',
                 latpunto_inicio: '',
                 lonpunto_inicio: '',
@@ -54341,6 +54414,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return true;
             }
         },
+        validarActualizacion: function validarActualizacion() {
+            //validacion del formulario para editar datos de un viaje
+            if (!this.actualizar.id_usuario || this.actualizar.latpunto_inicio.trim().length < 5 || this.actualizar.lonpunto_inicio.trim().length < 5 || this.actualizar.latpunto_fin.trim().length < 5 || this.actualizar.lonpunto_fin.trim().length < 5) {
+                return false;
+            } else {
+                return true;
+            }
+        },
 
         /*Metodo que muestra el formulario para registrar un nuevo usuario*/
         iniciarRegistro: function iniciarRegistro() {
@@ -54348,6 +54429,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeCreate: function closeCreate() {
             this.create = false;
+        },
+        closeActualizar: function closeActualizar() {
+            this.update = false;
         },
 
         /*Metodo que obtiene todos los viajes y los carga en el arreglo 'viajes' del componente vue,
@@ -54369,8 +54453,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cerrarMensaje: function cerrarMensaje() {
             this.mensaje = '';
         },
-        crearViaje: function crearViaje() {
+        iniciarActualizacion: function iniciarActualizacion(viaje) {
+            this.actualizar.id = viaje.id;
+            this.actualizar.id_usuario = viaje.id_usuario;
+            this.actualizar.latpunto_inicio = viaje.latpunto_inicio;
+            this.actualizar.lonpunto_inicio = viaje.lonpunto_inicio;
+            this.actualizar.latpunto_fin = viaje.latpunto_fin;
+            this.actualizar.lonpunto_fin = viaje.lonpunto_fin;
+            this.update = true;
+        },
+        actualizarViaje: function actualizarViaje() {
             var _this3 = this;
+
+            if (this.validarActualizacion()) {
+                axios.patch('/viaje/' + this.actualizar.id, {
+                    id_usuario: this.actualizar.id_usuario,
+                    latinicio: this.actualizar.latpunto_inicio,
+                    longinicio: this.actualizar.lonpunto_inicio,
+                    latfin: this.actualizar.latpunto_fin,
+                    longfin: this.actualizar.lonpunto_fin,
+                    punto_inicio: 1,
+                    punto_fin: 1
+                }).then(function (response) {
+
+                    _this3.mensaje = "Datos de viaje de usuario actualizados correctamente";
+                    _this3.resetActualizar();
+                    _this3.update = false;
+                    _this3.LeerViajes();
+                });
+            } else {
+                return;
+            }
+        },
+        crearViaje: function crearViaje() {
+            var _this4 = this;
 
             if (this.validarRegistro()) {
                 axios.post('/viaje', {
@@ -54383,10 +54499,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     punto_fin: 1
                 }).then(function (response) {
 
-                    _this3.mensaje = "Viaje de usuario creado correctamente";
-                    _this3.reset();
-                    _this3.create = false;
-                    _this3.LeerViajes();
+                    _this4.mensaje = "Viaje de usuario creado correctamente";
+                    _this4.reset();
+                    _this4.create = false;
+                    _this4.LeerViajes();
                 });
             } else {
                 return;
@@ -54399,8 +54515,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.viaje.latpunto_fin = '';
             this.viaje.lonpunto_fin = '';
         },
+        resetActualizar: function resetActualizar() {
+            this.actualizar.id_usuario = '';
+            this.actualizar.latpunto_inicio = '';
+            this.actualizar.lonpunto_inicio = '';
+            this.actualizar.latpunto_fin = '';
+            this.actualizar.lonpunto_fin = '';
+        },
         Eliminar: function Eliminar(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             var conf = confirm("De verdad quiere borrar este viaje de usuario?");
             if (conf) {
@@ -54408,8 +54531,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     method: "delete",
                     url: "/viaje/" + id
                 }).then(function (response) {
-                    _this4.mensaje = "Viaje de Usuario eliminado correctamente";
-                    _this4.Leer();
+                    _this5.mensaje = "Viaje de Usuario eliminado correctamente";
+                    _this5.Leer();
                 }).catch(function (error) {});
             }
         }
@@ -54510,7 +54633,9 @@ var render = function() {
                             _c("td", [
                               _vm._v(
                                 "\n                                   " +
-                                  _vm._s(viaje.latinicio / viaje.longinicio) +
+                                  _vm._s(viaje.latinicio) +
+                                  "/" +
+                                  _vm._s(viaje.longinicio) +
                                   "\n                               "
                               )
                             ]),
@@ -54518,12 +54643,27 @@ var render = function() {
                             _c("td", [
                               _vm._v(
                                 "\n                                   " +
-                                  _vm._s(viaje.latfin / viaje.longfin) +
+                                  _vm._s(viaje.latfin) +
+                                  "/" +
+                                  _vm._s(viaje.longfin) +
                                   "\n                               "
                               )
                             ]),
                             _vm._v(" "),
                             _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.iniciarActualizacion(viaje)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Editar")]
+                              ),
+                              _vm._v(" "),
                               _c(
                                 "button",
                                 {
@@ -54874,6 +55014,332 @@ var render = function() {
             )
           ]
         )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.update
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeActualizar }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v("Editar Viaje")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "modal-body",
+                      staticStyle: {
+                        overflow: "scroll",
+                        width: "550px",
+                        height: "450px"
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Usuario al que Pertenece el Viaje:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        !_vm.actualizar.id_usuario
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe Seleccionar un Usuario")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.actualizar.id_usuario,
+                                expression: "actualizar.id_usuario"
+                              }
+                            ],
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.actualizar,
+                                  "id_usuario",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.usuarios, function(usuario) {
+                            return _c(
+                              "option",
+                              {
+                                key: usuario.id,
+                                domProps: { value: usuario.id }
+                              },
+                              [_vm._v(_vm._s(usuario.nombre))]
+                            )
+                          })
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Latitud del Punto Inicio:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualizar.latpunto_inicio.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una latitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.latpunto_inicio,
+                              expression: "actualizar.latpunto_inicio"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            name: "latitudinicio",
+                            id: "latitudinicio",
+                            placeholder: "Latitud del Punto Inicio"
+                          },
+                          domProps: { value: _vm.actualizar.latpunto_inicio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.actualizar,
+                                "latpunto_inicio",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Longitud del Punto Inicio:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualizar.lonpunto_inicio.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una longitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.lonpunto_inicio,
+                              expression: "actualizar.lonpunto_inicio"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            name: "longitudinicio",
+                            id: "longitudinicio",
+                            placeholder: "Longitud del Punto Inicio"
+                          },
+                          domProps: { value: _vm.actualizar.lonpunto_inicio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.actualizar,
+                                "lonpunto_inicio",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Latitud del Punto Fin:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualizar.latpunto_fin.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una latitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.latpunto_fin,
+                              expression: "actualizar.latpunto_fin"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            name: "latitudfin",
+                            id: "latitudfin",
+                            placeholder: "Latitud del Punto Fin"
+                          },
+                          domProps: { value: _vm.actualizar.latpunto_fin },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.actualizar,
+                                "latpunto_fin",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "name" } }, [
+                          _vm._v("Longitud del Punto Fin:")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm.actualizar.lonpunto_fin.trim().length < 5
+                          ? _c("span", { staticClass: "label label-danger" }, [
+                              _vm._v("Debe ingresar una longitud valida")
+                            ])
+                          : _c("span", { staticClass: "label label-success" }, [
+                              _vm._v("Correcto!")
+                            ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.actualizar.lonpunto_fin,
+                              expression: "actualizar.lonpunto_fin"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            name: "longitud",
+                            id: "longitud",
+                            placeholder: "Longitud del Punto Fin"
+                          },
+                          domProps: { value: _vm.actualizar.lonpunto_fin },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.actualizar,
+                                "lonpunto_fin",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-default",
+                        attrs: { type: "button" },
+                        on: { click: _vm.closeActualizar }
+                      },
+                      [_vm._v("Cerrar")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: { click: _vm.actualizarViaje }
+                      },
+                      [_vm._v("Modificar Datos")]
+                    )
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
       : _vm._e()
   ])
 }
@@ -54920,7 +55386,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-61ead748", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1a15a19c", module.exports)
   }
 }
 
