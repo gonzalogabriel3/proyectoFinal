@@ -28,6 +28,7 @@ class ViajeUsuarioController extends Controller
         //
         $viajes = \DB::select("SELECT *,st_x(punto_inicio::geometry) as longinicio , st_y(punto_inicio::geometry) as latinicio,
                                st_x(punto_fin::geometry) as longfin , st_y(punto_fin::geometry) as latfin FROM viajes ORDER BY id DESC");
+
         return response()->json([
             'viajes' => $viajes,
         ], 200);
@@ -67,30 +68,30 @@ class ViajeUsuarioController extends Controller
         $puntmascerca = null;
         if (isset($request->latinicio)) {
             $punto = new Point($request->latinicio,$request->longinicio);
-            for ($i=0; $i < count($vertices); $i++) { 
-                $vertice = $vertices[$i]->id;
-                $calculo =  \DB::select("SELECT ST_Distance($punto, punto2.the_geom) FROM calles_rawson_vertices_pgr punto2 WHERE punto2.id=$vertice");
-                dd($calculo);
-                if($calculo < $distancia){
-                    $distancia = $calculo;
+            for ($i=0; $i < count($vertices); $i++) {
+                $vertice = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
+                $calculo =  \DB::select("SELECT ST_Distance('POINT($punto)','POINT($vertice)') as distancia");
+                if($calculo[0]->distancia < $distmascercana){
+                    $distmascercana = $calculo;
                     $puntmascerca = $vertice;
                 }
             }
             $viajeUsuario->punto_inicio = new Point($puntmascerca->getLat(),$puntmascerca->getLng());
         }
-/*        if (isset($request->latfin)){
+       if (isset($request->latfin)){
             $punto = new Point($request->latfin,$request->longfin);
-            foreach ($vertices as $vertice) {
-                $calculo =  \DB::select("SELECT ST_Distance($punto, $vertice->the_geom) FROM vertices punto1 WHERE punto1.id=$vertice->id");
-                if($calculo < $distancia){
-                    $distancia = $calculo;
+            for ($i=0; $i < count($vertices); $i++) {
+                $vertice = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
+                $calculo =  \DB::select("SELECT ST_Distance('POINT($punto)','POINT($vertice)') as distancia");
+                if($calculo[0]->distancia < $distmascercana){
+                    $distmascercana = $calculo;
                     $puntmascerca = $vertice;
                 }
             }
             $viajeUsuario->punto_fin = new Point($puntmascerca->getLat(),$puntmascerca->getLng());        
         }
-*/
         $viajeUsuario->save();
+        
         return response()->json([
             'message' => 'Viaje de Usuario Creado Correctamente'
         ], 200);
