@@ -44,12 +44,13 @@
                                     {{ viaje.id_usuario }}
                                 </td>
                                 <td>
-                                    {{ viaje.latinicio / viaje.longinicio }}
+                                    {{ viaje.latinicio}}/{{ viaje.longinicio }}
                                 </td>
                                 <td>
-                                    {{ viaje.latfin / viaje.longfin }}
+                                    {{ viaje.latfin}}/{{ viaje.longfin }}
                                 </td>
                                 <td>
+                                    <button @click="iniciarActualizacion(viaje)" class="btn btn-success btn-xs">Editar</button>
                                     <button @click="Eliminar(viaje.id)" class="btn btn-danger btn-xs">Eliminar</button>
                                 </td>
                             </tr>
@@ -122,6 +123,68 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <!--Fin formulario registrar-->
+        
+        <!--Formulario Editar-->
+        <div class="modal show" id="anadir" v-if="update" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeActualizar" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Editar Viaje</h4>
+                    </div>
+                    <div class="modal-body" style="overflow: scroll; width: 550px; height: 450px;">
+                        <div class="form-group">
+                            <label for="name">Usuario al que Pertenece el Viaje:</label>
+                            <br>
+                            <span v-if="!actualizar.id_usuario" class="label label-danger">Debe Seleccionar un Usuario</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <!--Se cambio type de text a number-->
+                            <select v-model="actualizar.id_usuario">
+                                <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                            </select> 
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Latitud del Punto Inicio:</label>
+                            <br>
+                            <span v-if="actualizar.latpunto_inicio.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <!--Se cambio type de text a number-->
+                            <input type="number" name="latitudinicio" id="latitudinicio" placeholder="Latitud del Punto Inicio" class="form-control"
+                                   v-model="actualizar.latpunto_inicio">
+                            <br>
+                            <label for="name">Longitud del Punto Inicio:</label>
+                            <br>
+                            <span v-if="actualizar.lonpunto_inicio.trim().length<5" class="label label-danger" >Debe ingresar una longitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="number" name="longitudinicio" id="longitudinicio" placeholder="Longitud del Punto Inicio" class="form-control"
+                                   v-model="actualizar.lonpunto_inicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Latitud del Punto Fin:</label>
+                            <br>
+                            <span v-if="actualizar.latpunto_fin.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <!--Se cambio type de text a number-->
+                            <input type="number" name="latitudfin" id="latitudfin" placeholder="Latitud del Punto Fin" class="form-control"
+                                   v-model="actualizar.latpunto_fin">
+                            <br>
+                            <label for="name">Longitud del Punto Fin:</label>
+                            <br>
+                            <span v-if="actualizar.lonpunto_fin.trim().length<5" class="label label-danger" >Debe ingresar una longitud valida</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="number" name="longitud" id="longitud" placeholder="Longitud del Punto Fin" class="form-control"
+                                   v-model="actualizar.lonpunto_fin">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="closeActualizar">Cerrar</button>
+                        <button type="button" @click="actualizarViaje" class="btn btn-primary">Modificar Datos</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!--Fin formulario registrar-->
     </div>
         
 </template>
@@ -130,6 +193,16 @@ export default{
     data(){
         return {
                 viaje: {
+                    id_usuario: '',
+                    latpunto_inicio:'',
+                    lonpunto_inicio: '',
+                    latpunto_fin:'',
+                    lonpunto_fin: '',
+                    punto_inicio: '',
+                    punto_fin: ''
+                },
+                actualizar: {
+                    id:'',
                     id_usuario: '',
                     latpunto_inicio:'',
                     lonpunto_inicio: '',
@@ -160,12 +233,23 @@ export default{
                     return true;
                 }
             },
+            validarActualizacion(){ //validacion del formulario para editar datos de un viaje
+                if( !this.actualizar.id_usuario || this.actualizar.latpunto_inicio.trim().length<5 ||this.actualizar.lonpunto_inicio.trim().length<5
+                    || this.actualizar.latpunto_fin.trim().length<5 ||this.actualizar.lonpunto_fin.trim().length<5){
+                    return false;
+                }else{
+                    return true;
+                }
+            },
             /*Metodo que muestra el formulario para registrar un nuevo usuario*/ 
             iniciarRegistro(){
                 this.create = true;
             }, 
             closeCreate(){
                 this.create = false;
+            },
+            closeActualizar(){
+                this.update = false;
             },
             /*Metodo que obtiene todos los viajes y los carga en el arreglo 'viajes' del componente vue,
             para poder visualizarlo en pantalla*/
@@ -181,6 +265,37 @@ export default{
             },
             cerrarMensaje(){
                 this.mensaje='';
+            },
+            iniciarActualizacion(viaje){
+                this.actualizar.id=viaje.id;
+                this.actualizar.id_usuario=viaje.id_usuario;
+                this.actualizar.latpunto_inicio=viaje.latpunto_inicio;
+                this.actualizar.lonpunto_inicio=viaje.lonpunto_inicio;
+                this.actualizar.latpunto_fin=viaje.latpunto_fin;
+                this.actualizar.lonpunto_fin=viaje.lonpunto_fin;
+                this.update=true;
+            },
+            actualizarViaje(){
+                if(this.validarActualizacion()){
+                    axios.patch('/viaje/'+ this.actualizar.id, {
+                        id_usuario: this.actualizar.id_usuario,
+                        latinicio: this.actualizar.latpunto_inicio,
+                        longinicio: this.actualizar.lonpunto_inicio,
+                        latfin: this.actualizar.latpunto_fin,
+                        longfin: this.actualizar.lonpunto_fin,
+                        punto_inicio: 1,
+                        punto_fin: 1
+                    })
+                    .then(response => {
+                        
+                        this.mensaje="Datos de viaje de usuario actualizados correctamente";
+                        this.resetActualizar();
+                        this.update = false;
+                        this.LeerViajes();
+                    });
+                }else{
+                    return;
+                }
             },
             crearViaje() {
                 if(this.validarRegistro()){
@@ -211,6 +326,13 @@ export default{
                 this.viaje.latpunto_fin = '';
                 this.viaje.lonpunto_fin = '';
 
+            },
+            resetActualizar(){
+                this.actualizar.id_usuario = '';
+                this.actualizar.latpunto_inicio = '';
+                this.actualizar.lonpunto_inicio = '';
+                this.actualizar.latpunto_fin = '';
+                this.actualizar.lonpunto_fin = '';
             },
             Eliminar(id) {
             let conf = confirm("De verdad quiere borrar este viaje de usuario?");
