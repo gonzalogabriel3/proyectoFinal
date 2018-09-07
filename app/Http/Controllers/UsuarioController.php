@@ -194,6 +194,57 @@ class UsuarioController extends Controller
     }
     public function RecorridoValido($idUsuario,$idTramo)
     {
+        /*
+        obtener un usuario 
+        calcular la parada mas cercana al usuario
+        obtener la posicion del colectivo dentro de ese recorrido
+        obtener las vertices de esas posiciones
+        calcular paso a paso de esas vertices
+        obtener todos los nodos resultantes 
+        armar linestring 
+        enviarlo al frontend
+        */
+        $usuario = Usuario::find($idUsuario);
+        $paradas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas");
+        $colectivo = \DB::select("SELECT colectivos.id FROM tramos INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id WHERE tramos.id = $idTramo");
+        $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
+
+        $verticeColectivo = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr WHERE the_geom = $colectivo->ultima_posicion");
+
+        $distmascercana = 1000;
+        $paradamascerca = null;
+        for ($i=0; $i < count($paradas); $i++) {
+            $parada = new Point($paradas[$i]->latitud,$paradas[$i]->longitud);
+            $calculo =  \DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($parada)') as distancia");
+            if($calculo[0]->distancia < $distmascercana){
+                $distmascercana = $calculo;
+                $paradamascerca = $parada;
+            }
+        }
+        
+        $distancia2 = 1000;
+        $verticemascerca = null;
+        for ($i=0; $i < count($vertices); $i++) {
+            $vertice2 = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
+            $calculo2 =  \DB::select("SELECT ST_Distance('POINT($puntomascerca)','POINT($vertice2)') as distancia");
+            if($calculo2[0]->distancia < $distancia2){
+                $distancia2 = $calculo2;
+                $verticemascerca = $vertice2;
+            }
+        }
+        
+        $recorrido =\DB::select("SELECT node, edge, cost, agg_cost FROM pgr_dijkstra('SELECT gid as id, source, target, st_length(geom) as cost FROM calles_rawson',$vertice_colectivo->the_geom,$verticemascerca->the_geom,FALSE)");
+        $puntos = array();
+        for ($i=0 ; $i < count($recorrido) ; $i++ ) { 
+            $puntor = $recorrido[$i];
+            $punto = \DB::select("SELECT st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr WHERE id = $puntor->node");
+            array_push($puntos, new Point ($punto->latitud,$punto->longitud));
+        }
+        return response()->json([
+            'puntos' => $puntos,
+            'message' => 'Se calculo la distancia manhattan correctamente'
+        ], 200);
+
 
     }
 }
