@@ -165,7 +165,7 @@ class ColectivoController extends Controller
             $colectivo = Colectivo::find($colectivot[0]->id);
             $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
             $colectivo->save(); 
-
+            
             return response()->json([
                 'colectivo'    => $coincidencia,
                 'message' => 'La posicion de Colectivo se encontro correctamente'
@@ -194,7 +194,6 @@ class ColectivoController extends Controller
                 $coincidenciap = $colectivo; 
             } 
         }
-
         return $coincidenciap;
     }
 }

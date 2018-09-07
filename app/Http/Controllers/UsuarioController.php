@@ -148,7 +148,8 @@ class UsuarioController extends Controller
     }
 
     //Funcion que normaliza la posicion de un usuario,lo acerca a la esquina mas cercana
-    public function normalizarPosicion($idUsuario){
+    public function normalizarPosicion($idUsuario)
+    {
         
         $usuario=Usuario::find($idUsuario);
         //Obtengo todas las esquinas/vertices
@@ -190,5 +191,9 @@ class UsuarioController extends Controller
             ], 200);
         }    
             
+    }
+    public function RecorridoValido($idUsuario,$idTramo)
+    {
+
     }
 }

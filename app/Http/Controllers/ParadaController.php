@@ -188,5 +188,5 @@ class ParadaController extends Controller
         ], 200);
         
 
-    }
+    } 
 }
