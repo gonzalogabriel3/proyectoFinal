@@ -147,32 +147,40 @@
                         <div class="form-group">
                             <label for="name">Latitud del Punto Inicio:</label>
                             <br>
-                            <span v-if="actualizar.latpunto_inicio.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
+                            <!--
+                            <span v-if="actualizar.latpunto_inicio.trim().length<3" class="label label-danger">Debe ingresar una latitud valida</span>
                             <span v-else class="label label-success">Correcto!</span>
+                            -->
                             <!--Se cambio type de text a number-->
                             <input type="number" name="latitudinicio" id="latitudinicio" placeholder="Latitud del Punto Inicio" class="form-control"
                                    v-model="actualizar.latpunto_inicio">
                             <br>
                             <label for="name">Longitud del Punto Inicio:</label>
                             <br>
+                            <!--
                             <span v-if="actualizar.lonpunto_inicio.trim().length<5" class="label label-danger" >Debe ingresar una longitud valida</span>
                             <span v-else class="label label-success">Correcto!</span>
+                            -->
                             <input type="number" name="longitudinicio" id="longitudinicio" placeholder="Longitud del Punto Inicio" class="form-control"
                                    v-model="actualizar.lonpunto_inicio">
                         </div>
                         <div class="form-group">
                             <label for="name">Latitud del Punto Fin:</label>
                             <br>
+                            <!--
                             <span v-if="actualizar.latpunto_fin.trim().length<5" class="label label-danger">Debe ingresar una latitud valida</span>
                             <span v-else class="label label-success">Correcto!</span>
+                            -->
                             <!--Se cambio type de text a number-->
                             <input type="number" name="latitudfin" id="latitudfin" placeholder="Latitud del Punto Fin" class="form-control"
                                    v-model="actualizar.latpunto_fin">
                             <br>
                             <label for="name">Longitud del Punto Fin:</label>
                             <br>
+                            <!--
                             <span v-if="actualizar.lonpunto_fin.trim().length<5" class="label label-danger" >Debe ingresar una longitud valida</span>
                             <span v-else class="label label-success">Correcto!</span>
+                            -->
                             <input type="number" name="longitud" id="longitud" placeholder="Longitud del Punto Fin" class="form-control"
                                    v-model="actualizar.lonpunto_fin">
                         </div>
@@ -191,7 +199,7 @@
 <script>
 export default{
     data(){
-        return {
+        return{
                 viaje: {
                     id_usuario: '',
                     latpunto_inicio:'',
@@ -269,7 +277,7 @@ export default{
             iniciarActualizacion(viaje){
                 this.actualizar.id=viaje.id;
                 this.actualizar.id_usuario=viaje.id_usuario;
-                this.actualizar.latpunto_inicio=viaje.latpunto_inicio;
+                this.actualizar.latpunto_inicio==viaje.latpunto_inicio;
                 this.actualizar.lonpunto_inicio=viaje.lonpunto_inicio;
                 this.actualizar.latpunto_fin=viaje.latpunto_fin;
                 this.actualizar.lonpunto_fin=viaje.lonpunto_fin;
