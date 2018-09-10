@@ -66,6 +66,7 @@ class ViajeUsuarioController extends Controller
         $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
         $distmascercana = 1000;
         $puntmascerca = null;
+        
         if (isset($request->latinicio)) {
             $punto = new Point($request->latinicio,$request->longinicio);
             for ($i=0; $i < count($vertices); $i++) {

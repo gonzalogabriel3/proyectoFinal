@@ -117,3 +117,7 @@ Route::resource('/viaje', 'ViajeUsuarioController');
 //Ruta para obtener la posicion de un colectivo
 Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 
+//Ruta para calcular manhattan de un colectivo hacia la parada mas cercana al usuario
+Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
+
+

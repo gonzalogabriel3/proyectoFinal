@@ -10,6 +10,7 @@
     <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
     <button class="btn btn-success" @click="showModalTramo">Mostrar Colectivo</button>
+    <button class="btn btn-success" @click="showModalManhattan">Mostrar recorrido de Colectivo a un usuario</button>
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -56,6 +57,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un recorrido-->
+
     <!--MODAL para seleccionar un tramo-->
     <div class="modal show" id="anadir" v-if="modalTramo" tabindex="-1" role="dialog" aria-labelledby="anadir">
             <div class="modal-dialog" role="document">
@@ -79,6 +81,36 @@
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un tramo-->
 
+    <!--MODAL para armar recorrido manhattan-->
+    <div class="modal show" id="anadir" v-if="modalManhattan" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeModalManhattan" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Eliga un Tramo</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <select v-model="manhattan.tramo_id">
+                            <option disabled value="">--Seleccione un Tramo--</option>
+                            <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
+                        </select>
+                        <br>
+                        <br>
+                        <select v-model="manhattan.usuario_id">
+                            <option disabled value="">--Seleccione un Tramo--</option>
+                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-success" @click="CalcularManhattan()" v-if="manhattan.tramo_id">Calcular recorrido</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!--FIN DEL MODAL para seleccionar un tramo-->
+
 </div>
 </template>
 <script>
@@ -88,6 +120,7 @@ export default {
             modalRecorrido:false,
             modalUsuario:false,
             modalTramo:false,
+            modalManhattan:false,
             recorrido_identificador:'',
             recorridos:[],
             usuarios:[],
@@ -101,9 +134,16 @@ export default {
             /**Variables para el dibujado en leaflet**/
             mapa:[],//Variable donde se va a contener el mapa principal
             polyline:[],//Variable que va a contener el linestring(puntos) de un recorrido
+            polyline2:[],//variable que va a contener el recorrido armado con manhattan
             usuario:[],//Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud:'',//Variable que va a contener la latitud de un usuario
             usuario_longitud:'',//Variable que va a contener la longitud de un usuario
+            manhattans:[],
+            manhattan:{
+                tramo_id:'',
+                usuario:''
+            }
+
         }
     },
     mounted()
@@ -241,6 +281,21 @@ export default {
                 }
             });         
         },
+        CalcularManhattan(){
+            /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/ 
+            if(this.mapa.hasLayer(this.polyline2)){
+                this.mapa.removeLayer(this.polyline2);
+            }
+            //Cargo los puntos del recorrido seleccionado
+             axios.get("/RecorridoValido/" + this.manhattan.usuario_id + "/" + this.manhattan.tramo_id).then(response => {
+                this.manhattans = response.data.puntos;
+                //Genero el linestring a partir de los puntos recibidos
+                this.polyline2 = L.polyline(this.manhattans, {color: 'blue'}).addTo(this.mapa);
+                
+                this.closeModalRecorrido();
+            });
+
+        },
         //MODALS funciones
         showModalRecorrido(){
             this.modalRecorrido=true;
@@ -259,6 +314,12 @@ export default {
         },
         closeModalUsuario(){
             this.modalUsuario=false;
+        },
+        showModalManhattan(){
+            this.modalManhattan=true;
+        },
+        closeModalManhattan(){
+            this.modalManhattan=false;
         }
     }
 }   

@@ -204,15 +204,30 @@ class UsuarioController extends Controller
         armar linestring 
         enviarlo al frontend
         */
+
+        //Obtengo los datos del usuario
         $usuario = Usuario::find($idUsuario);
+
+        //Obtengo todas las paradas
         $paradas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas");
-        $colectivo = \DB::select("SELECT colectivos.id FROM tramos INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id WHERE tramos.id = $idTramo");
+
+        //Obtengo los colectivos
+        $calcularcolectivos = \DB::select("SELECT colectivos.* FROM tramos INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id WHERE tramos.id = $idTramo AND colectivos.id = 68");
+        $colectivo = $calcularcolectivos[0];
+
+        //Obtengo todos los vertices
         $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
 
-        $verticeColectivo = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr WHERE the_geom = $colectivo->ultima_posicion");
+        
+        //obtengo el vertice perteneciente a la posicion del colectivo del colectivo
+        $verticeColectivo = \DB::select("SELECT *,st_x(calles_rawson_vertices_pgr.the_geom) as longitud , st_y(calles_rawson_vertices_pgr.the_geom) as latitud FROM calles_rawson_vertices_pgr,colectivos WHERE ST_Equals('POINT(the_geom)', 'POINT($colectivo->ultima_posicion::geometry)') = TRUE");
+        dd($verticeColectivo);
 
+        //Defino una distancia y una variable que guarda los datos de la parada mas cercana a un usuario
         $distmascercana = 1000;
         $paradamascerca = null;
+        
+        //Comparo todas las distancias de las paradas y guardo la mas cercana al usuario
         for ($i=0; $i < count($paradas); $i++) {
             $parada = new Point($paradas[$i]->latitud,$paradas[$i]->longitud);
             $calculo =  \DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($parada)') as distancia");
@@ -222,8 +237,11 @@ class UsuarioController extends Controller
             }
         }
         
+        //defino una distancia y una variable que obtiene el vertice mas cercano a la parada definida como mas cercana al usuario
         $distancia2 = 1000;
         $verticemascerca = null;
+
+        //Comparo todas las distancias de los vertices y guardo el mas cercano a la parada
         for ($i=0; $i < count($vertices); $i++) {
             $vertice2 = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
             $calculo2 =  \DB::select("SELECT ST_Distance('POINT($puntomascerca)','POINT($vertice2)') as distancia");
@@ -233,13 +251,20 @@ class UsuarioController extends Controller
             }
         }
         
+        //Armo el recorrido manhattan de la posicion del colectivo a la parada mas cercana al usuario
         $recorrido =\DB::select("SELECT node, edge, cost, agg_cost FROM pgr_dijkstra('SELECT gid as id, source, target, st_length(geom) as cost FROM calles_rawson',$vertice_colectivo->the_geom,$verticemascerca->the_geom,FALSE)");
+       
+        //creo un arreglo vacio
         $puntos = array();
+        
+        //recorro y obtengo todas las posiciones de los vertices que compongan el recorrido y creo un nuevo LineString
         for ($i=0 ; $i < count($recorrido) ; $i++ ) { 
             $puntor = $recorrido[$i];
             $punto = \DB::select("SELECT st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr WHERE id = $puntor->node");
             array_push($puntos, new Point ($punto->latitud,$punto->longitud));
         }
+
+        //Envio ese linestring al Frontend
         return response()->json([
             'puntos' => $puntos,
             'message' => 'Se calculo la distancia manhattan correctamente'
