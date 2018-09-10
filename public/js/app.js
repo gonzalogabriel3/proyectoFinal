@@ -54600,6 +54600,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -54688,7 +54696,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         iniciarActualizacion: function iniciarActualizacion(viaje) {
             this.actualizar.id = viaje.id;
             this.actualizar.id_usuario = viaje.id_usuario;
-            this.actualizar.latpunto_inicio = viaje.latpunto_inicio;
+            this.actualizar.latpunto_inicio == viaje.latpunto_inicio;
             this.actualizar.lonpunto_inicio = viaje.lonpunto_inicio;
             this.actualizar.latpunto_fin = viaje.latpunto_fin;
             this.actualizar.lonpunto_fin = viaje.lonpunto_fin;
@@ -55363,14 +55371,6 @@ var render = function() {
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
-                        _vm.actualizar.latpunto_inicio.trim().length < 5
-                          ? _c("span", { staticClass: "label label-danger" }, [
-                              _vm._v("Debe ingresar una latitud valida")
-                            ])
-                          : _c("span", { staticClass: "label label-success" }, [
-                              _vm._v("Correcto!")
-                            ]),
-                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -55409,14 +55409,6 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("br"),
-                        _vm._v(" "),
-                        _vm.actualizar.lonpunto_inicio.trim().length < 5
-                          ? _c("span", { staticClass: "label label-danger" }, [
-                              _vm._v("Debe ingresar una longitud valida")
-                            ])
-                          : _c("span", { staticClass: "label label-success" }, [
-                              _vm._v("Correcto!")
-                            ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -55457,14 +55449,6 @@ var render = function() {
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
-                        _vm.actualizar.latpunto_fin.trim().length < 5
-                          ? _c("span", { staticClass: "label label-danger" }, [
-                              _vm._v("Debe ingresar una latitud valida")
-                            ])
-                          : _c("span", { staticClass: "label label-success" }, [
-                              _vm._v("Correcto!")
-                            ]),
-                        _vm._v(" "),
                         _c("input", {
                           directives: [
                             {
@@ -55503,14 +55487,6 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("br"),
-                        _vm._v(" "),
-                        _vm.actualizar.lonpunto_fin.trim().length < 5
-                          ? _c("span", { staticClass: "label label-danger" }, [
-                              _vm._v("Debe ingresar una longitud valida")
-                            ])
-                          : _c("span", { staticClass: "label label-success" }, [
-                              _vm._v("Correcto!")
-                            ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [

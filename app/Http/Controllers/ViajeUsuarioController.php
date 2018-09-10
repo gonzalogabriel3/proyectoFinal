@@ -132,13 +132,13 @@ class ViajeUsuarioController extends Controller
     public function update(Request $request, ViajeUsuario $viajeUsuario)
     {
         //
-        $vertices = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM calles_rawson_vertices ORDER BY id DESC");
+        $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
         $distmascercana = 1000;
         $puntmascerca = null;
         if (isset($request->punto_fin)){
             $punto = new Point($request->latitud,$request->longitud);
             foreach ($vertices as $vertice) {
-                $calculo =  \DB::select("SELECT ST_Distance('POINT($punto)', 'POINT($vertice->geom)')as distancia");
+                $calculo =  \DB::select("SELECT ST_Distance('POINT($punto)', 'POINT($vertice->the_geom)')as distancia");
                 if($calculo < $distancia){
                     $distancia = $calculo;
                     $puntmascerca = $vertice;
@@ -148,7 +148,7 @@ class ViajeUsuarioController extends Controller
         }
         $viajeUsuario->save();
         return response()->json([
-            'message' => 'Viaje de Usuario Creado Correctamente'
+            'message' => 'Viaje de Usuario Editado Correctamente'
         ], 200);
     }
 
