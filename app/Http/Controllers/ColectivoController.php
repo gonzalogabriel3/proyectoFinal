@@ -211,6 +211,7 @@ class ColectivoController extends Controller
         $puntos = explode(",", $recorrido[0]->puntos);
         $puntos[0]=substr($puntos[0],11);
         $puntos[count($puntos)-1]=substr($puntos[count($puntos)-1],0,-1);
+        //Imprimir para prueba: dd($puntos);
         
         //Obtengo la latitud y longitud del usuario
         $usuarioLatitud=(float)$usuario[0]->latitud;
