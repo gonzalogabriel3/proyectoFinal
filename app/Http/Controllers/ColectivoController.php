@@ -144,7 +144,7 @@ class ColectivoController extends Controller
                                    INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
                                    WHERE tramos.id = $idTramo");
         $colectivos = array(); 
-        
+        dd($colectivot);
         for($i = 0 ; $i < count($usuarios); $i++){
             $usu1 = $usuarios[$i];
             
@@ -154,14 +154,14 @@ class ColectivoController extends Controller
 
                     //hago la consulta que comprueba si dos geometrias o posicion son espacialmente iguales
                     $validador = \DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
-
+                    
                     if($validador[0]->st_equals == true){
                         array_push($colectivos,$usuarios[$i]);
                     }
                 } 
             } 
         }
-    
+        
         if(count($colectivos) > 1){
             $coincidencia = self::obtenerCoincidencia($colectivos,$idTramo);
             if($coincidencia != ""){
@@ -199,4 +199,39 @@ class ColectivoController extends Controller
         }
         return $coincidenciap;
     }
+
+    /*Funcion que compara todos los puntos de un recorrido,con una posicion de un usuario(POINT),para determinar
+    si un usuario esta dentro de un recorrido*/
+    public function compararPuntosRecorrido($idUsuario,$idRecorrido){
+        //Obtengo el recorrido,y el usuario
+        $usuario=\DB::select("SELECT *,st_x(ultima_posicion::geometry) as latitud,st_y(ultima_posicion::geometry) as longitud FROM usuarios WHERE id=$idUsuario");
+        $recorrido=\DB::select("SELECT St_Astext(geom::geometry) as puntos FROM recorridos WHERE id=$idRecorrido");
+
+        //Obtengo todos los puntos en formato array de un recorrido
+        $puntos = explode(",", $recorrido[0]->puntos);
+        $puntos[0]=substr($puntos[0],11);
+        $puntos[count($puntos)-1]=substr($puntos[count($puntos)-1],0,-1);
+        
+        //Obtengo la latitud y longitud del usuario
+        $usuarioLatitud=(float)$usuario[0]->latitud;
+        $usuarioLongitud=(float)$usuario[0]->longitud;
+        
+        //Recorro todos los puntos del recorrido,y los comparo con la ultima posicion de un usuario
+        foreach ($puntos as $punto) {
+            $coincidencia=\DB::select("SELECT ST_Equals('POINT($usuarioLatitud $usuarioLongitud)','POINT($punto)') as coincidencia");
+            //Imprimir para prueba: var_dump($coincidencia[0]->coincidencia);
+            
+            //Si hay al menos una coincidencia retorno verdadero
+            if($coincidencia[0]->coincidencia==true){
+                return true;
+            }
+
+        }
+
+        return response()->json([
+            'message' => 'El usuario no esta dentro del recorrido'
+        ], 200);
+
+    }
+
 }
