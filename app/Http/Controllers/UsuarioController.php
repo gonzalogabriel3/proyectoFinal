@@ -220,8 +220,18 @@ class UsuarioController extends Controller
 
         
         //obtengo el vertice perteneciente a la posicion del colectivo del colectivo
-        $verticeColectivo = \DB::select("SELECT *,st_x(calles_rawson_vertices_pgr.the_geom) as longitud , st_y(calles_rawson_vertices_pgr.the_geom) as latitud FROM calles_rawson_vertices_pgr,colectivos WHERE ST_Equals('POINT(the_geom)', 'POINT($colectivo->ultima_posicion::geometry)') = TRUE");
-        dd($verticeColectivo);
+        for ($i=0; $i < count($vertices) ; $i++) { 
+            //creo una variable que va a contener el vertice que este en la posicion i
+            $pvertice = $vertices[$i];
+ 
+            //comparo la posicion del colectivo con el del vertice para saber si son iguales
+            $Vcolectivo = \DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.the_geom) FROM colectivos punto1, calles_rawson_vertices_pgr punto2 WHERE punto2.id=$pvertice->id AND punto1.id=$colectivo->id;");
+ 
+            //si el resultado de la consulta es true guardo ese vertice para crear el recorrido
+            if ($Vcolectivo[0] == true) {
+                $verticeColectivo = $pvertice;
+            }
+        }
 
         //Defino una distancia y una variable que guarda los datos de la parada mas cercana a un usuario
         $distmascercana = 1000;
@@ -236,23 +246,23 @@ class UsuarioController extends Controller
                 $paradamascerca = $parada;
             }
         }
-        
+
         //defino una distancia y una variable que obtiene el vertice mas cercano a la parada definida como mas cercana al usuario
         $distancia2 = 1000;
         $verticemascerca = null;
 
-        //Comparo todas las distancias de los vertices y guardo el mas cercano a la parada
+        //Comparo todas las distancias de los vertices y guardo el id del mas cercano a la parada
         for ($i=0; $i < count($vertices); $i++) {
             $vertice2 = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
-            $calculo2 =  \DB::select("SELECT ST_Distance('POINT($puntomascerca)','POINT($vertice2)') as distancia");
+            $calculo2 =  \DB::select("SELECT ST_Distance('POINT($paradamascerca)','POINT($vertice2)') as distancia");
             if($calculo2[0]->distancia < $distancia2){
                 $distancia2 = $calculo2;
-                $verticemascerca = $vertice2;
+                $verticemascerca = $vertices[$i];
             }
         }
-        
+
         //Armo el recorrido manhattan de la posicion del colectivo a la parada mas cercana al usuario
-        $recorrido =\DB::select("SELECT node, edge, cost, agg_cost FROM pgr_dijkstra('SELECT gid as id, source, target, st_length(geom) as cost FROM calles_rawson',$vertice_colectivo->the_geom,$verticemascerca->the_geom,FALSE)");
+        $recorrido =\DB::select("SELECT node, edge, cost, agg_cost FROM pgr_dijkstra('SELECT gid as id, source, target, st_length(geom) as cost FROM calles_rawson',$verticeColectivo->id,$verticemascerca->id,FALSE)");
        
         //creo un arreglo vacio
         $puntos = array();
