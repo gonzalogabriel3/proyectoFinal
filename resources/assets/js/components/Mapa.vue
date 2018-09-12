@@ -126,6 +126,7 @@ export default {
             usuarios:[],
             usuario_id:'',
             colectivo:'',
+            colectivoi:[],
             paradas:[],
             puntosRecarga:[],
             tramos:[],
@@ -138,7 +139,7 @@ export default {
             usuario:[],//Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud:'',//Variable que va a contener la latitud de un usuario
             usuario_longitud:'',//Variable que va a contener la longitud de un usuario
-            manhattans:[],
+            manhattans:null,
             manhattan:{
                 tramo_id:'',
                 usuario:''
@@ -246,6 +247,11 @@ export default {
             });         
         },
         mostrarColectivo(){
+             //Si ya hay un icono cargado de un usuario en el mapa lo elimino
+            if(this.mapa.hasLayer(this.colectivoi)){
+                this.mapa.removeLayer(this.colectivoi);
+            }
+
             //Creo el icono para dibujar al usuario en el mapa
             var iconoColectivo = L.icon({
                 iconUrl: 'colectivo.png',
@@ -253,10 +259,17 @@ export default {
             });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/posicionColectivo/" + this.tramo_id).then(response => {
+
                 this.colectivo = response.data.colectivo;
-                var marker = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
+                this.colectivoi = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
                 this.closeModalTramo();
             });         
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoUsuario = L.icon({
+                iconUrl: 'usuario.png',
+                iconSize: [45, 45] // size of the icon
+            });
+            
         },
         mostrarPuntosRecarga(){
             var i;
@@ -290,11 +303,11 @@ export default {
              axios.get("/RecorridoValido/" + this.manhattan.usuario_id + "/" + this.manhattan.tramo_id).then(response => {
                 this.manhattans = response.data.puntos;
                 //Genero el linestring a partir de los puntos recibidos
-                this.polyline2 = L.polyline(this.manhattans, {color: 'blue'}).addTo(this.mapa);
+                this.polyline2 = L.polyline(this.manhattans, {color: 'red'}).addTo(this.mapa);
                 
-                this.closeModalRecorrido();
+                this.modalManhattan = false;
             });
-
+            
         },
         //MODALS funciones
         showModalRecorrido(){

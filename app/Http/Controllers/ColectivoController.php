@@ -144,7 +144,7 @@ class ColectivoController extends Controller
                                    INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
                                    WHERE tramos.id = $idTramo");
         $colectivos = array(); 
-        dd($colectivot);
+        
         for($i = 0 ; $i < count($usuarios); $i++){
             $usu1 = $usuarios[$i];
             

@@ -53600,6 +53600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             usuarios: [],
             usuario_id: '',
             colectivo: '',
+            colectivoi: [],
             paradas: [],
             puntosRecarga: [],
             tramos: [],
@@ -53612,7 +53613,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             usuario: [], //Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud: '', //Variable que va a contener la latitud de un usuario
             usuario_longitud: '', //Variable que va a contener la longitud de un usuario
-            manhattans: [],
+            manhattans: null,
             manhattan: {
                 tramo_id: '',
                 usuario: ''
@@ -53726,6 +53727,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         mostrarColectivo: function mostrarColectivo() {
             var _this5 = this;
 
+            //Si ya hay un icono cargado de un usuario en el mapa lo elimino
+            if (this.mapa.hasLayer(this.colectivoi)) {
+                this.mapa.removeLayer(this.colectivoi);
+            }
+
             //Creo el icono para dibujar al usuario en el mapa
             var iconoColectivo = L.icon({
                 iconUrl: 'colectivo.png',
@@ -53733,9 +53739,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/posicionColectivo/" + this.tramo_id).then(function (response) {
+
                 _this5.colectivo = response.data.colectivo;
-                var marker = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud], { icon: iconoColectivo }).addTo(_this5.mapa);
+                _this5.colectivoi = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud], { icon: iconoColectivo }).addTo(_this5.mapa);
                 _this5.closeModalTramo();
+            });
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoUsuario = L.icon({
+                iconUrl: 'usuario.png',
+                iconSize: [45, 45] // size of the icon
             });
         },
         mostrarPuntosRecarga: function mostrarPuntosRecarga() {
@@ -53774,9 +53786,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get("/RecorridoValido/" + this.manhattan.usuario_id + "/" + this.manhattan.tramo_id).then(function (response) {
                 _this7.manhattans = response.data.puntos;
                 //Genero el linestring a partir de los puntos recibidos
-                _this7.polyline2 = L.polyline(_this7.manhattans, { color: 'blue' }).addTo(_this7.mapa);
+                _this7.polyline2 = L.polyline(_this7.manhattans, { color: 'red' }).addTo(_this7.mapa);
 
-                _this7.closeModalRecorrido();
+                _this7.modalManhattan = false;
             });
         },
 
