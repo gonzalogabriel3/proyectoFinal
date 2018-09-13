@@ -31972,7 +31972,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.17
+ * Vue.js v2.5.16
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37061,7 +37061,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.17';
+Vue.version = '2.5.16';
 
 /*  */
 
@@ -43221,7 +43221,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43230,9 +43230,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7168fb6a", Component.options)
+    hotAPI.createRecord("data-v-0ca92eac", Component.options)
   } else {
-    hotAPI.reload("data-v-7168fb6a", Component.options)
+    hotAPI.reload("data-v-0ca92eac", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -43310,7 +43310,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
   }
 }
 
@@ -43340,7 +43340,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/UsuarioComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\UsuarioComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43349,9 +43349,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-02dd1826", Component.options)
+    hotAPI.createRecord("data-v-e9c0f534", Component.options)
   } else {
-    hotAPI.reload("data-v-02dd1826", Component.options)
+    hotAPI.reload("data-v-e9c0f534", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -44275,7 +44275,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-02dd1826", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-e9c0f534", module.exports)
   }
 }
 
@@ -44305,7 +44305,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Colectivo.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Colectivo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -44314,9 +44314,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1072c636", Component.options)
+    hotAPI.createRecord("data-v-511897a5", Component.options)
   } else {
-    hotAPI.reload("data-v-1072c636", Component.options)
+    hotAPI.reload("data-v-511897a5", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -45090,7 +45090,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1072c636", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-511897a5", module.exports)
   }
 }
 
@@ -45120,7 +45120,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Parada.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Parada.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -45129,9 +45129,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9a2dd258", Component.options)
+    hotAPI.createRecord("data-v-9cd1d7d8", Component.options)
   } else {
-    hotAPI.reload("data-v-9a2dd258", Component.options)
+    hotAPI.reload("data-v-9cd1d7d8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -46314,7 +46314,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9a2dd258", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-9cd1d7d8", module.exports)
   }
 }
 
@@ -46344,7 +46344,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Tarifa.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Tarifa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -46353,9 +46353,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2eaa6696", Component.options)
+    hotAPI.createRecord("data-v-2d5863d6", Component.options)
   } else {
-    hotAPI.reload("data-v-2eaa6696", Component.options)
+    hotAPI.reload("data-v-2d5863d6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47153,7 +47153,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2eaa6696", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2d5863d6", module.exports)
   }
 }
 
@@ -47183,7 +47183,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Horario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Horario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47192,9 +47192,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-54c9a2fb", Component.options)
+    hotAPI.createRecord("data-v-2bdb4dbb", Component.options)
   } else {
-    hotAPI.reload("data-v-54c9a2fb", Component.options)
+    hotAPI.reload("data-v-2bdb4dbb", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48255,7 +48255,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-54c9a2fb", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2bdb4dbb", module.exports)
   }
 }
 
@@ -48285,7 +48285,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Recorrido.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Recorrido.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -48294,9 +48294,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-963ed164", Component.options)
+    hotAPI.createRecord("data-v-0e32920e", Component.options)
   } else {
-    hotAPI.reload("data-v-963ed164", Component.options)
+    hotAPI.reload("data-v-0e32920e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49607,7 +49607,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-963ed164", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0e32920e", module.exports)
   }
 }
 
@@ -49637,7 +49637,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Tramo.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Tramo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49646,9 +49646,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f7a49f44", Component.options)
+    hotAPI.createRecord("data-v-b5a9e9c4", Component.options)
   } else {
-    hotAPI.reload("data-v-f7a49f44", Component.options)
+    hotAPI.reload("data-v-b5a9e9c4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -51107,7 +51107,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f7a49f44", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-b5a9e9c4", module.exports)
   }
 }
 
@@ -51137,7 +51137,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/PuntoRecarga.vue"
+Component.options.__file = "resources\\assets\\js\\components\\PuntoRecarga.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -51146,9 +51146,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-46893fae", Component.options)
+    hotAPI.createRecord("data-v-dcd76624", Component.options)
   } else {
-    hotAPI.reload("data-v-46893fae", Component.options)
+    hotAPI.reload("data-v-dcd76624", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52048,7 +52048,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-46893fae", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-dcd76624", module.exports)
   }
 }
 
@@ -52078,7 +52078,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Comentario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Comentario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52087,9 +52087,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6e7a5cd8", Component.options)
+    hotAPI.createRecord("data-v-3f67ba18", Component.options)
   } else {
-    hotAPI.reload("data-v-6e7a5cd8", Component.options)
+    hotAPI.reload("data-v-3f67ba18", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52891,7 +52891,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6e7a5cd8", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3f67ba18", module.exports)
   }
 }
 
@@ -52921,7 +52921,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Sugerencia.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Sugerencia.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52930,9 +52930,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-428f0677", Component.options)
+    hotAPI.createRecord("data-v-137c63b7", Component.options)
   } else {
-    hotAPI.reload("data-v-428f0677", Component.options)
+    hotAPI.reload("data-v-137c63b7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53415,7 +53415,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-428f0677", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-137c63b7", module.exports)
   }
 }
 
@@ -53445,7 +53445,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/Mapa.vue"
+Component.options.__file = "resources\\assets\\js\\components\\Mapa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -53454,9 +53454,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-179e4688", Component.options)
+    hotAPI.createRecord("data-v-3685ac08", Component.options)
   } else {
-    hotAPI.reload("data-v-179e4688", Component.options)
+    hotAPI.reload("data-v-3685ac08", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53583,10 +53583,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -53594,7 +53590,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             modalRecorrido: false,
             modalUsuario: false,
             modalTramo: false,
-            modalManhattan: false,
+            modalParadasCercanas: false,
             recorrido_identificador: '',
             recorridos: [],
             usuarios: [],
@@ -53612,12 +53608,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             polyline2: [], //variable que va a contener el recorrido armado con manhattan
             usuario: [], //Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud: '', //Variable que va a contener la latitud de un usuario
-            usuario_longitud: '', //Variable que va a contener la longitud de un usuario
-            manhattans: null,
-            manhattan: {
-                tramo_id: '',
-                usuario: ''
-            }
+            usuario_longitud: '' //Variable que va a contener la longitud de un usuario
 
         };
     },
@@ -53709,7 +53700,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/44/45").then(function (response) {
+            axios.get("/parada").then(function (response) {
                 _this4.paradas = response.data.paradas;
                 for (i = 0; i < _this4.paradas.length; i++) {
                     var marker = L.marker([_this4.paradas[i].latitud, _this4.paradas[i].longitud], { icon: iconoParada }).addTo(_this4.mapa);
@@ -53724,8 +53715,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        mostrarColectivo: function mostrarColectivo() {
+        mostrarParadasCercanas: function mostrarParadasCercanas() {
             var _this5 = this;
+
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoParada = L.icon({
+                iconUrl: 'parada.png',
+                iconSize: [35, 35] // size of the icon
+            });
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/paradasCercanas/" + this.usuario_id).then(function (response) {
+                _this5.paradas = response.data.paradas;
+                //Si se encontro al menos una parada cercana
+                if (_this5.paradas.length > 0) {
+                    for (i = 0; i < _this5.paradas.length; i++) {
+                        var marker = L.marker([_this5.paradas[i].latitud, _this5.paradas[i].longitud], { icon: iconoParada }).addTo(_this5.mapa);
+                        /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                        marker.bindPopup(_this5.paradas[i].nombre);
+                        marker.on('mouseover', function (e) {
+                            this.openPopup();
+                        });
+                        marker.on('mouseout', function (e) {
+                            this.closePopup();
+                        });
+                    }
+                }
+                _this5.closeModalParadasCercanas();
+            });
+            //Si no se encontro ninguna parada,unicamente cierro el modal
+            this.closeModalParadasCercanas();
+        },
+        mostrarColectivo: function mostrarColectivo() {
+            var _this6 = this;
 
             //Si ya hay un icono cargado de un usuario en el mapa lo elimino
             if (this.mapa.hasLayer(this.colectivoi)) {
@@ -53740,18 +53762,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //Cargo las paradas y las muestro en el mapa
             axios.get("/posicionColectivo/" + this.tramo_id).then(function (response) {
 
-                _this5.colectivo = response.data.colectivo;
-                _this5.colectivoi = L.marker([_this5.colectivo.latitud, _this5.colectivo.longitud], { icon: iconoColectivo }).addTo(_this5.mapa);
-                _this5.closeModalTramo();
-            });
-            //Creo el icono para dibujar al usuario en el mapa
-            var iconoUsuario = L.icon({
-                iconUrl: 'usuario.png',
-                iconSize: [45, 45] // size of the icon
+                _this6.colectivo = response.data.colectivo;
+                _this6.colectivoi = L.marker([_this6.colectivo.latitud, _this6.colectivo.longitud], { icon: iconoColectivo }).addTo(_this6.mapa);
+                _this6.closeModalTramo();
             });
         },
         mostrarPuntosRecarga: function mostrarPuntosRecarga() {
-            var _this6 = this;
+            var _this7 = this;
 
             var i;
             //Creo el icono para dibujar al usuario en el mapa
@@ -53761,11 +53778,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             //Cargo los puntos de recarga y los muestro en el mapa
             axios.get("/punto").then(function (response) {
-                _this6.puntosRecarga = response.data.puntos;
-                for (i = 0; i < _this6.puntosRecarga.length; i++) {
-                    var marker = L.marker([_this6.puntosRecarga[i].latitud, _this6.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this6.mapa);
+                _this7.puntosRecarga = response.data.puntos;
+                for (i = 0; i < _this7.puntosRecarga.length; i++) {
+                    var marker = L.marker([_this7.puntosRecarga[i].latitud, _this7.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this7.mapa);
                     /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
-                    marker.bindPopup(_this6.puntosRecarga[i].nombre);
+                    marker.bindPopup(_this7.puntosRecarga[i].nombre);
                     marker.on('mouseover', function (e) {
                         this.openPopup();
                     });
@@ -53773,22 +53790,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         this.closePopup();
                     });
                 }
-            });
-        },
-        CalcularManhattan: function CalcularManhattan() {
-            var _this7 = this;
-
-            /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/
-            if (this.mapa.hasLayer(this.polyline2)) {
-                this.mapa.removeLayer(this.polyline2);
-            }
-            //Cargo los puntos del recorrido seleccionado
-            axios.get("/RecorridoValido/" + this.manhattan.usuario_id + "/" + this.manhattan.tramo_id).then(function (response) {
-                _this7.manhattans = response.data.puntos;
-                //Genero el linestring a partir de los puntos recibidos
-                _this7.polyline2 = L.polyline(_this7.manhattans, { color: 'red' }).addTo(_this7.mapa);
-
-                _this7.modalManhattan = false;
             });
         },
 
@@ -53811,11 +53812,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         closeModalUsuario: function closeModalUsuario() {
             this.modalUsuario = false;
         },
-        showModalManhattan: function showModalManhattan() {
-            this.modalManhattan = true;
+        showModalParadasCercanas: function showModalParadasCercanas() {
+            this.modalParadasCercanas = true;
         },
-        closeModalManhattan: function closeModalManhattan() {
-            this.modalManhattan = false;
+        closeModalParadasCercanas: function closeModalParadasCercanas() {
+            this.modalParadasCercanas = false;
         }
     }
 });
@@ -53836,8 +53837,17 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
+      {
+        staticClass: "btn btn-warning",
+        on: { click: _vm.showModalParadasCercanas }
+      },
+      [_vm._v("Mostrar Paradas mas cercanas a un usuario")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
       { staticClass: "btn btn-info", on: { click: _vm.mostrarParadas } },
-      [_vm._v("Mostrar Paradas mas cercanas")]
+      [_vm._v("Mostrar paradas")]
     ),
     _vm._v(" "),
     _c(
@@ -53862,12 +53872,6 @@ var render = function() {
       "button",
       { staticClass: "btn btn-success", on: { click: _vm.showModalTramo } },
       [_vm._v("Mostrar Colectivo")]
-    ),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-success", on: { click: _vm.showModalManhattan } },
-      [_vm._v("Mostrar recorrido de Colectivo a un usuario")]
     ),
     _vm._v(" "),
     _vm.modalRecorrido
@@ -54088,6 +54092,117 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
+    _vm.modalParadasCercanas
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeModalParadasCercanas }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v(
+                        "Eliga un Usuario para mostrar sus paradas mas cercanas"
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.usuario_id,
+                            expression: "usuario_id"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.usuario_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("--Seleccione un usuario--")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.usuarios, function(usuario) {
+                          return _c(
+                            "option",
+                            {
+                              key: usuario.id,
+                              domProps: { value: usuario.id }
+                            },
+                            [_vm._v(_vm._s(usuario.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _vm.usuario_id
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                _vm.mostrarParadasCercanas()
+                              }
+                            }
+                          },
+                          [_vm._v("Mostrar posicion usuario")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm.modalTramo
       ? _c(
           "div",
@@ -54192,170 +54307,6 @@ var render = function() {
             )
           ]
         )
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.modalManhattan
-      ? _c(
-          "div",
-          {
-            staticClass: "modal show",
-            attrs: {
-              id: "anadir",
-              tabindex: "-1",
-              role: "dialog",
-              "aria-labelledby": "anadir"
-            }
-          },
-          [
-            _c(
-              "div",
-              { staticClass: "modal-dialog", attrs: { role: "document" } },
-              [
-                _c("div", { staticClass: "modal-content" }, [
-                  _c("div", { staticClass: "modal-header" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "close",
-                        attrs: { type: "button", "aria-label": "Close" },
-                        on: { click: _vm.closeModalManhattan }
-                      },
-                      [
-                        _c("span", { attrs: { "aria-hidden": "true" } }, [
-                          _vm._v("×")
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("h4", { staticClass: "modal-title" }, [
-                      _vm._v("Eliga un Tramo")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.manhattan.tramo_id,
-                            expression: "manhattan.tramo_id"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.manhattan,
-                              "tramo_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { disabled: "", value: "" } }, [
-                          _vm._v("--Seleccione un Tramo--")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.tramos, function(tramo) {
-                          return _c(
-                            "option",
-                            { key: tramo.id, domProps: { value: tramo.id } },
-                            [_vm._v(_vm._s(tramo.nombre))]
-                          )
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.manhattan.usuario_id,
-                            expression: "manhattan.usuario_id"
-                          }
-                        ],
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.manhattan,
-                              "usuario_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c("option", { attrs: { disabled: "", value: "" } }, [
-                          _vm._v("--Seleccione un Tramo--")
-                        ]),
-                        _vm._v(" "),
-                        _vm._l(_vm.usuarios, function(usuario) {
-                          return _c(
-                            "option",
-                            {
-                              key: usuario.id,
-                              domProps: { value: usuario.id }
-                            },
-                            [_vm._v(_vm._s(usuario.nombre))]
-                          )
-                        })
-                      ],
-                      2
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "modal-footer" }, [
-                    _vm.manhattan.tramo_id
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            on: {
-                              click: function($event) {
-                                _vm.CalcularManhattan()
-                              }
-                            }
-                          },
-                          [_vm._v("Calcular recorrido")]
-                        )
-                      : _vm._e()
-                  ])
-                ])
-              ]
-            )
-          ]
-        )
       : _vm._e()
   ])
 }
@@ -54365,7 +54316,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-179e4688", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3685ac08", module.exports)
   }
 }
 
@@ -54395,7 +54346,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ViajeUsuario.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ViajeUsuario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -54404,9 +54355,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-61ead748", Component.options)
+    hotAPI.createRecord("data-v-1a15a19c", Component.options)
   } else {
-    hotAPI.reload("data-v-61ead748", Component.options)
+    hotAPI.reload("data-v-1a15a19c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -55606,7 +55557,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-61ead748", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1a15a19c", module.exports)
   }
 }
 

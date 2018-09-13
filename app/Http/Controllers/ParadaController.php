@@ -140,16 +140,9 @@ class ParadaController extends Controller
     }
 
     /*Metodo que calcula las paradas mas cercanas al usuario*/
-    public function obtenerParadasCercanas($idUsuario,$idColectivo){
+    public function obtenerParadasCercanas($idUsuario){
         //Busco al usuario para trabajar con su ultima posicion
         $usuario=Usuario::find($idUsuario);
-        
-        //Busco el colectivo para trabajar con su ultima posicion
-        $colectivo=Usuario::find($idColectivo);
-        
-        //Obtengo la distancia entre esos dos puntos(el usuario y el colectivo)
-        $distanciaColectivo=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($colectivo->ultima_posicion)') as distancia");
-        $distanciaColectivo=(float)$distanciaColectivo[0]->distancia;
         
         //Obtengo todas las paradas
         $paradas=Parada::all();
@@ -159,15 +152,18 @@ class ParadaController extends Controller
         
         //Recorro todas las paradas
         foreach ($paradas as $parada) {
-            $distanciaParada=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)', 'POINT($parada->geom)')as distancia");
-            $distanciaParada=(float)$distanciaParada[0]->distancia;
-            //Si la distancia entre el usuario y el colectivo,NO es mayor que la distancia entre el usuario y la parada
-            if($distanciaColectivo>$distanciaParada){
+            
+            //Obtengo el radio entre la posicion del usuario y una parada
+            $radio=\DB::select("SELECT ST_DWithin(usuario.ultima_posicion,parada.geom,900) FROM usuarios usuario,paradas parada WHERE
+            usuario.id=$usuario->id AND parada.id=$parada->id");
+            
+            //Si el radio es menor a 900 metros se agrega el id de la parada para mostrar
+            if($radio[0]->st_dwithin==true){
                 //Agrego el id de la parada 
                 $ids_paradas=$ids_paradas.$parada->id.",";
             }
         }
-       
+        
         
         //Si el colectivo esta por detras de la posicion del usuario,retorno las paradas cercanas
         if($ids_paradas!=''){
@@ -177,15 +173,16 @@ class ParadaController extends Controller
             //Obtengo todas las paradas
             $paradasCercanas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id IN($ids_paradas) ORDER BY id DESC");
            
+            //Las retorno al cliente
+            return response()->json([
+                'paradas' => $paradasCercanas,
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => "No hay paradas cercanas a tu posicion"
+            ], 200);
         }
-        //Si el usuario esta por detras de la posicion del colectivo(que lo perdio),se le mostraran todas las paradas
-        else{
-            $paradasCercanas=\DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas ORDER BY id DESC");
-        }
-        //Las retorno al cliente
-        return response()->json([
-            'paradas' => $paradasCercanas,
-        ], 200);
+        
         
 
     } 

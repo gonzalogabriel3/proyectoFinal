@@ -45,3 +45,6 @@
         edge: Identifica el eje del tramo de la ruta. Toma el valor -1 para el último eje.
         cost: Coste del tramo.
         agg_cost: Coste total acumulado desde el tramo inicial
+
+    -Saber si dos puntos se encuentran dentro de un radio de 10metros
+    "SELECT ST_DWithin(parada1.geom, parada2.geom, 10) FROM paradas parada1,paradas parada2 WHERE parada1.id=1386 AND parada2.id=1392;"

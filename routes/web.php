@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/normalizarPosicionUsuario/{id}','UsuarioController@normalizarPosicion');
     
     //Ruta para obtener paradas mas cercanas a un usuario
-    Route::get('/paradasCercanas/{idUsuario}/{idColectivo}','ParadaController@obtenerParadasCercanas'); 
+    Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas'); 
  
 });
 

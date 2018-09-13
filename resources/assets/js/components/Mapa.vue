@@ -5,12 +5,13 @@
     <!-- Contenedor del Mapa -->
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
-    <button class="btn btn-info" @click="mostrarParadas">Mostrar Paradas mas cercanas</button>
+    <button class="btn btn-warning" @click="showModalParadasCercanas">Mostrar Paradas mas cercanas a un usuario</button>
+    <button class="btn btn-info" @click="mostrarParadas">Mostrar paradas</button>
     <button class="btn btn-danger" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
     <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
     <button class="btn btn-success" @click="showModalTramo">Mostrar Colectivo</button>
-    <button class="btn btn-success" @click="showModalManhattan">Mostrar recorrido de Colectivo a un usuario</button>
+    
 
     <!--MODAL para seleccionar un recorrido-->
     <div class="modal show" id="anadir" v-if="modalRecorrido" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -58,6 +59,30 @@
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un recorrido-->
 
+     <!--MODAL para seleccionar un usuario,para mostrar sus paradas cercanas-->
+    <div class="modal show" id="anadir" v-if="modalParadasCercanas" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeModalParadasCercanas" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Eliga un Usuario para mostrar sus paradas mas cercanas</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <select v-model="usuario_id">
+                            <option disabled value="">--Seleccione un usuario--</option>
+                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" @click="mostrarParadasCercanas()" v-if="usuario_id">Mostrar posicion usuario</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!--FIN DEL MODAL para seleccionar un recorrido-->
+
+
     <!--MODAL para seleccionar un tramo-->
     <div class="modal show" id="anadir" v-if="modalTramo" tabindex="-1" role="dialog" aria-labelledby="anadir">
             <div class="modal-dialog" role="document">
@@ -81,36 +106,7 @@
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un tramo-->
 
-    <!--MODAL para armar recorrido manhattan-->
-    <div class="modal show" id="anadir" v-if="modalManhattan" tabindex="-1" role="dialog" aria-labelledby="anadir">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" @click="closeModalManhattan" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Eliga un Tramo</h4>
-                    </div>
-                    <div class="modal-body" >
-                        <select v-model="manhattan.tramo_id">
-                            <option disabled value="">--Seleccione un Tramo--</option>
-                            <option v-for="tramo in tramos" :key="tramo.id" v-bind:value="tramo.id">{{tramo.nombre}}</option>
-                        </select>
-                        <br>
-                        <br>
-                        <select v-model="manhattan.usuario_id">
-                            <option disabled value="">--Seleccione un Tramo--</option>
-                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
-                        </select>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-success" @click="CalcularManhattan()" v-if="manhattan.tramo_id">Calcular recorrido</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    <!--FIN DEL MODAL para seleccionar un tramo-->
-
+    
 </div>
 </template>
 <script>
@@ -120,7 +116,7 @@ export default {
             modalRecorrido:false,
             modalUsuario:false,
             modalTramo:false,
-            modalManhattan:false,
+            modalParadasCercanas:false,
             recorrido_identificador:'',
             recorridos:[],
             usuarios:[],
@@ -139,11 +135,6 @@ export default {
             usuario:[],//Variable que va a contener el icono(marker/punto) de un usuario
             usuario_latitud:'',//Variable que va a contener la latitud de un usuario
             usuario_longitud:'',//Variable que va a contener la longitud de un usuario
-            manhattans:null,
-            manhattan:{
-                tramo_id:'',
-                usuario:''
-            }
 
         }
     },
@@ -231,7 +222,7 @@ export default {
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/44/45").then(response => {
+            axios.get("/parada").then(response => {
                 this.paradas = response.data.paradas;
                 for (i = 0; i < this.paradas.length; i++) { 
                 var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);
@@ -242,9 +233,40 @@ export default {
                         });
                         marker.on('mouseout', function (e) {
                             this.closePopup();
-                        });
+                    });
                 }
-            });         
+                
+            });
+        },
+        mostrarParadasCercanas(){
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoParada = L.icon({
+                iconUrl: 'parada.png',
+                iconSize: [35, 35] // size of the icon
+            });
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/paradasCercanas/"+this.usuario_id).then(response => {
+                this.paradas = response.data.paradas;
+                //Si se encontro al menos una parada cercana
+                if(this.paradas.length>0){
+                    for (i = 0; i < this.paradas.length; i++) { 
+                    var marker = L.marker([this.paradas[i].latitud,this.paradas[i].longitud],{icon: iconoParada}).addTo(this.mapa);
+                        /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                        marker.bindPopup(this.paradas[i].nombre);
+                            marker.on('mouseover', function (e) {
+                                this.openPopup();
+                            });
+                            marker.on('mouseout', function (e) {
+                                this.closePopup();
+                            });                        
+                    }    
+                }
+                this.closeModalParadasCercanas();
+                
+            });
+            //Si no se encontro ninguna parada,unicamente cierro el modal
+            this.closeModalParadasCercanas();         
         },
         mostrarColectivo(){
              //Si ya hay un icono cargado de un usuario en el mapa lo elimino
@@ -264,12 +286,6 @@ export default {
                 this.colectivoi = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
                 this.closeModalTramo();
             });         
-            //Creo el icono para dibujar al usuario en el mapa
-            var iconoUsuario = L.icon({
-                iconUrl: 'usuario.png',
-                iconSize: [45, 45] // size of the icon
-            });
-            
         },
         mostrarPuntosRecarga(){
             var i;
@@ -294,21 +310,6 @@ export default {
                 }
             });         
         },
-        CalcularManhattan(){
-            /*Si ya hay un linestring(recorrido) cargado en el mapa,lo elimino*/ 
-            if(this.mapa.hasLayer(this.polyline2)){
-                this.mapa.removeLayer(this.polyline2);
-            }
-            //Cargo los puntos del recorrido seleccionado
-             axios.get("/RecorridoValido/" + this.manhattan.usuario_id + "/" + this.manhattan.tramo_id).then(response => {
-                this.manhattans = response.data.puntos;
-                //Genero el linestring a partir de los puntos recibidos
-                this.polyline2 = L.polyline(this.manhattans, {color: 'red'}).addTo(this.mapa);
-                
-                this.modalManhattan = false;
-            });
-            
-        },
         //MODALS funciones
         showModalRecorrido(){
             this.modalRecorrido=true;
@@ -328,11 +329,11 @@ export default {
         closeModalUsuario(){
             this.modalUsuario=false;
         },
-        showModalManhattan(){
-            this.modalManhattan=true;
+        showModalParadasCercanas(){
+            this.modalParadasCercanas=true;
         },
-        closeModalManhattan(){
-            this.modalManhattan=false;
+        closeModalParadasCercanas(){
+            this.modalParadasCercanas=false;
         }
     }
 }   
