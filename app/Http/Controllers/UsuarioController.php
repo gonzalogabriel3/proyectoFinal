@@ -140,11 +140,19 @@ class UsuarioController extends Controller
 
         $usuario->save();
 
+        $usuarionorm = self::normalizarPosicion($id);
         
+        if ($usuarionorm != "") {
+            return response()->json([
+                'message' => 'Ultima posicion guardada'
+            ], 200);
+    
+        } else {
+            return response()->json([
+                'message' => 'No se pudo guardar la posicion'
+            ], 200);
+        }
         
-        return response()->json([
-            'message' => 'Ultima posicion guardada'
-        ], 200);
     }
 
     //Funcion que normaliza la posicion de un usuario,lo acerca a la esquina mas cercana
@@ -152,6 +160,7 @@ class UsuarioController extends Controller
     {
         
         $usuario=Usuario::find($idUsuario);
+ 
         //Obtengo todas las esquinas/vertices
         $vertices=\DB::select("SELECT *,st_x(the_geom) as latitud ,st_y(the_geom) as longitud FROM public.calles_rawson_vertices_pgr ORDER BY id ASC");
         
@@ -181,126 +190,11 @@ class UsuarioController extends Controller
             
             $usuario->save();
 
-            return response()->json([
-                'message' => 'Posicion normalizada al vertice mas cercano',
-                'id_vertice'=>$id_vertice
-            ], 200);
+            return $usuario;
         }else{
-            return response()->json([
-                'message' => 'No se encontro un vertice cercano a la posicion del usuario'
-            ], 200);
-        }    
-            
-    }
-    public function RecorridoValido($idUsuario,$idTramo)
-    {
-        /*
-        obtener un usuario 
-        calcular la parada mas cercana al usuario
-        obtener la posicion del colectivo dentro de ese recorrido
-        obtener las vertices de esas posiciones
-        calcular paso a paso de esas vertices
-        obtener todos los nodos resultantes 
-        armar linestring 
-        enviarlo al frontend
-        */
-
-        //Obtengo los datos del usuario
-        $usuario = Usuario::find($idUsuario);
-
-        //Obtengo todas las paradas
-        $paradas = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas");
-
-        //Obtengo los colectivos
-        $calcularcolectivos = \DB::select("SELECT colectivos.* FROM tramos INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id WHERE tramos.id = $idTramo");
-        $colectivo = $calcularcolectivos[0];
-        
-        //Obtengo todos los vertices
-        $vertices = \DB::select("SELECT *,st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr ORDER BY id DESC");
-
-        $verticeColectivo=null;
-        //obtengo el vertice perteneciente a la posicion del colectivo del colectivo
-        for ($i=0; $i < count($vertices) ; $i++) { 
-            //creo una variable que va a contener el vertice que este en la posicion i
-            $pvertice = $vertices[$i];
+            $mensaje = "";
+            return $mensaje;
  
-            //comparo la posicion del colectivo con el del vertice para saber si son iguales
-            $Vcolectivo = \DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.the_geom) FROM colectivos punto1, calles_rawson_vertices_pgr punto2 WHERE punto2.id=$pvertice->id AND punto1.id=$colectivo->id;");
-
-            //si el resultado de la consulta es true guardo ese vertice para crear el recorrido
-            if ($Vcolectivo[0]->st_equals == true) {
-                $verticeColectivo = (int)$pvertice->id;
-            } 
-        }
-        if ($verticeColectivo==null) {
-            //Envio un mensaje al Frontend
-            return response()->json([
-                'message' => "NO se pudo armar un recorrido",
-            ], 200);            
-        }
-
-        //Defino una distancia y una variable que guarda los datos de la parada mas cercana a un usuario
-        $distmascercana = 1000;
-        $paradamascerca = null;
-        
-        //Comparo todas las distancias de las paradas y guardo la mas cercana al usuario
-        for ($i=0; $i < count($paradas); $i++) {
-            $parada = new Point($paradas[$i]->latitud,$paradas[$i]->longitud);
-            $calculo =  \DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($parada)') as distancia");
-            if($calculo[0]->distancia < $distmascercana){
-                $distmascercana = (float)$calculo[0]->distancia;
-                $paradamascerca = $parada;
-            }
-        }
-
-        //defino una distancia y una variable que obtiene el vertice mas cercano a la parada definida como mas cercana al usuario
-        $distancia2 = 1000;
-        $verticemascerca = null;
-
-        //Comparo todas las distancias de los vertices y guardo el id del mas cercano a la parada
-        for ($i=0; $i < count($vertices); $i++) {
-            
-            $vertice2 = new Point($vertices[$i]->latitud,$vertices[$i]->longitud);
-            $calculo2 =  \DB::select("SELECT ST_Distance('POINT($paradamascerca)','POINT($vertice2)') as distancia");
-            
-            if($calculo2[0]->distancia < $distancia2){
-            
-                $distancia2 = (float)$calculo2[0]->distancia;
-                $verticemascerca = (int)$vertices[$i]->id;
-            }
-        }
-
-        //Armo el recorrido manhattan de la posicion del colectivo a la parada mas cercana al usuario
-        $recorrido =\DB::select("SELECT node, edge, cost, agg_cost FROM pgr_dijkstra('SELECT gid as id, source, target, st_length(geom) as cost FROM calles_rawson',$verticeColectivo,$verticemascerca,FALSE)");
-
-        if (count($recorrido) == 0) {
-
-            //Envio un mensaje al Frontend
-            return response()->json([
-                'message' => "NO se pudo armar un recorrido",
-            ], 200);            
-
-        } else {
-        //creo un arreglo vacio
-        $puntosr = array();
-        //recorro y obtengo todas las posiciones de los vertices que compongan el recorrido y creo un nuevo LineString
-        for ($i=0 ; $i < count($recorrido) ; $i++ ) { 
-            $puntor = $recorrido[$i];
-            
-            $punto = \DB::select("SELECT st_x(the_geom::geometry) as longitud , st_y(the_geom::geometry) as latitud FROM calles_rawson_vertices_pgr WHERE id = $puntor->node");
-            
-            $puntos = array();
-            array_push($puntos,(float)$punto[0]->latitud);
-            array_push($puntos,(float)$punto[0]->longitud);
-
-            array_push($puntosr,$puntos);
-        }
-
-        //Envio ese linestring al Frontend
-        return response()->json([
-            'puntos' => $puntosr,
-        ], 200);
-    }
-
+        }           
     }
 }
