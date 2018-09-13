@@ -48,7 +48,7 @@
                     <div class="modal-body" >
                         <select v-model="usuario_id">
                             <option disabled value="">--Seleccione un usuario--</option>
-                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}/{{usuario.id}}</option>
                         </select>
                     </div>
                     <div class="modal-footer">

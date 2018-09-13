@@ -186,7 +186,7 @@ class UsuarioController extends Controller
             $verticeCercano=\DB::select("SELECT *,ST_x(the_geom) as latitud,ST_y(the_geom) as longitud FROM calles_rawson_vertices_pgr WHERE id=$id_vertice");
             
             //Guardo la nueva posicion del usuario
-            $usuario->ultima_posicion= new Point((float)$verticeCercano[0]->longitud,(float)$verticeCercano[0]->latitud);
+            $usuario->posicion_normalizada= new Point((float)$verticeCercano[0]->longitud,(float)$verticeCercano[0]->latitud);
             
             $usuario->save();
 

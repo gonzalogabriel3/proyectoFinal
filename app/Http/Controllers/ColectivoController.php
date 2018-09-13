@@ -200,5 +200,7 @@ class ColectivoController extends Controller
         return $coincidenciap;
     }
 
-   
+   public function posicion2($idTramo){
+        
+   }
 }

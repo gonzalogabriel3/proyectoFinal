@@ -54061,7 +54061,13 @@ var render = function() {
                               key: usuario.id,
                               domProps: { value: usuario.id }
                             },
-                            [_vm._v(_vm._s(usuario.nombre))]
+                            [
+                              _vm._v(
+                                _vm._s(usuario.nombre) +
+                                  "/" +
+                                  _vm._s(usuario.id)
+                              )
+                            ]
                           )
                         })
                       ],

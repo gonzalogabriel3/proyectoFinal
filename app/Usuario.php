@@ -20,12 +20,16 @@ class Usuario extends Model
         'id','nombre','password','email'
     ];
     protected $postgisFields = [
-        'ultima_posicion'
+        'ultima_posicion','posicion_normalizada'
     ];
     protected $postgisTypes = [
         'ultima_posicion' => [
             'geomtype' => 'geography',
             'srid' => 4326
         ],
+        'posicion_normalizada' => [
+            'geomtype' => 'geography',
+            'srid' => 4326
+        ]
     ];
 }
