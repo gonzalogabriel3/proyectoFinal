@@ -154,14 +154,14 @@ class ColectivoController extends Controller
 
                     //hago la consulta que comprueba si dos geometrias o posicion son espacialmente iguales
                     $validador = \DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
-                    
+                   
                     if($validador[0]->st_equals == true){
                         array_push($colectivos,$usuarios[$i]);
                     }
                 } 
             } 
         }
-        
+       
         if(count($colectivos) > 1){
             $coincidencia = self::obtenerCoincidencia($colectivos,$idTramo);
             if($coincidencia != ""){
@@ -200,5 +200,5 @@ class ColectivoController extends Controller
         return $coincidenciap;
     }
 
-    
+   
 }

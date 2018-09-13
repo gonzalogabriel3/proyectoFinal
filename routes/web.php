@@ -117,5 +117,3 @@ Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 //Ruta para calcular manhattan de un colectivo hacia la parada mas cercana al usuario
 Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
 
-//ruta de prueba para probar si un usuario esta dentro de un recorrido
-Route::get('/dentroDelRecorrido/{idUsuario}/{idTramo}','ColectivoController@compararPuntosRecorrido');

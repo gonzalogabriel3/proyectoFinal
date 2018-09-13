@@ -164,8 +164,7 @@ class ParadaController extends Controller
             }
         }
         
-        
-        //Si el colectivo esta por detras de la posicion del usuario,retorno las paradas cercanas
+        //Si se encontro alguna parada cercana al usuario
         if($ids_paradas!=''){
             //Quito la ultima coma para evitar error al momento de ejecutar la consulta
             $ids_paradas=trim($ids_paradas,',');
