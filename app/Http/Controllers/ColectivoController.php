@@ -137,7 +137,7 @@ class ColectivoController extends Controller
     public function obtenerPosicion($idTramo)
     {
 
-        $usuarios = \DB::select("SELECT id,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios");
+        $usuarios = \DB::select("SELECT id,st_x(posicion_normalizada::geometry) as longitud , st_y(posicion_normalizada::geometry) as latitud FROM usuarios");
         $colectivot = \DB::select("SELECT colectivos.id 
                                    FROM tramos 
                                    INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
@@ -153,7 +153,7 @@ class ColectivoController extends Controller
                     $usu2 = $usuarios[$j];
 
                     //hago la consulta que comprueba si dos geometrias o posicion son espacialmente iguales
-                    $validador = \DB::select("SELECT ST_Equals(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
+                    $validador = \DB::select("SELECT ST_Equals(pos1.posicion_normalizada::geometry, pos2.posicion_normalizada::geometry) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
                    
                     if($validador[0]->st_equals == true){
                         array_push($colectivos,$usuarios[$i]);
@@ -189,11 +189,12 @@ class ColectivoController extends Controller
         $tramo = Tramo::find($idTramo)->first();
         $coincidenciap = "";
         for($i=0;$i < count($colectivos);$i++){
+            
             $colectivo = $colectivos[$i];
-            $validador=\DB::select("SELECT ST_Intersects(pos1.ultima_posicion::geometry, pos2.geom::geometry) 
-            FROM usuarios pos1, recorridos pos2 
-            WHERE pos1.id=$colectivo->id AND pos2.id=$tramo->recorrido_id;");
-            if($validador == true){
+
+            $validador=\DB::select("SELECT ST_DWithin(pos1.posicion_normalizada::geometry, pos2.geom::geometry,1) FROM usuarios pos1, recorridos pos2 WHERE pos1.id=$colectivo->id AND pos2.id=$tramo->recorrido_id;");
+
+            if($validador[0]->st_dwithin == true){
                 $coincidenciap = $colectivo; 
             } 
         }
