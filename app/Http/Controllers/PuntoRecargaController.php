@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PuntoRecarga;
+use App\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
 
@@ -121,6 +122,49 @@ class PuntoRecargaController extends Controller
             'message' => 'Punto eliminado Correctamente'
         ], 200);
     }
+    
+    /*Metodo que calcula los puntos de recarga mas cercanos al usuario*/
+    public function obtenerPuntosCercanos($idUsuario){
+        //Busco al usuario para trabajar con su ultima posicion
+        $usuario=Usuario::find($idUsuario);
+        
+        //Obtengo todas las paradas
+        $puntos=PuntoRecarga::all();
 
+        //Creo una variable donde se va a contener todos los id's,de las paradas mas cercanas al usuario
+        $ids_puntos="";
+        
+        //Recorro todas las paradas
+        foreach ($puntos as $punto) {
+            
+            //Obtengo el radio entre la posicion del usuario y una parada
+            $radio=\DB::select("SELECT ST_DWithin(usuario.ultima_posicion,punto.geom,900) FROM usuarios usuario,puntos_recarga punto WHERE
+            usuario.id=$usuario->id AND punto.id=$punto->id");
+            
+            //Si el radio es menor a 900 metros se agrega el id de la parada para mostrar
+            if($radio[0]->st_dwithin==true){
+                //Agrego el id de la parada 
+                $ids_puntos=$ids_puntos.$punto->id.",";
+            }
+        }
+        
+        //Si se encontro alguna parada cercana al usuario
+        if($ids_puntos!=''){
+            //Quito la ultima coma para evitar error al momento de ejecutar la consulta
+            $ids_puntos=trim($ids_puntos,',');
+            
+            //Obtengo todas las paradas
+            $puntosCercanos = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM puntos_recarga WHERE id IN($ids_puntos) ORDER BY id DESC");
+           
+            //Las retorno al cliente
+            return response()->json([
+                'puntos' => $puntosCercanos,
+            ], 200);
+        }else{
+            return response()->json([
+                'message' => "No hay Puntos de recarga cercanos a tu posicion"
+            ], 200);
+        }
+    } 
 
 }

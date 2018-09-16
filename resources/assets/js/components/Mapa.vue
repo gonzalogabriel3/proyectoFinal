@@ -6,10 +6,11 @@
     </div>
     <!--BOTONES PARA LAS ACCIONES-->
     <button class="btn btn-warning" @click="showModalParadasCercanas">Mostrar Paradas mas cercanas a un usuario</button>
-    <button class="btn btn-info" @click="mostrarParadas">Mostrar paradas</button>
+    <button class="btn btn-warning" @click="mostrarParadas">Mostrar paradas</button>
     <button class="btn btn-danger" @click="showModalRecorrido">Mostrar un Recorrido</button>
     <button class="btn btn-info" @click="mostrarPuntosRecarga">Mostrar puntos de recarga</button>
-    <button class="btn btn-warning" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
+    <button class="btn btn-info" @click="showModalPuntosCercanos">Mostrar puntos de recarga cercanos a un usuario</button>
+    <button class="btn btn-success" @click="showModalUsuario">Mostrar ultima posicion de un usuario</button>
     <button class="btn btn-success" @click="showModalTramo">Mostrar Colectivo</button>
     
 
@@ -20,7 +21,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" @click="closeModalRecorrido" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Eliga un Recorrido</h4>
+                        <h4 class="modal-title">Elija un Recorrido</h4>
                     </div>
                     <div class="modal-body" >
                         <select v-model="recorrido_identificador">
@@ -43,7 +44,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" @click="closeModalUsuario" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Eliga un Usuario</h4>
+                        <h4 class="modal-title">Elija un Usuario</h4>
                     </div>
                     <div class="modal-body" >
                         <select v-model="usuario_id">
@@ -66,7 +67,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" @click="closeModalParadasCercanas" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Eliga un Usuario para mostrar sus paradas mas cercanas</h4>
+                        <h4 class="modal-title">Elija un Usuario para mostrar sus paradas mas cercanas</h4>
                     </div>
                     <div class="modal-body" >
                         <select v-model="usuario_id">
@@ -82,6 +83,29 @@
         </div><!-- /.modal -->
     <!--FIN DEL MODAL para seleccionar un recorrido-->
 
+    <!--MODAL para seleccionar un usuario para mostrar sus puntos de recarga cercanos-->
+    <div class="modal show" id="anadir" v-if="modalPuntosCercanos" tabindex="-1" role="dialog" aria-labelledby="anadir">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" @click="closeModalPuntosCercanos" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Elija un Usuario para mostrar sus puntos de recarga mas cercanos</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <select v-model="usuario_id">
+                            <option disabled value="">--Seleccione un usuario--</option>
+                            <option v-for="usuario in usuarios" :key="usuario.id" v-bind:value="usuario.id">{{usuario.nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" @click="mostrarPuntosCercanos()" v-if="usuario_id">Mostrar puntos cercanos</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    <!--FIN MODAL para seleccionar un usuario para mostrar sus puntos de recarga cercanos-->
+
 
     <!--MODAL para seleccionar un tramo-->
     <div class="modal show" id="anadir" v-if="modalTramo" tabindex="-1" role="dialog" aria-labelledby="anadir">
@@ -90,7 +114,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" @click="closeModalTramo" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Eliga un Tramo</h4>
+                        <h4 class="modal-title">Elija un Tramo</h4>
                     </div>
                     <div class="modal-body" >
                         <select v-model="tramo_id">
@@ -113,6 +137,7 @@
 export default {
     data(){
         return {
+            modalPuntosCercanos:false,
             modalRecorrido:false,
             modalUsuario:false,
             modalTramo:false,
@@ -310,7 +335,44 @@ export default {
                 }
             });         
         },
+        mostrarPuntosCercanos(){
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoPuntoRecarga = L.icon({
+                iconUrl: 'sube.png',
+                iconSize: [50, 50] // size of the icon
+            });
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/puntosCercanos/"+this.usuario_id).then(response => {
+                this.puntosRecarga = response.data.puntos;
+                //Si se encontro al menos una parada cercana
+                if(this.puntosRecarga.length>0){
+                for (i = 0; i < this.puntosRecarga.length; i++) { 
+                var marker = L.marker([this.puntosRecarga[i].latitud,this.puntosRecarga[i].longitud],{icon: iconoPuntoRecarga}).addTo(this.mapa);
+                    /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                    marker.bindPopup(this.puntosRecarga[i].nombre);
+                        marker.on('mouseover', function (e) {
+                            this.openPopup();
+                        });
+                        marker.on('mouseout', function (e) {
+                            this.closePopup();
+                        });
+                }    
+                }
+                this.closeModalPuntosCercanos();
+                
+            });
+            //Si no se encontro ninguna parada,unicamente cierro el modal
+            this.closeModalPuntosCercanos();         
+        },
         //MODALS funciones
+        showModalPuntosCercanos(){
+            this.modalPuntosCercanos=true;
+        },
+        
+        closeModalPuntosCercanos(){
+            this.modalPuntosCercanos=false;
+        },
         showModalRecorrido(){
             this.modalRecorrido=true;
         },

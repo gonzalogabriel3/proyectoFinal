@@ -79,7 +79,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
     
     //Ruta para obtener paradas mas cercanas a un usuario
-    Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas'); 
+    Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas');
+    
+    //Ruta para obtener paradas mas cercanas a un usuario
+    Route::get('/puntosCercanos/{idUsuario}','PuntoRecargaController@obtenerPuntosCercanos');
  
 });
 

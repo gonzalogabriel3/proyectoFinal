@@ -31972,7 +31972,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -37061,7 +37061,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -43221,7 +43221,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
+Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43230,9 +43230,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0ca92eac", Component.options)
+    hotAPI.createRecord("data-v-7168fb6a", Component.options)
   } else {
-    hotAPI.reload("data-v-0ca92eac", Component.options)
+    hotAPI.reload("data-v-7168fb6a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -43310,7 +43310,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
   }
 }
 
@@ -43340,7 +43340,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\UsuarioComponent.vue"
+Component.options.__file = "resources/assets/js/components/UsuarioComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -43349,9 +43349,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e9c0f534", Component.options)
+    hotAPI.createRecord("data-v-02dd1826", Component.options)
   } else {
-    hotAPI.reload("data-v-e9c0f534", Component.options)
+    hotAPI.reload("data-v-02dd1826", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -44275,7 +44275,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e9c0f534", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-02dd1826", module.exports)
   }
 }
 
@@ -44305,7 +44305,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Colectivo.vue"
+Component.options.__file = "resources/assets/js/components/Colectivo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -44314,9 +44314,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-511897a5", Component.options)
+    hotAPI.createRecord("data-v-1072c636", Component.options)
   } else {
-    hotAPI.reload("data-v-511897a5", Component.options)
+    hotAPI.reload("data-v-1072c636", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -45090,7 +45090,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-511897a5", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1072c636", module.exports)
   }
 }
 
@@ -45120,7 +45120,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Parada.vue"
+Component.options.__file = "resources/assets/js/components/Parada.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -45129,9 +45129,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9cd1d7d8", Component.options)
+    hotAPI.createRecord("data-v-9a2dd258", Component.options)
   } else {
-    hotAPI.reload("data-v-9cd1d7d8", Component.options)
+    hotAPI.reload("data-v-9a2dd258", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -46314,7 +46314,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9cd1d7d8", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-9a2dd258", module.exports)
   }
 }
 
@@ -46344,7 +46344,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Tarifa.vue"
+Component.options.__file = "resources/assets/js/components/Tarifa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -46353,9 +46353,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2d5863d6", Component.options)
+    hotAPI.createRecord("data-v-2eaa6696", Component.options)
   } else {
-    hotAPI.reload("data-v-2d5863d6", Component.options)
+    hotAPI.reload("data-v-2eaa6696", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47153,7 +47153,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2d5863d6", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-2eaa6696", module.exports)
   }
 }
 
@@ -47183,7 +47183,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Horario.vue"
+Component.options.__file = "resources/assets/js/components/Horario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47192,9 +47192,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2bdb4dbb", Component.options)
+    hotAPI.createRecord("data-v-54c9a2fb", Component.options)
   } else {
-    hotAPI.reload("data-v-2bdb4dbb", Component.options)
+    hotAPI.reload("data-v-54c9a2fb", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48255,7 +48255,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2bdb4dbb", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-54c9a2fb", module.exports)
   }
 }
 
@@ -48285,7 +48285,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Recorrido.vue"
+Component.options.__file = "resources/assets/js/components/Recorrido.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -48294,9 +48294,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0e32920e", Component.options)
+    hotAPI.createRecord("data-v-963ed164", Component.options)
   } else {
-    hotAPI.reload("data-v-0e32920e", Component.options)
+    hotAPI.reload("data-v-963ed164", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49607,7 +49607,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0e32920e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-963ed164", module.exports)
   }
 }
 
@@ -49637,7 +49637,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Tramo.vue"
+Component.options.__file = "resources/assets/js/components/Tramo.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49646,9 +49646,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b5a9e9c4", Component.options)
+    hotAPI.createRecord("data-v-f7a49f44", Component.options)
   } else {
-    hotAPI.reload("data-v-b5a9e9c4", Component.options)
+    hotAPI.reload("data-v-f7a49f44", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -51107,7 +51107,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b5a9e9c4", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-f7a49f44", module.exports)
   }
 }
 
@@ -51137,7 +51137,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\PuntoRecarga.vue"
+Component.options.__file = "resources/assets/js/components/PuntoRecarga.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -51146,9 +51146,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-dcd76624", Component.options)
+    hotAPI.createRecord("data-v-46893fae", Component.options)
   } else {
-    hotAPI.reload("data-v-dcd76624", Component.options)
+    hotAPI.reload("data-v-46893fae", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52048,7 +52048,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-dcd76624", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-46893fae", module.exports)
   }
 }
 
@@ -52078,7 +52078,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Comentario.vue"
+Component.options.__file = "resources/assets/js/components/Comentario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52087,9 +52087,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3f67ba18", Component.options)
+    hotAPI.createRecord("data-v-6e7a5cd8", Component.options)
   } else {
-    hotAPI.reload("data-v-3f67ba18", Component.options)
+    hotAPI.reload("data-v-6e7a5cd8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -52891,7 +52891,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3f67ba18", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-6e7a5cd8", module.exports)
   }
 }
 
@@ -52921,7 +52921,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Sugerencia.vue"
+Component.options.__file = "resources/assets/js/components/Sugerencia.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -52930,9 +52930,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-137c63b7", Component.options)
+    hotAPI.createRecord("data-v-428f0677", Component.options)
   } else {
-    hotAPI.reload("data-v-137c63b7", Component.options)
+    hotAPI.reload("data-v-428f0677", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53415,7 +53415,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-137c63b7", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-428f0677", module.exports)
   }
 }
 
@@ -53445,7 +53445,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\Mapa.vue"
+Component.options.__file = "resources/assets/js/components/Mapa.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -53454,9 +53454,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3685ac08", Component.options)
+    hotAPI.createRecord("data-v-179e4688", Component.options)
   } else {
-    hotAPI.reload("data-v-3685ac08", Component.options)
+    hotAPI.reload("data-v-179e4688", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -53583,10 +53583,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            modalPuntosCercanos: false,
             modalRecorrido: false,
             modalUsuario: false,
             modalTramo: false,
@@ -53792,8 +53817,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
+        mostrarPuntosCercanos: function mostrarPuntosCercanos() {
+            var _this8 = this;
+
+            var i;
+            //Creo el icono para dibujar al usuario en el mapa
+            var iconoPuntoRecarga = L.icon({
+                iconUrl: 'sube.png',
+                iconSize: [50, 50] // size of the icon
+            });
+            //Cargo las paradas y las muestro en el mapa
+            axios.get("/puntosCercanos/" + this.usuario_id).then(function (response) {
+                _this8.puntosRecarga = response.data.puntos;
+                //Si se encontro al menos una parada cercana
+                if (_this8.puntosRecarga.length > 0) {
+                    for (i = 0; i < _this8.puntosRecarga.length; i++) {
+                        var marker = L.marker([_this8.puntosRecarga[i].latitud, _this8.puntosRecarga[i].longitud], { icon: iconoPuntoRecarga }).addTo(_this8.mapa);
+                        /*Funcion que muestra el nombre de una parada cuando se pasa el mouse*/
+                        marker.bindPopup(_this8.puntosRecarga[i].nombre);
+                        marker.on('mouseover', function (e) {
+                            this.openPopup();
+                        });
+                        marker.on('mouseout', function (e) {
+                            this.closePopup();
+                        });
+                    }
+                }
+                _this8.closeModalPuntosCercanos();
+            });
+            //Si no se encontro ninguna parada,unicamente cierro el modal
+            this.closeModalPuntosCercanos();
+        },
 
         //MODALS funciones
+        showModalPuntosCercanos: function showModalPuntosCercanos() {
+            this.modalPuntosCercanos = true;
+        },
+        closeModalPuntosCercanos: function closeModalPuntosCercanos() {
+            this.modalPuntosCercanos = false;
+        },
         showModalRecorrido: function showModalRecorrido() {
             this.modalRecorrido = true;
         },
@@ -53846,7 +53908,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-info", on: { click: _vm.mostrarParadas } },
+      { staticClass: "btn btn-warning", on: { click: _vm.mostrarParadas } },
       [_vm._v("Mostrar paradas")]
     ),
     _vm._v(" "),
@@ -53864,7 +53926,16 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-warning", on: { click: _vm.showModalUsuario } },
+      {
+        staticClass: "btn btn-info",
+        on: { click: _vm.showModalPuntosCercanos }
+      },
+      [_vm._v("Mostrar puntos de recarga cercanos a un usuario")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-success", on: { click: _vm.showModalUsuario } },
       [_vm._v("Mostrar ultima posicion de un usuario")]
     ),
     _vm._v(" "),
@@ -53908,7 +53979,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("h4", { staticClass: "modal-title" }, [
-                      _vm._v("Eliga un Recorrido")
+                      _vm._v("Elija un Recorrido")
                     ])
                   ]),
                   _vm._v(" "),
@@ -54017,7 +54088,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("h4", { staticClass: "modal-title" }, [
-                      _vm._v("Eliga un Usuario")
+                      _vm._v("Elija un Usuario")
                     ])
                   ]),
                   _vm._v(" "),
@@ -54133,7 +54204,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("h4", { staticClass: "modal-title" }, [
                       _vm._v(
-                        "Eliga un Usuario para mostrar sus paradas mas cercanas"
+                        "Elija un Usuario para mostrar sus paradas mas cercanas"
                       )
                     ])
                   ]),
@@ -54209,6 +54280,117 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
+    _vm.modalPuntosCercanos
+      ? _c(
+          "div",
+          {
+            staticClass: "modal show",
+            attrs: {
+              id: "anadir",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-labelledby": "anadir"
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "modal-dialog", attrs: { role: "document" } },
+              [
+                _c("div", { staticClass: "modal-content" }, [
+                  _c("div", { staticClass: "modal-header" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: { type: "button", "aria-label": "Close" },
+                        on: { click: _vm.closeModalPuntosCercanos }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("×")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "modal-title" }, [
+                      _vm._v(
+                        "Elija un Usuario para mostrar sus puntos de recarga mas cercanos"
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-body" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.usuario_id,
+                            expression: "usuario_id"
+                          }
+                        ],
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.usuario_id = $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          }
+                        }
+                      },
+                      [
+                        _c("option", { attrs: { disabled: "", value: "" } }, [
+                          _vm._v("--Seleccione un usuario--")
+                        ]),
+                        _vm._v(" "),
+                        _vm._l(_vm.usuarios, function(usuario) {
+                          return _c(
+                            "option",
+                            {
+                              key: usuario.id,
+                              domProps: { value: usuario.id }
+                            },
+                            [_vm._v(_vm._s(usuario.nombre))]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "modal-footer" }, [
+                    _vm.usuario_id
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            on: {
+                              click: function($event) {
+                                _vm.mostrarPuntosCercanos()
+                              }
+                            }
+                          },
+                          [_vm._v("Mostrar puntos cercanos")]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _vm.modalTramo
       ? _c(
           "div",
@@ -54243,7 +54425,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("h4", { staticClass: "modal-title" }, [
-                      _vm._v("Eliga un Tramo")
+                      _vm._v("Elija un Tramo")
                     ])
                   ]),
                   _vm._v(" "),
@@ -54322,7 +54504,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3685ac08", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-179e4688", module.exports)
   }
 }
 
@@ -54352,7 +54534,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ViajeUsuario.vue"
+Component.options.__file = "resources/assets/js/components/ViajeUsuario.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -54361,9 +54543,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1a15a19c", Component.options)
+    hotAPI.createRecord("data-v-61ead748", Component.options)
   } else {
-    hotAPI.reload("data-v-1a15a19c", Component.options)
+    hotAPI.reload("data-v-61ead748", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -55563,7 +55745,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1a15a19c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-61ead748", module.exports)
   }
 }
 
