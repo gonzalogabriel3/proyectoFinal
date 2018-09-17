@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Colectivo;
 use App\Tramo;
+use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
@@ -137,13 +138,13 @@ class ColectivoController extends Controller
     public function obtenerPosicion($idTramo)
     {
 
-        $usuarios = \DB::select("SELECT id,st_x(posicion_normalizada::geometry) as longitud , st_y(posicion_normalizada::geometry) as latitud FROM usuarios");
+        $usuarios = \DB::select("SELECT *,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios");
         $colectivot = \DB::select("SELECT colectivos.id 
                                    FROM tramos 
                                    INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
                                    INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
                                    WHERE tramos.id = $idTramo");
-        $colectivos = array(); 
+        $colectivosf = array(); 
         
         for($i = 0 ; $i < count($usuarios); $i++){
             $usu1 = $usuarios[$i];
@@ -151,28 +152,37 @@ class ColectivoController extends Controller
             for($j = 0 ; $j < count($usuarios); $j++){
                 if($i != $j){                    
                     $usu2 = $usuarios[$j];
-
+                    
                     //hago la consulta que comprueba si dos geometrias o posicion son espacialmente iguales
-                    $validador = \DB::select("SELECT ST_Equals(pos1.posicion_normalizada::geometry, pos2.posicion_normalizada::geometry) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
+                    $validador = \DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry,10) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
                    
-                    if($validador[0]->st_equals == true){
+                    if($validador[0]->st_dwithin == true){
+
+                        $colectivos=array();
                         array_push($colectivos,$usuarios[$i]);
+                        array_push($colectivos,$usuarios[$j]);
+                        
+                        array_push($colectivosf,$colectivos);
                     }
                 } 
             } 
         }
        
         if(count($colectivos) > 1){
-            $coincidencia = self::obtenerCoincidencia($colectivos,$idTramo);
-            if($coincidencia != ""){
             $colectivo = Colectivo::find($colectivot[0]->id);
-            $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
-            $colectivo->save(); 
             
-            return response()->json([
-                'colectivo'    => $coincidencia,
-                'message' => 'La posicion de Colectivo se encontro correctamente'
-            ], 200);
+            $coincidencia = self::obtenerCoincidencia($colectivosf,$idTramo,$colectivo);
+
+            if($coincidencia != ""){
+
+                $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
+
+                $colectivo->save(); 
+            
+                return response()->json([
+                    'colectivo'    => $coincidencia,
+                    'message' => 'La posicion de Colectivo se encontro correctamente'
+                ], 200);
             }
         } 
         return response()->json([
@@ -184,20 +194,65 @@ class ColectivoController extends Controller
         Esta funcion recibe el id del tramo buscado y un arreglo de posiciones que coinciden y las compara con el recorrido para saber si estan 
         dentro del mismo
     */
-    public function obtenerCoincidencia(array $colectivos,$idTramo)
+    public function obtenerCoincidencia(array $colectivos,$idTramo,$colectivo)
     {
         $tramo = Tramo::find($idTramo)->first();
+        
         $coincidenciap = "";
+        $distanciamascerca=1000;
+        $coincidenciamascercana=null;
+
         for($i=0;$i < count($colectivos);$i++){
             
-            $colectivo = $colectivos[$i];
+            $colectivov = $colectivos[$i];
+            $usuario1 = $colectivov[0];
+            $usuario2 = $colectivov[1];
 
-            $validador=\DB::select("SELECT ST_DWithin(pos1.posicion_normalizada::geometry, pos2.geom::geometry,1) FROM usuarios pos1, recorridos pos2 WHERE pos1.id=$colectivo->id AND pos2.id=$tramo->recorrido_id;");
+            $validador=\DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.geom::geometry,10) FROM usuarios pos1, recorridos pos2 WHERE pos1.id=$usuario1->id AND pos2.id=$tramo->recorrido_id;");
 
             if($validador[0]->st_dwithin == true){
-                $coincidenciap = $colectivo; 
-            } 
+
+                //si la posicion del colectivo es desconocida se toma la coincidencia mas cercana al punto de inicio como la posicion del mismo
+                if ($colectivo->ultima_posicion == null) {
+
+                    for ($j=0; $j <count($colectivos) ; $j++) { 
+                        
+                        $dist = $colectivos[$j];
+                        $distan = $dist[0];
+                        $pdistan = new Point($distan->latitud,$distan->longitud);
+
+                        $distancia = \DB::select("SELECT ST_Distance('POINT($tramo->inicio)','POINT($pdistan)') as distancia");
+                        
+                        if($distancia[0]->distancia < $distanciamascerca){
+                        
+                            $distanciamascerca = (float)$distancia[0]->distancia;
+                        
+                            $coincidenciamascercana = $distan;
+                            
+                            $usuarioA = Usuario::find($usuario1->id)->first();
+                            $usuarioA->pasajero = true;
+                            $usuarioA->save();
+                            
+                            $usuarioB = Usuario::find($usuario2->id)->first();
+                            $usuarioB->pasajero = true;
+                            $usuarioB->save();
+
+                            return $coincidenciamascercana;
+                        }
+
+                    }
+                }
+
+                //Si existen usuarios marcados como pasajeros se toma su posicion como la del colectivo
+                if ($usuario1->pasajero == true && $usuario2->pasajero == true) {
+                    
+                    return $coincidenciap = $colectivo;
+                
+                }
+            }
+
         }
+
         return $coincidenciap;
     }
 
