@@ -174,7 +174,6 @@ class ColectivoController extends Controller
             $coincidencia = self::obtenerCoincidencia($colectivosf,$idTramo,$colectivo);
 
             if($coincidencia != ""){
-
                 $colectivo->ultima_posicion = new Point($coincidencia->longitud,$coincidencia->latitud);
 
                 $colectivo->save(); 
@@ -201,6 +200,10 @@ class ColectivoController extends Controller
         $coincidenciap = "";
         $distanciamascerca=1000;
         $coincidenciamascercana=null;
+        $contador=0;
+        $tiempo=null;
+        $tiempo1=null;
+        $tiempo2=null;
 
         for($i=0;$i < count($colectivos);$i++){
             
@@ -209,12 +212,9 @@ class ColectivoController extends Controller
             $usuario2 = $colectivov[1];
 
             $validador=\DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.geom::geometry,10) FROM usuarios pos1, recorridos pos2 WHERE pos1.id=$usuario1->id AND pos2.id=$tramo->recorrido_id;");
-
             if($validador[0]->st_dwithin == true){
-
                 //si la posicion del colectivo es desconocida se toma la coincidencia mas cercana al punto de inicio como la posicion del mismo
                 if ($colectivo->ultima_posicion == null) {
-
                     for ($j=0; $j <count($colectivos) ; $j++) { 
                         
                         $dist = $colectivos[$j];
@@ -244,8 +244,41 @@ class ColectivoController extends Controller
                 }
 
                 //Si existen usuarios marcados como pasajeros se toma su posicion como la del colectivo
-                if ($usuario1->pasajero == true && $usuario2->pasajero == true) {
+                if ($colectivo->ultima_posicion !=null) {
                     
+                    switch ($contador){
+
+                    case 0:
+                        $validador=\DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry,10) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usuario1->id AND pos2.id=$usuario2->id;");
+                        if($validador[0]->st_dwithin == true){
+                            $colectivo->ultima_posicion=new Point ($usuario1->latitud,$usuario1->longitud);
+                            $colectivo->save();
+                            $tiempo = new \DateTime();
+                            $contador+=1;
+                        }
+                    break;
+                    case 1:
+                        $validador=\DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry,10) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usuario1->id AND pos2.id=$usuario2->id;");
+                        $tiempo1=new \DateTime();
+                        $validarPosicion=\DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.ultima_posicion::geometry) FROM usuarios punto1, colectivos punto2 WHERE punto1.id=$usuario1->id AND punto2.id=$colectivo->id;");
+                        if($validador[0]->st_dwithin == true && $tiempo1>$tiempo && $validarPosicion[0]->st_equals!=true){
+                            $colectivo->ultima_posicion=new Point ($usuario1->latitud,$usuario1->longitud);
+                            $colectivo->save();
+                            $contador+=1;
+                        }
+                    break;
+                    case 2:
+                     $validador=\DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry,10) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usuario1->id AND pos2.id=$usuario2->id;");    
+                     $tiempo2=new \DateTime();
+                     $validarPosicion=\DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.ultima_posicion::geometry) FROM usuarios punto1, colectivos punto2 WHERE punto1.id=$usuario1->id AND punto2.id=$colectivo->id;");
+                     if($validador[0]->st_dwithin == true && $tiempo2>$tiempo1 && $validarPosicion[0]->st_equals!=true){
+                        $colectivo->ultima_posicion=new Point ($usuario1->latitud,$usuario1->longitud);
+                        $colectivo->save();
+                        $contador=0;
+                    }
+                    break;
+
+                    }
                     return $coincidenciap = $colectivo;
                 
                 }
@@ -256,7 +289,4 @@ class ColectivoController extends Controller
         return $coincidenciap;
     }
 
-   public function posicion2($idTramo){
-        
-   }
 }
