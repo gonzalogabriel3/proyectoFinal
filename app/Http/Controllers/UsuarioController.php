@@ -46,11 +46,13 @@ class UsuarioController extends Controller
     {
         $this->validate($request, [
             'nombre'=> 'required',
+            'usuario' => 'required',
             'email' => 'required',
             'password'=>'required'
         ]);
         $usuario = new Usuario;
         $usuario->nombre = $request->nombre;
+        $usuario->usuario = $request->usuario;
         $usuario->email = $request->email;
         
         //Realizo hash de la contraseña ingresada por el usuario
@@ -103,10 +105,12 @@ class UsuarioController extends Controller
     {
         $this->validate($request, [
             'nombre'=> 'required',
+            'usuario' => 'required',
             'email' => 'required',
             'password'=>'required'
         ]);
         $usuario->nombre = $request->get('nombre');
+        $usuario->usuario = $request->get('usuario');
         $usuario->email = $request->get('email');
         //Realizo hash de la contraseña ingresada por el usuario
         $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";

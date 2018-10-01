@@ -15,7 +15,7 @@ class ParadaController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index']);
+        $this->middleware('auth')->except(['index','show']);
     }
     /**
      * Display a listing of the resource.
@@ -81,6 +81,10 @@ class ParadaController extends Controller
     public function show(Parada $parada)
     {
         //
+        $parada = \DB::select("SELECT *,st_x(geom::geometry) as longitud , st_y(geom::geometry) as latitud FROM paradas WHERE id = $parada->id");
+        return response()->json([
+            'parada' => $parada,
+        ], 200);
     }
 
     /**

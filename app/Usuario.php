@@ -17,7 +17,7 @@ class Usuario extends Model
     public $timestamps = false;
 
     protected $fillable=[
-        'id','nombre','password','email'
+        'id','nombre','usuario','password','email'
     ];
     protected $postgisFields = [
         'ultima_posicion','posicion_normalizada'
