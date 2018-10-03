@@ -71,9 +71,18 @@
                             <br>
                             <span v-if="usuario.nombre.trim().length<3" class="label label-danger" >El nombre debe contener al menos 3 caracteres</span>
                             <span v-else class="label label-success">Correcto!</span>
-                            <input type="text" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control"
+                            <input type="text" name="usuario" id="usuario" placeholder="Nombre del usuario" class="form-control"
+                                   v-model="usuario.usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nombre Completo:</label>
+                            <br>
+                            <span v-if="usuario.nombre.trim().length<3" class="label label-danger" >El nombre debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" class="form-control"
                                    v-model="usuario.nombre">
                         </div>
+
                          <div class="form-group">
                             <label for="name">Email:</label>
                             <br>
@@ -156,7 +165,8 @@ export default{
                 usuario: {
                     nombre: '',
                     password:'',
-                    email: ''
+                    email: '',
+                    usuario:''
                 },
                 mensaje:'',
                 create: false,
@@ -212,7 +222,8 @@ export default{
                     axios.post('/usuario', {
                         nombre: this.usuario.nombre,
                         email:this.usuario.email,
-                        password:this.usuario.password
+                        password:this.usuario.password,
+                        usuario:this.usuario.usuario
                     })
                     .then(response => {
                         

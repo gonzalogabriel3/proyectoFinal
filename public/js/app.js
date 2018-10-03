@@ -43518,6 +43518,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43525,7 +43534,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             usuario: {
                 nombre: '',
                 password: '',
-                email: ''
+                email: '',
+                usuario: ''
             },
             mensaje: '',
             create: false,
@@ -43588,7 +43598,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.post('/usuario', {
                     nombre: this.usuario.nombre,
                     email: this.usuario.email,
-                    password: this.usuario.password
+                    password: this.usuario.password,
+                    usuario: this.usuario.usuario
                 }).then(function (response) {
 
                     _this2.mensaje = "Usuario creado correctamente";
@@ -43854,6 +43865,55 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
+                            value: _vm.usuario.usuario,
+                            expression: "usuario.usuario"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "usuario",
+                          id: "usuario",
+                          placeholder: "Nombre del usuario"
+                        },
+                        domProps: { value: _vm.usuario.usuario },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.usuario,
+                              "usuario",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre Completo:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.usuario.nombre.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El nombre debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
                             value: _vm.usuario.nombre,
                             expression: "usuario.nombre"
                           }
@@ -43863,7 +43923,7 @@ var render = function() {
                           type: "text",
                           name: "nombre",
                           id: "nombre",
-                          placeholder: "Nombre del usuario"
+                          placeholder: "Nombre Completo"
                         },
                         domProps: { value: _vm.usuario.nombre },
                         on: {

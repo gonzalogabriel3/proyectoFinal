@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','normalizarPosicion']);
+        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario']);
     }
 
     /**
@@ -56,10 +56,7 @@ class UsuarioController extends Controller
         $usuario->email = $request->email;
         
         //Realizo hash de la contraseña ingresada por el usuario
-        $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";
-       
-        $usuario->password = $pass;
-        
+        $usuario->password = \Hash::make($request->password);        
         $usuario->save();
         
         return response()->json([
@@ -113,8 +110,7 @@ class UsuarioController extends Controller
         $usuario->usuario = $request->get('usuario');
         $usuario->email = $request->get('email');
         //Realizo hash de la contraseña ingresada por el usuario
-        $pass=password_hash('{{$request->password}}',PASSWORD_DEFAULT)."\n";
-        $usuario->password = $pass;
+        $usuario->password = \Hash::make($request->get('password'));
         $usuario->save();
  
         return response()->json([
@@ -135,6 +131,32 @@ class UsuarioController extends Controller
             'message' => 'Colectivo eliminado Correctamente'
         ], 200);
     }
+    public function logusuario($usuario,$password){
+
+        $usuario = \DB::select("SELECT id,email,nombre,usuario FROM usuarios WHERE usuario = '$usuario'");
+        if($usuario != null ) {
+            $usuariop = Usuario::find($usuario[0]->id);
+            if(\Hash::check($password, $usuariop->password)) {
+                $usuariop->logueado=true;
+                $usuariop->save();
+        
+                return response()->json([
+                    'logueado' => 'true',
+                    'usuario' => $usuario
+                ], 200);     
+            } else  {
+                return response()->json([
+                    'message' => 'no se pudo iniciar sesion, ya que la contraseña no coincide'
+                ], 401);
+            }
+        }
+
+        return response()->json([
+            'message' => 'no se pudo iniciar sesion, ya que no existe ese usuario'
+        ], 401);
+
+    }
+
 
     public function guardarPosicion($id,$latitud,$longitud){
         

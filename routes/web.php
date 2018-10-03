@@ -120,3 +120,5 @@ Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 //Ruta para calcular manhattan de un colectivo hacia la parada mas cercana al usuario
 Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
 
+//Ruta que sirve para loguear un usuario
+Route::get('/logusuario/{usuario}/{password}' ,'UsuarioController@logusuario');
