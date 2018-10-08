@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario']);
+        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario','store']);
     }
 
     /**
