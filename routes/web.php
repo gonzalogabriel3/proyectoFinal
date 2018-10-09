@@ -122,3 +122,6 @@ Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@Recorrido
 
 //Ruta que sirve para loguear un usuario
 Route::get('/logusuario/{usuario}/{password}' ,'UsuarioController@logusuario');
+
+//Ruta que sirve para loguear un usuario
+Route::get('/token' ,'UsuarioController@obtenerToken');

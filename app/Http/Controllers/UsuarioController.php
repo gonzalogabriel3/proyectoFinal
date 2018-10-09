@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario','store']);
+        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario','store','obtenerToken']);
     }
 
     /**
@@ -222,5 +222,14 @@ class UsuarioController extends Controller
             return $mensaje;
  
         }           
+    }
+
+    public function obtenerToken(){
+        
+        $token=csrf_token();
+        
+        return response()->json([
+            'token' => $token
+        ], 200);
     }
 }
