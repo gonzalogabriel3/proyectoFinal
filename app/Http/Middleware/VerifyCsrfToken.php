@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'http://dondeestaelcole.ddns.net:8080/usuario'
+        
     ];
 }
