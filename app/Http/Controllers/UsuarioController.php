@@ -133,7 +133,8 @@ class UsuarioController extends Controller
     }
     public function logusuario($usuario,$password){
 
-        $usuario = \DB::select("SELECT id,email,nombre,usuario FROM usuarios WHERE usuario = '$usuario'");
+        $usuario = \DB::select("SELECT id,email,nombre,usuario,st_x(ultima_posicion::geometry) as longitud,st_y(ultima_posicion::geometry) as latitud
+        FROM usuarios WHERE usuario = '$usuario'");
         if($usuario != null ) {
             $usuariop = Usuario::find($usuario[0]->id);
             if(\Hash::check($password, $usuariop->password)) {

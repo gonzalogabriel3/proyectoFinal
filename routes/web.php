@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         return view('mapa');
     });
 
-    //Ruta para obtener la posicion de un usuario
+    //Ruta para guardar la posicion de un usuario
     Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
     
     //Ruta para obtener paradas mas cercanas a un usuario

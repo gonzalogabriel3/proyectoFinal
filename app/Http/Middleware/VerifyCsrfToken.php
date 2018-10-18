@@ -13,7 +13,11 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'http://dondeestaelcole.ddns.net:8080/usuario'
+        'http://dondeestaelcole.ddns.net:8080/usuario',
+
+        //Urls de servidor local
+        'http://1d6c93dd.ngrok.io/usuario',
+        'http://b449c634.ngrok.io/posicionUsuario/*'
         
     ];
 }
