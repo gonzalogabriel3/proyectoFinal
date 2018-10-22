@@ -74,9 +74,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inicioMapa',function(){
         return view('mapa');
     });
-
-    //Ruta para guardar la posicion de un usuario
-    Route::get('/posicionUsuario/{id}/{latitud}/{longitud}','UsuarioController@guardarPosicion');
     
     //Ruta para obtener paradas mas cercanas a un usuario
     Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas');
@@ -87,6 +84,15 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Auth::routes();
+
+//Ruta para guardar la posicion de un usuario
+Route::match(['get', 'post'], '/posicionUsuario', 'UsuarioController@guardarPosicion');
+
+
+Route::get('/pruebaPosicion', function() {
+    //
+    return view('guardarposicion');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 

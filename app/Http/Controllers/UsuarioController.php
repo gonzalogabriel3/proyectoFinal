@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','normalizarPosicion','logusuario','store','obtenerToken']);
+        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion']);
     }
 
     /**
@@ -159,26 +159,22 @@ class UsuarioController extends Controller
     }
 
 
-    public function guardarPosicion($id,$latitud,$longitud){
-        
-        $usuario=Usuario::find($id);
-       
-        $usuario->ultima_posicion= new Point( $latitud , $longitud );
+    public function guardarPosicion(Request $request){
 
+        $id = (string) $request->id;
+
+        $latitud = (string) $request->latitud;
+        $longitud = (string) $request->longitud;
+    
+        $usuario=Usuario::find($id);
+
+        $usuario->ultima_posicion= new Point( $latitud , $longitud );
+          
         $usuario->save();
 
-        $usuarionorm = self::normalizarPosicion($id);
-        
-        if ($usuarionorm != "") {
-            return response()->json([
-                'message' => 'Ultima posicion guardada'
-            ], 200);
-    
-        } else {
-            return response()->json([
-                'message' => 'No se pudo guardar la posicion'
-            ], 200);
-        }
+        return response()->json([
+            'message' => 'Ultima posicion guardada'
+        ], 200);
         
     }
 

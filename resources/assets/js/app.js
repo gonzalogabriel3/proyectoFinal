@@ -31,6 +31,7 @@ Vue.component('comentario', require('./components/Comentario.vue'));
 Vue.component('sugerencia', require('./components/Sugerencia.vue'));
 Vue.component('mapa', require('./components/Mapa.vue'));
 Vue.component('viaje', require('./components/ViajeUsuario.vue'));
+Vue.component('pruebap', require('./components/Pruebap.vue'));
 
 const app = new Vue({
     el: '#app'
