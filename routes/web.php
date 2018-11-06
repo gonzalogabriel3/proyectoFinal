@@ -76,9 +76,6 @@ Route::middleware(['auth'])->group(function () {
     });
     
     //Ruta para obtener paradas mas cercanas a un usuario
-    Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas');
-    
-    //Ruta para obtener paradas mas cercanas a un usuario
     Route::get('/puntosCercanos/{idUsuario}','PuntoRecargaController@obtenerPuntosCercanos');
  
 });
@@ -119,6 +116,9 @@ Route::resource('/sugerencia', 'SugerenciaController');
 Route::resource('/mapa', 'MapaController');
 
 Route::resource('/viaje', 'ViajeUsuarioController');
+
+//Ruta para obtener paradas mas cercanas a un usuario
+Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas');
 
 //Ruta para obtener la posicion de un colectivo
 Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');

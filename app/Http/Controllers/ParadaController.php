@@ -15,7 +15,7 @@ class ParadaController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index','show','obtenerParadasCercanas']);
     }
     /**
      * Display a listing of the resource.
