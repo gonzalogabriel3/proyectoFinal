@@ -11,7 +11,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion']);
+        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion','logusuarioclose']);
     }
 
     /**
@@ -131,13 +131,13 @@ class UsuarioController extends Controller
             'message' => 'Colectivo eliminado Correctamente'
         ], 200);
     }
-    public function logusuario($usuario,$password){
+    public function logusuario(Request $request){
 
         $usuario = \DB::select("SELECT id,email,nombre,usuario,st_x(ultima_posicion::geometry) as longitud,st_y(ultima_posicion::geometry) as latitud
-        FROM usuarios WHERE usuario = '$usuario'");
+        FROM usuarios WHERE usuario = '$request->usuario'");
         if($usuario != null ) {
             $usuariop = Usuario::find($usuario[0]->id);
-            if(\Hash::check($password, $usuariop->password)) {
+            if(\Hash::check($request->password, $usuariop->password)) {
                 $usuariop->logueado=true;
                 $usuariop->save();
         
@@ -154,6 +154,27 @@ class UsuarioController extends Controller
 
         return response()->json([
             'message' => 'no se pudo iniciar sesion, ya que no existe ese usuario'
+        ], 401);
+
+    }
+    public function logusuarioclose (Request $request){
+
+            $usuariop = Usuario::find($request->id);
+            if($usuariop != null) {
+                $usuariop->logueado=false;
+                $usuariop->save();
+        
+                return response()->json([
+                    'logueado' => 'Se cerro la sesion correctamente',
+                ], 200);     
+            } else  {
+                return response()->json([
+                    'message' => 'no se pudo  cerrar la sesion , intentelo nuevamente'
+                ], 401);
+            }
+
+        return response()->json([
+            'message' => 'no se pudo cerrar sesion, ya que no existe ese usuario'
         ], 401);
 
     }

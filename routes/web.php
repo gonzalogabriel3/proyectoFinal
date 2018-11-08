@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
 Auth::routes();
 
 //Ruta para guardar la posicion de un usuario
-Route::match(['get', 'post'], '/posicionUsuario', 'UsuarioController@guardarPosicion');
+Route::match(['post'], '/posicionUsuario', 'UsuarioController@guardarPosicion');
 
 
 Route::get('/pruebaPosicion', function() {
@@ -127,7 +127,10 @@ Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
 
 //Ruta que sirve para loguear un usuario
-Route::get('/logusuario/{usuario}/{password}' ,'UsuarioController@logusuario');
+Route::match(['post'], '/logusuario', 'UsuarioController@logusuario');
+
+//Ruta que sirve para cerrar la sesion de un usuario
+Route::match(['put'], '/logusuarioclose', 'UsuarioController@logusuarioclose');
 
 //Ruta que sirve para loguear un usuario
 Route::get('/token' ,'UsuarioController@obtenerToken');

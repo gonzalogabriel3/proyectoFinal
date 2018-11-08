@@ -17,6 +17,9 @@ class VerifyCsrfToken extends Middleware
         //
         'http://dondeestaelcole.ddns.net:8080/usuario',
         'http://dondeestaelcole.ddns.net:8080/posicionUsuario',
+        'http://dondeestaelcole.ddns.net:8080/logusuario',
+        'http://dondeestaelcole.ddns.net:8080/logusuarioclose',
+        
 
         //Urls de servidor local  
         'http://fe044945.ngrok.io/usuario',
