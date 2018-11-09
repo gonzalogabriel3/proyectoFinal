@@ -22,9 +22,10 @@ class VerifyCsrfToken extends Middleware
         
 
         //Urls de servidor local  
-        'http://fe044945.ngrok.io/usuario',
-        'http://fe044945.ngrok.io/posicionUsuario',
-        
+        'http://dd5cbfad.ngrok.io/usuario',
+        'http://dd5cbfad.ngrok.io/posicionUsuario',
+        'http://dd5cbfad.ngrok.io/logusuario',
+        'http://dd5cbfad.ngrok.io/logusuarioclose',
         
     ];
 }

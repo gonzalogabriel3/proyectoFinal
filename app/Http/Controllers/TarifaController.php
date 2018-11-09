@@ -10,7 +10,7 @@ class TarifaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }
     /**
      * Display a listing of the resource.
@@ -19,7 +19,8 @@ class TarifaController extends Controller
      */
     public function index()
     {
-        $tarifas = Tarifa::orderBy('id','DESC')->get();
+        $tarifas = \DB::select("SELECT tramos.nombre as nombre ,recorridos.nombre as recorrido,tarifas.monto as monto FROM tarifas INNER JOIN tramos ON tarifas.tramo_id=tramos.id
+        INNER JOIN recorridos ON tramos.recorrido_id=recorridos.id");
 
         return response()->json([
             'tarifas'    => $tarifas,
