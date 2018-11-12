@@ -130,7 +130,7 @@ Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@Recorrido
 Route::match(['post'], '/logusuario', 'UsuarioController@logusuario');
 
 //Ruta que sirve para cerrar la sesion de un usuario
-Route::match(['put'], '/logusuarioclose', 'UsuarioController@logusuarioclose');
+Route::match(['post'], '/logusuarioclose', 'UsuarioController@logusuarioclose');
 
 //Ruta que sirve para loguear un usuario
 Route::get('/token' ,'UsuarioController@obtenerToken');

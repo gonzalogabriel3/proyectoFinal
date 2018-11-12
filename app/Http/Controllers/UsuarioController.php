@@ -165,7 +165,7 @@ class UsuarioController extends Controller
                 $usuariop->save();
         
                 return response()->json([
-                    'logueado' => 'Se cerro la sesion correctamente',
+                    'message' => 'Se cerro la sesion correctamente',
                 ], 200);     
             } else  {
                 return response()->json([
