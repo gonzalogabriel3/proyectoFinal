@@ -118,13 +118,16 @@ Route::resource('/mapa', 'MapaController');
 Route::resource('/viaje', 'ViajeUsuarioController');
 
 //Ruta para obtener paradas mas cercanas a un usuario
-Route::get('/paradasCercanas/{idUsuario}','ParadaController@obtenerParadasCercanas');
+Route::get('/paradasCercanas/{idUsuario}/{idRecorrido}','ParadaController@obtenerParadasCercanas');
 
 //Ruta para obtener la posicion de un colectivo
 Route::get('/posicionColectivo/{id}','ColectivoController@obtenerPosicion');
 
 //Ruta para calcular manhattan de un colectivo hacia la parada mas cercana al usuario
 Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
+
+//Ruta para obtener los puntos de recarga mas cercanas a un usuario
+Route::get('/puntosCercanos/{idUsuario}','PuntoRecargaController@obtenerPuntosCercanos');
 
 //Ruta que sirve para loguear un usuario
 Route::match(['post'], '/logusuario', 'UsuarioController@logusuario');

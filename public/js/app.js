@@ -53811,7 +53811,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/" + this.usuario_id).then(function (response) {
+            axios.get("/paradasCercanas/" + this.usuario_id + "/" + 2).then(function (response) {
                 _this5.paradas = response.data.paradas;
                 //Si se encontro al menos una parada cercana
                 if (_this5.paradas.length > 0) {

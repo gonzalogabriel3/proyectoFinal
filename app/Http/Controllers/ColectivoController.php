@@ -155,7 +155,6 @@ class ColectivoController extends Controller
                     
                     //hago la consulta que comprueba si dos geometrias o posicion son espacialmente iguales
                     $validador = \DB::select("SELECT ST_DWithin(pos1.ultima_posicion::geometry, pos2.ultima_posicion::geometry,3) FROM usuarios pos1, usuarios pos2 WHERE pos1.id=$usu1->id AND pos2.id=$usu2->id;");
-                   var_dump($validador);
                     if($validador[0]->st_dwithin == true){
                         $colectivos=array();
                         array_push($colectivos,$usuarios[$i]);
@@ -166,7 +165,6 @@ class ColectivoController extends Controller
                 } 
             } 
         }
-       dd($colectivosf);
         if(count($colectivos) > 1){
             $colectivo = Colectivo::find($colectivot[0]->id);
             
@@ -174,7 +172,6 @@ class ColectivoController extends Controller
 
             if($coincidencia != ""){
                 $consulta = \DB::select("SELECT st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM colectivos WHERE id = $coincidencia->id");
-                dd($consulta);
                 return response()->json([
                     'colectivo'    => $consulta[0],
                     'message' => 'La posicion de Colectivo se encontro correctamente'

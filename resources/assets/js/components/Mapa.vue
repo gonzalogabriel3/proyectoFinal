@@ -271,7 +271,7 @@ export default {
                 iconSize: [35, 35] // size of the icon
             });
             //Cargo las paradas y las muestro en el mapa
-            axios.get("/paradasCercanas/"+this.usuario_id).then(response => {
+            axios.get("/paradasCercanas/"+this.usuario_id+"/"+ 2).then(response => {
                 this.paradas = response.data.paradas;
                 //Si se encontro al menos una parada cercana
                 if(this.paradas.length>0){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Parada;
 use App\Usuario;
 use App\Colectivo;
+use App\Recorrido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
@@ -144,27 +145,34 @@ class ParadaController extends Controller
     }
 
     /*Metodo que calcula las paradas mas cercanas al usuario*/
-    public function obtenerParadasCercanas($idUsuario){
+    public function obtenerParadasCercanas($idUsuario,$idRecorrido){
         //Busco al usuario para trabajar con su ultima posicion
         $usuario=Usuario::find($idUsuario);
         
-        //Obtengo todas las paradas
-        $paradas=Parada::all();
+        $recorrido = Recorrido::find($idRecorrido); 
+                
+        $paradas= array();
 
+        //Obtengo todas las paradas
+        foreach($recorrido->paradas as $p)
+        {
+            array_push($paradas,$p->id);
+        }        
+        
+        
         //Creo una variable donde se va a contener todos los id's,de las paradas mas cercanas al usuario
         $ids_paradas="";
         
         //Recorro todas las paradas
         foreach ($paradas as $parada) {
-            
             //Obtengo el radio entre la posicion del usuario y una parada
             $radio=\DB::select("SELECT ST_DWithin(usuario.ultima_posicion,parada.geom,900) FROM usuarios usuario,paradas parada WHERE
-            usuario.id=$usuario->id AND parada.id=$parada->id");
+            usuario.id=$usuario->id AND parada.id=$parada");
             
             //Si el radio es menor a 900 metros se agrega el id de la parada para mostrar
             if($radio[0]->st_dwithin==true){
                 //Agrego el id de la parada 
-                $ids_paradas=$ids_paradas.$parada->id.",";
+                $ids_paradas=$ids_paradas.$parada.",";
             }
         }
         
