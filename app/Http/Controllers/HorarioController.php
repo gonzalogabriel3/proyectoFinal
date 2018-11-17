@@ -1,18 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Horario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class HorarioController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index','obtenerHorarios']);
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +16,6 @@ class HorarioController extends Controller
      */
     public function index()
     {
-
         $horarios = \DB::select("SELECT * from horarios ORDER BY id DESC");
         
         return response()->json([
@@ -28,7 +23,6 @@ class HorarioController extends Controller
         ], 200);
         
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +32,6 @@ class HorarioController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -54,21 +47,17 @@ class HorarioController extends Controller
             'dias' => 'required|min:5',
             'tramo' => 'required'
         ]);
-
         $horario = new Horario;
         $horario->salida = $request->salida;
         $horario->llegada = $request->llegada;
         $horario->dias = $request->dias;
         $horario->tramo_id = $request->tramo;
         $horario->save();
-
-
         return response()->json([
             'horario'    => $horario,
             'message' => 'Horario Creado Correctamente'
         ], 200);
     }
-
     /**
      * Display the specified resource.
      *
@@ -79,7 +68,6 @@ class HorarioController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -90,7 +78,6 @@ class HorarioController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -110,14 +97,12 @@ class HorarioController extends Controller
         $horario->llegada = $request->llegada;
         $horario->dias = $request->dias;
         $horario->tramo_id = $request->tramo;
-
         $horario->save();
  
         return response()->json([
             'message' => 'Horario Actualizado Correctamente'
         ], 200);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -130,6 +115,13 @@ class HorarioController extends Controller
         $horario->delete();
         return response()->json([
             'message' => 'Horario eliminado Correctamente'
+        ], 200);
+    }
+    public function obtenerHorarios($idTramo){
+        $horarios = \DB::select("SELECT * from horarios WHERE tramo_id = $idTramo ORDER BY id");
+        
+        return response()->json([
+            'horarios' => $horarios,
         ], 200);
     }
 }

@@ -137,3 +137,6 @@ Route::match(['post'], '/logusuarioclose', 'UsuarioController@logusuarioclose');
 
 //Ruta que sirve para loguear un usuario
 Route::get('/token' ,'UsuarioController@obtenerToken');
+
+//Ruta que sirve para obtener los horarios de un tramo
+Route::get('/horariotramo/{idTramo}' ,'HorarioController@obtenerHorarios');
