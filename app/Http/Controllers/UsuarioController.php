@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Usuario;
+use App\Colectivo;
 use Illuminate\Support\Facades\Auth;
 use Phaza\LaravelPostgis\Geometries\Point;
 
@@ -11,7 +12,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion','logusuarioclose']);
+        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion','logusuarioclose','marcarPasajero','finalizarViaje']);
     }
 
     /**
@@ -199,47 +200,42 @@ class UsuarioController extends Controller
         
     }
 
-    //Funcion que normaliza la posicion de un usuario,lo acerca a la esquina mas cercana
-    public function normalizarPosicion($idUsuario)
+    //Funcion que recibe un id de usuario y un tramo y lo marca como pasajero de un colectivo en ese tramo
+    public function marcarPasajero(Request $request)
     {
+        $idUsuario = $request->id;
+        $idTramo = $request->tramo;
         
-        $usuario=Usuario::find($idUsuario);
- 
-        //Obtengo todas las esquinas/vertices
-        $vertices=\DB::select("SELECT *,st_x(the_geom) as latitud ,st_y(the_geom) as longitud FROM public.calles_rawson_vertices_pgr ORDER BY id ASC");
+        $usuario = \DB::select("SELECT id,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios WHERE id=$idUsuario"); 
         
-        //Defino la menor distancia a 5
-        $menorDistancia=5;
-        $id_vertice=0;
+        //Obtengo el colectivo asociado a ese tramo
+        $colectivot = \DB::select("SELECT colectivos.id FROM tramos  
+                                  INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
+                                  INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
+                                  WHERE tramos.id = $idTramo");        
+        
+        
+        $usuario->colectivo_id = colectivo[0]->id;
+        $usuario->pasajero = true;
+        $usuario->save();
+        
+    }
 
-        foreach ($vertices as $vertice) {
-           //Obtengo la distancia entre la posicion del usuario y un vertice
-           $distanciaAvertice=\DB::select("SELECT ST_Distance('POINT($usuario->ultima_posicion)','POINT($vertice->latitud $vertice->longitud)')as distancia ORDER BY distancia DESC");
-           $distanciaAvertice=(float)$distanciaAvertice[0]->distancia;
-           /*Si la distancia es menor a la menor distancia hasta el momento*/
-           if($distanciaAvertice<$menorDistancia){
-               //Guardo la menor distancia a ese vertice,y a su vez guardo el id del vertice
-               $menorDistancia=$distanciaAvertice;
-               $id_vertice=$vertice->id;
-           }           
-          
-        }
+    //funcion que recibe un id de usuario y con ello lo marca como finalizo su viaje
+    public function finalizarViaje($idUsuario)
+    {
 
-        if($id_vertice!=0){
-            //Obtengo los datos del vertice mas cercano al usuario
-            $verticeCercano=\DB::select("SELECT *,ST_x(the_geom) as latitud,ST_y(the_geom) as longitud FROM calles_rawson_vertices_pgr WHERE id=$id_vertice");
-            
-            //Guardo la nueva posicion del usuario
-            $usuario->posicion_normalizada= new Point((float)$verticeCercano[0]->longitud,(float)$verticeCercano[0]->latitud);
-            
-            $usuario->save();
-
-            return $usuario;
-        }else{
-            $mensaje = "";
-            return $mensaje;
+        
+        $usuario = Usuario::find($idUsuario)->first();        
  
-        }           
+        $usuario->colectivo_id = null;
+        $usuario->pasajero = false;
+        $usuario->save();
+        
+        return response()->json([
+            'message' => "el viaje se marco como finalizado correctamente"
+        ], 200);
+        
     }
 
     public function obtenerToken(){
