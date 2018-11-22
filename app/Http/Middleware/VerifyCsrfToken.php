@@ -19,13 +19,15 @@ class VerifyCsrfToken extends Middleware
         'http://dondeestaelcole.ddns.net:8080/posicionUsuario',
         'http://dondeestaelcole.ddns.net:8080/logusuario',
         'http://dondeestaelcole.ddns.net:8080/logusuarioclose',
+        'http://dondeestaelcole.ddns.net:8080/pasajero',
         
 
         //Urls de servidor local  
-        'http://dd5cbfad.ngrok.io/usuario',
-        'http://3ca56df9.ngrok.io/posicionUsuario',
-        'http://3ca56df9.ngrok.io/logusuario',
-        'http://3ca56df9.ngrok.io/logusuarioclose',
+        'http://ced078f2.ngrok.io/usuario',
+        'http://ced078f2.ngrok.io/posicionUsuario',
+        'http://ced078f2.ngrok.io/logusuario',
+        'http://ced078f2.ngrok.io/logusuarioclose',
+        'http://ced078f2.ngrok.io/pasajero',
         
     ];
 }
