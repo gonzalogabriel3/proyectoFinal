@@ -1,43 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>leaflet</title>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
-   		integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-   		crossorigin=""/>
-   	<!-- Make sure you put this AFTER Leaflet's CSS -->
- 	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
-   		integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
-   		crossorigin="">		
-   	</script>
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>leaflet</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+	   		integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+	   		crossorigin=""/>
+	   	<!-- Make sure you put this AFTER Leaflet's CSS -->
+	 	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+	   		integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+	   		crossorigin="">		
+	   	</script>
 
-</head>
-<body>
-	
-	<div id="mapid" style="width: 600px; height: 400px;"></div>
-	
-	<script>
+	</head>
+	<body>
+		
+		<div id="mapid" style="width: 600px; height: 400px;"></div>
+		
+		<script>
 
-		var coordenadas_rawson=[-43.2991348,-65.1056655];
-		var mymap = L.map('mapid').setView(coordenadas_rawson,12);
+			var coordenadas_rawson=[-43.2991348,-65.1056655];
+			var mymap = L.map('mapid').setView(coordenadas_rawson,12);
 
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-			maxZoom: 18,
-			id: 'mapbox.streets'
-		}).addTo(mymap);
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+				maxZoom: 18,
+				id: 'mapbox.streets'
+			}).addTo(mymap);
 
-		var marker = L.marker([-43.3081713,-65.0521686]).addTo(mymap).bindPopup('<b>Usted esta aqui</b>').openPopup();
+			var marker = L.marker([-43.3081713,-65.0521686]).addTo(mymap).bindPopup('<b>Usted esta aqui</b>').openPopup();
 
-		// create a red polyline from an array of LatLng points
-		var latlngs = [
-			[-43.3397844,-65.0585075],
-			[-43.3398908,-65.0577351],
-			[-43.3397519,-65.0571293]
-		];
-		var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(mymap);
-		// zoom the map to the polyline
-		mymap.fitBounds(polyline.getBounds());
+			// create a red polyline from an array of LatLng points
+			var latlngs = [
+				[-43.3397844,-65.0585075],
+				[-43.3398908,-65.0577351],
+				[-43.3397519,-65.0571293]
+			];
 
-	</script>
-</body>
-</html>
+
+	        //Cargo las paradas y las muestro en el mapa
+	    	//Si se encontro al menos una parada cercana
+	        if(puntos.length>0){
+				for (var i = 0; i < puntos.length; i++) {
+					marker = new L.marker([puntos[i].latitud,puntos[i].longitud]).addTo(mymap);
+				}
+	        }
+		
+
+			var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(mymap);
+			// zoom the map to the polyline
+			mymap.fitBounds(polyline.getBounds());
+
+		</script>
+	</body>
+	</html>
+
+
+
+	function mostrarPuntosCercanos(puntos){
+            var i;
+            var arreglo = JSON.parse(puntos);
+
+            //Cargo las paradas y las muestro en el mapa
+            	//Si se encontro al menos una parada cercana
+                if(arreglo.puntos.length>0){
+					for (var i = 0; i < arreglo.puntos.length; i++) {
+						marker = new L.marker([arreglo.puntos[i].latitud,arreglo.puntos[i].longitud]).addTo(mymap);
+					}
+                }
+        }
+/*------------------------ METODO PARA CARGAR LOS PUNTOS DE RECARGA EN EL MAPA ------------------------------/
+    * La Funcion Recibe el ID del Usuario y lo Envia al Servidor para recibir los puntos de Recarga Cercanos
+    * A su Posicion
+    * Y Luego los paso Al JavaScript del mapa
+    *
+    * */
+
+
+
+	 public void puntosRecarga(int id){
+
+        //Invoco al metodo "show" del servidor(usuarioController)
+        String url="http://dondeestaelcole.ddns.net:8080/punto";
+
+        //Inicio una nueva Request
+        RequestQueue mRequestQueue = Volley.newRequestQueue(this);
+
+        //Inicio un nuevo Request de tipo JsonObject
+        JsonObjectRequest Request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null ,
+                new Response.Listener<JSONObject>() {
+                    // Takes the response from the JSON request
+                    @Override
+                    public void onResponse(JSONObject puntos) {
+
+                            //Llamo a la funcion de javascript tambien llamada 'mostrarPuntosCercanos' y le paso 1 parametros(puntos)
+                            //wb_inicio.reload();
+                              wb_inicio.loadUrl("javascript:mostrarPuntosCercanos("+puntos.toString()+")");
+
+
+                            Toast.makeText(getApplicationContext(),puntos.toString(),Toast.LENGTH_LONG).show();
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //En caso de Error muestro un Mensaje
+                Toast.makeText(getApplicationContext(),"Error: " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //Añado el Request a la Cola de Request de Vollet
+        mRequestQueue.add(Request);
+    }

@@ -204,46 +204,58 @@ class UsuarioController extends Controller
     public function marcarPasajero(Request $request)
     {
         $idUsuario = $request->id;
+        
         $idTramo = $request->tramo;
         
-        $usuario = \DB::select("SELECT id,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios WHERE id=$idUsuario"); 
+        $usuariop = Usuario::find($idUsuario); 
+
+        $recorridop = \DB::select("SELECT recorridos.id as id FROM tramos INNER JOIN recorridos ON recorridos.id = tramos.recorrido_id WHERE tramos.id=$idTramo");
         
-        //Obtengo el colectivo asociado a ese tramo
-        $colectivot = \DB::select("SELECT colectivos.id FROM tramos  
-                                  INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
-                                  INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
-                                  WHERE tramos.id = $idTramo");        
+        $recorrido = $recorridop[0]->id;
         
+        $validador= \DB::select("SELECT ST_Intersects(u1.ultima_posicion, g1.geom ) FROM recorridos g1, usuarios u1 WHERE g1.id = $recorrido AND u1.id = $usuariop->id");
         
-        $usuario->colectivo_id = colectivo[0]->id;
-        $usuario->pasajero = true;
-        $usuario->save();
-        
+        if ($validador[0]->st_intersects = true) {
+
+            $usuariop->tramo_id = $idTramo;
+            $usuariop->pasajero = true;
+            $usuariop->save();
+            
+            return response()->json([
+                'message' => "el usuario se como pasajero de un colectivo correctamente"
+            ], 200);
+
+        } else {
+
+            return response()->json([
+                'error' => "el usuario no se pudo registrar como pasajero de un colectivo correctamente"
+            ], 200);
+
+        }
     }
 
     //funcion que recibe un id de usuario y con ello lo marca como finalizo su viaje
     public function finalizarViaje($idUsuario)
     {
 
-        
-        $usuario = Usuario::find($idUsuario)->first();        
+        $usuario = Usuario::find($idUsuario);        
  
-        $usuario->colectivo_id = null;
+        $usuario->tramo_id = null;
+        
         $usuario->pasajero = false;
-        $usuario->save();
         
-        return response()->json([
-            'message' => "el viaje se marco como finalizado correctamente"
-        ], 200);
+        if($usuario->save()){
+            return response()->json([
+                'message' => "el viaje se marco como finalizado correctamente"
+            ], 200);    
+        } else {
+            return response()->json([
+                'error' => "el viaje no se pudo marcar como finalizado correctamente"
+            ], 200);
+    
+        }
+        
         
     }
-
-    public function obtenerToken(){
-        
-        $token=csrf_token();
-        
-        return response()->json([
-            'token' => $token
-        ], 200);
-    }
+    
 }

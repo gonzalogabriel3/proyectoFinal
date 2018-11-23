@@ -121,7 +121,7 @@ Route::resource('/viaje', 'ViajeUsuarioController');
 Route::get('/paradasCercanas/{idUsuario}/{idRecorrido}','ParadaController@obtenerParadasCercanas');
 
 //Ruta para obtener la posicion de un colectivo
-Route::get('/posicionColectivo','ColectivoController@obtenerPosicion');
+Route::get('/posicionColectivo/{idTramo}','ColectivoController@obtenerPosicion');
 
 //Ruta para calcular manhattan de un colectivo hacia la parada mas cercana al usuario
 Route::get('/RecorridoValido/{idUsuario}/{idTramo}','UsuarioController@RecorridoValido');
@@ -141,8 +141,8 @@ Route::get('/token' ,'UsuarioController@obtenerToken');
 //Ruta que sirve para obtener los horarios de un tramo
 Route::get('/horariotramo/{idTramo}' ,'HorarioController@obtenerHorarios');
 
-//Ruta que sirve para obtener los horarios de un tramo
+//Ruta que sirve para confirmar que un usuario se subio a un colectivo
 Route::post('/pasajero' ,'UsuarioController@marcarPasajero');
 
-//Ruta que sirve para obtener los horarios de un tramo
+//Ruta que sirve para confirmar que un usuario se bajo de un colectivo
 Route::get('/finalizarviaje/{idUsuario}' ,'UsuarioController@finalizarViaje');

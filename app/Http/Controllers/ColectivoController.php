@@ -139,36 +139,37 @@ class ColectivoController extends Controller
     public function obtenerPosicion($idTramo)
     {
         //Obtengo el Colectivo perteneciente a ese Tramo
-        $colectivot = \DB::select("SELECT colectivos.id,
+        $colectivot = \DB::select("SELECT colectivos.id
                                    FROM tramos 
                                    INNER JOIN colectivo_tramo ON colectivo_tramo.tramo_id = tramos.id 
                                    INNER JOIN colectivos ON colectivo_tramo.colectivo_id = colectivos.id 
                                    WHERE tramos.id = $idTramo");
+        $idcol = $colectivot[0]->id;
      
         //Obtengo el usuario que marco que subio al colectivo
-        $usuarios = \DB::select("SELECT *,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios WHERE pasajero = true AND colectivo_id=colectivot[0]->id");   
+        $usuarios = \DB::select("SELECT *,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios WHERE pasajero = true AND tramo_id=$idTramo ORDER BY id");   
 
         if(count($usuarios) > 1){
             
-            $colectivo = Colectivo::find($colectivot[0]->id);
+            $colectivo = Colectivo::find($idcol);
 
-            $colectivo->ultima_posicion = new Point($usuario[0]->latitud,$usuario[0]->longitud);        
+            $colectivo->ultima_posicion = new Point($usuarios[0]->latitud,$usuarios[0]->longitud);        
             
             $colectivo->save();
 
-            $colectivo = \DB::select("SELECT st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud,
+            $colectivo = \DB::select("SELECT st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud
                                    FROM colectivos 
-                                   WHERE id = colectivot[0]->id");
+                                   WHERE id = $idcol");
 
             return response()->json([
-                'colectivot' => $colectivot,
+                'colectivo' => $colectivo,
                 'message' => 'La posicion de Colectivo se encontro correctamente'
             ], 200);
             
         } else {
             
             return response()->json([
-                'message' => 'La posicion de Colectivo no se encontro'
+                'error' => 'La posicion de Colectivo no se encontro'
             ], 200);
         }
     }

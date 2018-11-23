@@ -66,7 +66,7 @@
             $pvertice = $vertices[$i];
  
             //comparo la posicion del colectivo con el del vertice para saber si son iguales
-            $Vcolectivo = \DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.the_geom) FROM colectivos punto1, calles_rawson_vertices_pgr punto2 WHERE punto2.id=$pvertice->id AND punto1.id=$colectivo->id;");
+            $Vcolectivo = \DB::select("SELECT ST_Equals(punto1.ultima_posicion::geometry, punto2.the_geom) FROM colectivos punto1, calles_rawson_vertices_pgr punto2 WHERE punto2.id=$pvertice->id AND punto1.id=$colectivo->id");
 
             //si el resultado de la consulta es true guardo ese vertice para crear el recorrido
             if ($Vcolectivo[0]->st_equals == true) {
