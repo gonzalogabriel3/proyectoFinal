@@ -40,15 +40,6 @@
                             <a href="{{url('/inicioPuntosRecarga')}}" >Adm.Puntos de Recarga</a>
                         </li>
                         <li>
-                            <a href="{{url('/inicioComentarios')}}" >Adm.Comentarios</a>
-                        </li>
-                        <li>
-                            <a href="{{url('/inicioSugerencia')}}" >Adm.Sugerencias</a>
-                        </li>
-                        <li>
-                            <a href="{{url('/inicioViajeUsuario')}}" >Adm.Viajes de Usuarios</a>
-                        </li>
-                        <li>
                             <a href="{{url('/inicioMapa')}}" >MAPA</a>
                         </li>
                     </ul>
