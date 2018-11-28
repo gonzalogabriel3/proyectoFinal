@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label for="name">Nombre de usuario:</label>
                             <br>
-                            <span v-if="usuario.nombre.trim().length<3" class="label label-danger" >El nombre debe contener al menos 3 caracteres</span>
+                            <span v-if="usuario.usuario.trim().length<3" class="label label-danger" >El nombre debe contener al menos 3 caracteres</span>
                             <span v-else class="label label-success">Correcto!</span>
                             <input type="text" name="usuario" id="usuario" placeholder="Nombre del usuario" class="form-control"
                                    v-model="usuario.usuario">
@@ -124,6 +124,13 @@
                         <div class="form-group">
                             <label for="name">Nombre de usuario:</label>
                             <br>
+                            <span v-if="actualizar.usuario.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
+                            <span v-else class="label label-success">Correcto!</span>
+                            <input type="text" v-model="actualizar.usuario" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nombre Completo:</label>
+                            <br>
                             <span v-if="actualizar.nombre.trim().length<3" class="label label-danger" >El tramo debe contener al menos 3 caracteres</span>
                             <span v-else class="label label-success">Correcto!</span>
                             <input type="text" v-model="actualizar.nombre" name="nombre" id="nombre" placeholder="Nombre del usuario" class="form-control">
@@ -173,6 +180,7 @@ export default{
                 update: false,
                 usuarios: [],
                 actualizar: {
+                    usuario: '',
                     nombre: '',
                     password:'',
                     email: ''
@@ -185,7 +193,7 @@ export default{
         },
         methods:{
             validarRegistro(){ //validacion del formulario de registro
-                if(this.usuario.nombre.trim().length<3 || this.usuario.password.trim().length<3 ||this.usuario.email.trim().length<3
+                if(this.usuario.usuario.trim().length<3 || this.usuario.nombre.trim().length<3 || this.usuario.password.trim().length<3 ||this.usuario.email.trim().length<3
                  || this.usuario.email.indexOf('@')==-1 || this.usuario.email.indexOf('.')==-1 ){
                     return false;
                 }else{
@@ -193,7 +201,7 @@ export default{
                 }
             },
             validarActualizacion(){ //validacion del formulario de actualizacion
-                if(this.actualizar.nombre.trim().length<3 || this.actualizar.password.trim().length<3 ||this.actualizar.email.trim().length<3
+                if(this.actualizar.usuario.trim().length<3 || this.actualizar.nombre.trim().length<3 || this.actualizar.password.trim().length<3 ||this.actualizar.email.trim().length<3
                  || this.actualizar.email.indexOf('@')==-1 || this.actualizar.email.indexOf('.')==-1){
                     return false;
                 }else{
@@ -246,9 +254,11 @@ export default{
                 this.actualizar.nombre = '';
                 this.actualizar.email = '';
                 this.actualizar.password = '';
+                this.actualizar.usuario = '';
             },
             IniciarActualizacion(usuario) {
                this.actualizar.id=usuario.id;
+               this.actualizar.usuario=usuario.usuario;
                this.actualizar.nombre=usuario.nombre;
                this.actualizar.email=usuario.email;
                this.actualizar.password=usuario.password;
@@ -260,6 +270,7 @@ export default{
             actualizarUsuario() {
                 if(this.validarActualizacion()){
                     axios.patch('/usuario/' + this.actualizar.id, {
+                            usuario: this.actualizar.usuario,
                             nombre: this.actualizar.nombre,
                             email: this.actualizar.email,
                             password: this.actualizar.password

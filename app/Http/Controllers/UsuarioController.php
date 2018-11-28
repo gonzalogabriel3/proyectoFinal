@@ -12,7 +12,7 @@ class UsuarioController extends Controller
     public function __construct()
     {
         //Aplico el middleware a todos los metodos del controlador menos al index
-        $this->middleware('auth')->except(['index','show','logusuario','store','guardarPosicion','logusuarioclose','marcarPasajero','finalizarViaje']);
+        $this->middleware('auth')->except(['index','show','logusuario','store','update','guardarPosicion','logusuarioclose','marcarPasajero','finalizarViaje']);
     }
 
     /**
@@ -107,6 +107,7 @@ class UsuarioController extends Controller
             'email' => 'required',
             'password'=>'required'
         ]);
+        
         $usuario->nombre = $request->get('nombre');
         $usuario->usuario = $request->get('usuario');
         $usuario->email = $request->get('email');

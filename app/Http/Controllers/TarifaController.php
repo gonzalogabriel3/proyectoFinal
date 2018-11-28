@@ -19,7 +19,7 @@ class TarifaController extends Controller
      */
     public function index()
     {
-        $tarifas = \DB::select("SELECT tramos.nombre as nombre ,recorridos.nombre as recorrido,tarifas.monto as monto FROM tarifas INNER JOIN tramos ON tarifas.tramo_id=tramos.id
+        $tarifas = \DB::select("SELECT tarifas.id, tarifas.tramo_id, tramos.nombre as nombre ,recorridos.nombre as recorrido,tarifas.monto as monto FROM tarifas INNER JOIN tramos ON tarifas.tramo_id=tramos.id
         INNER JOIN recorridos ON tramos.recorrido_id=recorridos.id");
 
         return response()->json([

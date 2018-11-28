@@ -329,7 +329,7 @@ export default {
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
             this.actualizar.coordinates = recorrido.geom.coordinates; 
-            this.actualizar.paradas=recorrido.paradas;
+            //this.actualizar.paradas=recorrido.paradas;
             this.update = true;
         },
         closeUpdate(){

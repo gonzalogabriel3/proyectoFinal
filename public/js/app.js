@@ -43528,6 +43528,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -43543,6 +43550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             update: false,
             usuarios: [],
             actualizar: {
+                usuario: '',
                 nombre: '',
                 password: '',
                 email: ''
@@ -43557,7 +43565,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         validarRegistro: function validarRegistro() {
             //validacion del formulario de registro
-            if (this.usuario.nombre.trim().length < 3 || this.usuario.password.trim().length < 3 || this.usuario.email.trim().length < 3 || this.usuario.email.indexOf('@') == -1 || this.usuario.email.indexOf('.') == -1) {
+            if (this.usuario.usuario.trim().length < 3 || this.usuario.nombre.trim().length < 3 || this.usuario.password.trim().length < 3 || this.usuario.email.trim().length < 3 || this.usuario.email.indexOf('@') == -1 || this.usuario.email.indexOf('.') == -1) {
                 return false;
             } else {
                 return true;
@@ -43565,7 +43573,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         validarActualizacion: function validarActualizacion() {
             //validacion del formulario de actualizacion
-            if (this.actualizar.nombre.trim().length < 3 || this.actualizar.password.trim().length < 3 || this.actualizar.email.trim().length < 3 || this.actualizar.email.indexOf('@') == -1 || this.actualizar.email.indexOf('.') == -1) {
+            if (this.actualizar.usuario.trim().length < 3 || this.actualizar.nombre.trim().length < 3 || this.actualizar.password.trim().length < 3 || this.actualizar.email.trim().length < 3 || this.actualizar.email.indexOf('@') == -1 || this.actualizar.email.indexOf('.') == -1) {
                 return false;
             } else {
                 return true;
@@ -43622,9 +43630,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.nombre = '';
             this.actualizar.email = '';
             this.actualizar.password = '';
+            this.actualizar.usuario = '';
         },
         IniciarActualizacion: function IniciarActualizacion(usuario) {
             this.actualizar.id = usuario.id;
+            this.actualizar.usuario = usuario.usuario;
             this.actualizar.nombre = usuario.nombre;
             this.actualizar.email = usuario.email;
             this.actualizar.password = usuario.password;
@@ -43638,6 +43648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.validarActualizacion()) {
                 axios.patch('/usuario/' + this.actualizar.id, {
+                    usuario: this.actualizar.usuario,
                     nombre: this.actualizar.nombre,
                     email: this.actualizar.email,
                     password: this.actualizar.password
@@ -43851,7 +43862,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("br"),
                       _vm._v(" "),
-                      _vm.usuario.nombre.trim().length < 3
+                      _vm.usuario.usuario.trim().length < 3
                         ? _c("span", { staticClass: "label label-danger" }, [
                             _vm._v(
                               "El nombre debe contener al menos 3 caracteres"
@@ -44113,6 +44124,55 @@ var render = function() {
                     _c("div", { staticClass: "form-group" }, [
                       _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nombre de usuario:")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.actualizar.usuario.trim().length < 3
+                        ? _c("span", { staticClass: "label label-danger" }, [
+                            _vm._v(
+                              "El tramo debe contener al menos 3 caracteres"
+                            )
+                          ])
+                        : _c("span", { staticClass: "label label-success" }, [
+                            _vm._v("Correcto!")
+                          ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.actualizar.usuario,
+                            expression: "actualizar.usuario"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          name: "nombre",
+                          id: "nombre",
+                          placeholder: "Nombre del usuario"
+                        },
+                        domProps: { value: _vm.actualizar.usuario },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.actualizar,
+                              "usuario",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "name" } }, [
+                        _vm._v("Nombre Completo:")
                       ]),
                       _vm._v(" "),
                       _c("br"),
@@ -48709,7 +48769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.actualizar.id = recorrido.id;
             this.actualizar.nombre = recorrido.nombre;
             this.actualizar.coordinates = recorrido.geom.coordinates;
-            this.actualizar.paradas = recorrido.paradas;
+            //this.actualizar.paradas=recorrido.paradas;
             this.update = true;
         },
         closeUpdate: function closeUpdate() {
