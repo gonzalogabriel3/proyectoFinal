@@ -51,6 +51,17 @@ class UsuarioController extends Controller
             'email' => 'required',
             'password'=>'required'
         ]);
+        
+        $usuarios = Usuario::all();
+        
+        foreach ($usuarios as $us) {
+            if(strtoupper($us->email) == strtoupper($request->email)){
+                return response()->json([
+                    'error' => 'Ya existe un usuario registrado con ese email'
+                ], 200);                
+            }
+        }
+
         $usuario = new Usuario;
         $usuario->nombre = $request->nombre;
         $usuario->usuario = $request->usuario;
@@ -65,6 +76,7 @@ class UsuarioController extends Controller
             'message' => 'Usuario Creado Correctamente'
         ], 200);
     }
+
     /**
      * Display the specified resource.
      *
