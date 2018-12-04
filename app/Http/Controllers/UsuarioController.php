@@ -175,7 +175,9 @@ class UsuarioController extends Controller
 
             $usuariop = Usuario::find($request->id);
             if($usuariop != null) {
+
                 $usuariop->logueado=false;
+                $usuariop->ultima_posicion=null;
                 $usuariop->save();
         
                 return response()->json([
