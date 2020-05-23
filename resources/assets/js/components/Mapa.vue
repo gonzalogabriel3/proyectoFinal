@@ -308,7 +308,7 @@ export default {
             axios.get("/posicionColectivo/" + this.tramo_id).then(response => {
 
                 this.colectivo = response.data.colectivo;
-                this.colectivoi = L.marker([this.colectivo.latitud,this.colectivo.longitud],{icon: iconoColectivo}).addTo(this.mapa);
+                var marker = L.marker([this.colectivoi[0].latitud,this.colectivoi[0].longitud],{icon: iconoColectivo}).addTo(this.mapa);
                 this.closeModalTramo();
             });         
         },

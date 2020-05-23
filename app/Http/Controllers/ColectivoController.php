@@ -149,7 +149,7 @@ class ColectivoController extends Controller
         //Obtengo el usuario que marco que subio al colectivo
         $usuarios = \DB::select("SELECT *,st_x(ultima_posicion::geometry) as longitud , st_y(ultima_posicion::geometry) as latitud FROM usuarios WHERE pasajero = true AND tramo_id=$idTramo ORDER BY id");   
 
-        if(count($usuarios) > 1){
+        if(count($usuarios) >= 1){
             
             $colectivo = Colectivo::find($idcol);
 
