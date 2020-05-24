@@ -8324,6 +8324,35 @@ button.close {
   }
 }
 
+/*Links del menu de Administracion*/
+.linkMenu{
+  width: 232px;
+  height: 60px;
+  border: #0d3625 solid 2px;
+  padding: 10px;
+  display: inline-block;
+  font-size: 24px;
+  background-color: #33ab53;
+
+}
+
+.linkMenu:hover{
+  border: #0e4768 solid 2px;
+  padding: 10px;
+  display: inline-block;
+  font-size: 24px;
+  background-color: #62b378;
+}
+
+.linkMenu a{
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+
+/*Fin de Links del menu de Administracion*/
+
 .visible-print-inline {
   display: none !important;
 }

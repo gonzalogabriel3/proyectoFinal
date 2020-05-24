@@ -66,23 +66,27 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+           
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">Administracion</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Registrarse</a>
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
+            
+            <div class="content" style="margin-top:50px;">
                 <div class="title m-b-md">
-                   DondeEstaElCole
+                <img src="{{ asset('imagen_inicio.jpg') }}" width="900px;" height="470px;">
                 </div>
                
             </div>
         </div>
+        <footer>
+            <center><h5>Desarrollado por Cruzado Gonzalo-Bruzzo Matias</h5></center>
+        </footer>
     </body>
 </html>

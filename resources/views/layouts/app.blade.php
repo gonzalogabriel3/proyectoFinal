@@ -41,10 +41,11 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Proyecto') }}
+                        <img src="{{ asset('colectivo_favicon.ico') }}" width="35px;" height="35px;" style="display:inline-block;">
+                        <p style="display:inline-block">DondeEstaElCole</p>
                     </a>
+                    
                 </div>
-
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
